@@ -14,7 +14,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="h-screen flex flex-col z-1000">
+        <div className="h-screen flex flex-col z-50 ">
             <div className=" flex-grow">
                 <nav className="fixed top-0 w-full bg-white justify-center -mb-px px-3 pt-2 flex gap-2 md:gap-6" aria-label="Tabs">
                     {TABS.map((tab, index) => (

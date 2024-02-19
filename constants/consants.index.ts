@@ -120,3 +120,77 @@ export const COMPANY_DATA = [
 ];
 
 
+export const projects = [
+    {
+        name: 'Portfolio',
+        shortDescription: 'A personal portfolio website created using TypeScript, Tailwind CSS, and React. Showcase your skills and projects in a modern and visually appealing layout.',
+        images: [
+            "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2Vic2l0ZSUyMHNjcmVlbnNob3R8ZW58MHx8MHx8fDA%3D",
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHdlYnNpdGUlMjBzY3JlZW5zaG90fGVufDB8fDB8fHwy"
+        ],
+        github: 'https://github.com/project1',
+        link: 'https://project1.com',
+        status: 'completed',
+        stack: ['TypeScript', 'React', 'Tailwind CSS', 'java']
+    },
+    {
+        name: 'E-commerce Website',
+        shortDescription: 'An online shopping platform developed using Node.js, Express, and MongoDB. Build a scalable and secure e-commerce solution to sell products and manage orders.',
+        images: [
+            "https://images.unsplash.com/photo-1487014679447-9f8336841d58?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8d2Vic2l0ZXN8ZW58MHx8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHdlYnNpdGVzfGVufDB8fDB8fHwy"
+        ],
+        github: 'https://github.com/project2',
+        link: 'https://project2.com',
+        status: 'in progress',
+        stack: ['Node.js', 'Express', 'MongoDB']
+    },
+    {
+        name: 'Social Media Dashboard',
+        shortDescription: 'A social media analytics dashboard built with Python, Django, and PostgreSQL. Monitor user engagement, track trends, and analyze social media data from various platforms.',
+        images: [
+            "https://images.unsplash.com/photo-1642132652798-ae887edb9e9d?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlYnBhZ2V8ZW58MHx8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1532354058425-ba7ccc7e4a24?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2VicGFnZXxlbnwwfHwwfHx8Mg%3D%3D"
+        ],
+        github: 'https://github.com/project3',
+        link: 'https://project3.com',
+        status: 'completed',
+        stack: ['Python', 'Django', 'PostgreSQL']
+    },
+    {
+        name: 'Fitness Tracker App',
+        shortDescription: 'A mobile application for tracking workouts and managing fitness goals. Developed using Swift and Firebase, this app provides personalized fitness plans and progress tracking.',
+        images: [
+            "https://images.unsplash.com/photo-1642132652860-603f4e3c19b7?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHdlYnBhZ2V8ZW58MHx8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1584714268709-c3dd9c92b378?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fHdlYnBhZ2V8ZW58MHx8MHx8fDI%3D"
+        ],
+        github: 'https://github.com/project4',
+        link: 'https://project4.com',
+        status: 'in progress',
+        stack: ['Swift', 'Firebase']
+    },
+    {
+        name: 'Recipe Sharing Platform',
+        shortDescription: 'A web application where users can share and discover recipes. Built with Ruby on Rails and MySQL, this platform allows users to create, save, and rate recipes.',
+        images: [
+            "https://images.unsplash.com/photo-1542281286-9e0a16bb7366?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmVjaXBlcyUyMGFuZCUyMGFycm93c3xlbnwwfHwwfHw%3D",
+            "https://images.unsplash.com/photo-1648134859182-98df6e93ef58?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDR8fHdlYnBhZ2V8ZW58MHx8MHx8fDI%3D"
+        ],
+        github: 'https://github.com/project5',
+        link: 'https://project5.com',
+        status: 'completed',
+        stack: ['Ruby on Rails', 'MySQL']
+    },
+    {
+        name: 'Financial Dashboard',
+        shortDescription: 'A dashboard for tracking personal finances and investments. Utilizes React, Redux, and Chart.js to provide interactive visualizations and analysis of financial data.',
+        images: [
+            "https://images.unsplash.com/photo-1642132652859-3ef5a1048fd1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fHdlYnBhZ2V8ZW58MHx8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1648134859196-3aa762e9440d?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fHdlYnBhZ2V8ZW58MHx8MHx8fDI%3D"
+        ],
+        github: 'https://github.com/project6',
+        link: 'https://project6.com',
+        status: 'in progress',
+        stack: ['React', 'Redux', 'Chart.js']
+    },
+];
