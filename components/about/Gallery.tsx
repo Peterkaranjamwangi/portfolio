@@ -14,7 +14,7 @@
 import { projects } from '@/constants/consants.index';
 import React from 'react';
 
-const ProductGallery = () => {
+const Gallery = () => {
     return (
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {projects.map((project, index) => (
@@ -35,5 +35,5 @@ const ProductGallery = () => {
     );
 };
 
-export default ProductGallery;
+export default Gallery;
 
