@@ -4,8 +4,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="">
-        {/* <Navbar /> */}
+    <div className="max-w-full max-h-full ">
+        <Navbar />
     </div>
   );
 }

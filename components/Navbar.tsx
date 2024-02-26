@@ -5,6 +5,7 @@ import Projects from "./Projects";
 import Connect from "./Connect";
 import About from "./about/About";
 import { TABS } from "@/constants/consants.index";
+import Services from "./Services";
 
 const Navbar = () => {
     const [activeTab, setActiveTab] = useState("About");
@@ -14,9 +15,9 @@ const Navbar = () => {
     };
 
     return (
-        <div className="h-screen flex flex-col z-50 ">
+        <div className="h-screen flex flex-col ">
             <div className=" flex-grow">
-                <nav className="fixed top-0 w-full bg-white justify-center -mb-px px-3 pt-2 flex gap-2 md:gap-6" aria-label="Tabs">
+                <nav className="fixed  z-50 top-0 w-full bg-white justify-center -mb-px px-3 pt-2 flex gap-2 md:gap-6" aria-label="Tabs">
                     {TABS.map((tab, index) => (
                         <button
                             key={index}
@@ -30,10 +31,10 @@ const Navbar = () => {
                     ))}
                 </nav>
 
-                <div className="h-full px-2 mt-10 md:px-10  py-2 md:py-4">
+                <div className="h-full px-2  mt-10 md:mt-10 md:px-10 -z-30 py-2 md:py-4">
                     {activeTab === "About" && <About />}
                     {activeTab === "Projects" && <Projects />}
-                    {activeTab === "Archive" && <Projects />}
+                    {activeTab === "Services" && <Services />}
                     {activeTab === "Connect" && <Connect />}
                 </div>
             </div>

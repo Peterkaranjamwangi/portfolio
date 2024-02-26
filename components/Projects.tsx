@@ -1,5 +1,6 @@
 import { projects } from '@/constants/consants.index';
 import React from 'react'
+import { CgWebsite } from 'react-icons/cg';
 import { FaGalacticRepublic, FaGithub } from 'react-icons/fa';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -12,9 +13,9 @@ const Projects = () => {
             <section>
                 {projects.map((project, index) => (
                     <div key={index} className="mx-auto max-w-screen-2xl px-4 py-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 lg:h-1/2screen lg:grid-cols-2">
+                        <div className="grid grid-cols-1 lg:h-1/2screen lg:grid-cols-2 ">
                             
-                            <div className="relative -z-10 lg:py-8">
+                            <div className=" relative z-20 lg:py-8">
                                 <Carousel 
                                     showThumbs={false}
                                     infiniteLoop={true}
@@ -24,9 +25,9 @@ const Projects = () => {
                                     {project.images.map((image, idx) => ( 
                                         <div key={idx}>
                                             <img
-                                                alt=""
+                                                alt="project-img"
                                                 src={image}
-                                                className=" w-full object-cover"
+                                                className=" w-full object-cover rounded-t-2xl"
                                                 style={{ height: '250px' }}
                                             />
                                         </div>
@@ -34,41 +35,59 @@ const Projects = () => {
                                 </Carousel>
                             </div>
 
-                            <div className="relative flex items-center -z-20 bg-gray-300">
+                            <div className="relative flex items-center z-10 bg-gray-900 ">
                                 <span
-                                className="hidden lg:absolute lg:inset-y-0 lg:-start-16 lg:block lg:w-16 lg:bg-gray-300"
+                                className="hidden lg:absolute lg:inset-y-0 lg:-start-16 lg:block lg:w-16 lg:bg-gray-900 rounded-s-md"
                                 ></span>
 
-                                <div className="p-8 sm:p-10 lg:p-12">
-                                <h2 className="text-2xl font-bold ">
-                                    {project.name}
-                                </h2>
-
-                                <p className="mt-4 text-gray-600">
-                                    {project.shortDescription}
-                                </p>
-
-                                <div className="flex flex-wrap mt-4 gap-1 ">
-                                    {project.stack.map((stack, idx) => ( 
-                                        <span 
-                                            key={idx}
-                                            className={`bg-${idx % 2 === 0 ? 'blue' : 'green'}-100 text-${idx % 2 === 0 ? 'blue' : 'green'}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-${idx % 2 === 0 ? 'blue' : 'green'}-900 dark:text-${idx % 2 === 0 ? 'blue' : 'green'}-300`}
-                                        >
-                                            {stack}
+                                <div className="p-8 sm:p-4 lg:p-12">
+                                    <a 
+                                        href={project.link} 
+                                        target="_blank" 
+                                        className="cursor-pointer "
+                                    >
+                                        <span className="text-2xl font-bold text-blue-700 underline">
+                                            {project.name}
                                         </span>
-                                    ))}
-                                </div>
+                                    </a>
+                                    
 
-                                <div className="flex gap-2 mt-4">
-                                    <a href={project.github} target="_blank" className="text-white bg-blue-700 hover:bg-gray-800 text-center inline-flex items-center me-2 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700">
-                                        <span className="me-2"><FaGithub/></span>
-                                        Github
-                                    </a>
-                                    <a href={project.link} target="_blank" className="text-white bg-blue-700 hover:bg-gray-800 text-center inline-flex items-center me-2 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700">
-                                        <span className="me-2"><FaGithub/></span>
-                                        View Project 
-                                    </a>
-                                </div>
+                                    <p className="mt-4 text-gray-300">
+                                        {project.shortDescription}
+                                    </p>
+
+                                    <div className="flex flex-wrap mt-4 gap-1 ">
+                                        {project.stack.map((stack, idx) => ( 
+                                            <span
+                                                key={idx}
+                                                className={`whitespace-nowrap rounded-full px-2.5 py-0.5 text-sm text-purple-700 ${
+                                                idx % 2 === 0 ? 'bg-blue-100' : 'bg-purple-300'
+                                                }`}
+                                            >
+                                                {stack}
+                                            </span>
+                                        ))}
+
+                                    </div>
+
+                                    <div className="flex gap-2 mt-4">
+                                        <a 
+                                            href={project.github} 
+                                            target="_blank" 
+                                            className="cursor text-white bg-blue-700 hover:bg-gray-800 text-center inline-flex items-center me-2 font-medium rounded-lg text-xs md:text-sm px-4 md:px-5 py-2 md:py-2.5 "
+                                        >
+                                            <span className="me-2"><FaGithub/></span>
+                                            Github
+                                        </a>
+                                        <a 
+                                            href={project.link} 
+                                            target="_blank" 
+                                            className="text-white bg-blue-700 hover:bg-gray-800 text-center inline-flex items-center me-2 font-medium rounded-lg text-xs md:text-sm px-4 md:px-5 py-2 md:py-2.5 "
+                                        >
+                                            <span className="me-2"><CgWebsite/></span>
+                                            View Project 
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

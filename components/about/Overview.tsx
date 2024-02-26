@@ -1,82 +1,45 @@
-import { COMPANY_DATA } from '@/constants/consants.index';
+import { CONNECT_DATA } from '@/constants/consants.index';
 import React from 'react'
-import { Carousel } from 'react-responsive-carousel';
+import Typewriter from 'typewriter-effect';
+
 
 const Overview = () => {
     return (
-        <div className="w-full bg-gray-100 text-gray-900 mx-1 md:mx-2 p-2 md:p-4">
-        <div className="relative max-w-7xl mx-auto">
-            <div className="max-w-lg mx-auto rounded-lg shadow-lg overflow-hidden lg:max-w-none lg:flex">
-                <div className="flex-1 px-6 py-8 lg:p-12 bg-gray-600">
-                    <h3 className="text-2xl font-extrabold text-white sm:text-3xl">Lifetime access</h3>
-                    <p className="mt-6 text-base text-gray-50 sm:text-lg">Take your Tailwind CSS development to the next level!</p>
-                    <div className="mt-8">
-                        <div className="flex items-center">
-                            <div className="flex-1 border-t-2 border-gray-200"></div>
-                        </div>
-                        <ul role="list" className="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
-                            <li className="flex items-start lg:col-span-1">
-                                <div className="flex-shrink-0"><svg className="h-5 w-5 text-green-400"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clipRule="evenodd"></path>
-                                    </svg></div>
-                                <p className="ml-3 text-white">Inspect Tailwind CSS websites</p>
-                            </li>
-                            <li className="flex items-start lg:col-span-1">
-                                <div className="flex-shrink-0"><svg className="h-5 w-5 text-green-400"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clipRule="evenodd"></path>
-                                    </svg></div>
-                                <p className="ml-3 text-white">Edit mode in real-time</p>
-                            </li>
-                            <li className="flex items-start lg:col-span-1">
-                                <div className="flex-shrink-0"><svg className="h-5 w-5 text-green-400"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clipRule="evenodd"></path>
-                                    </svg></div>
-                                <p className="ml-3 text-white">Copy utility classes right into your clipboard</p>
-                            </li>
-                            <li className="flex items-start lg:col-span-1">
-                                <div className="flex-shrink-0"><svg className="h-5 w-5 text-green-400"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clipRule="evenodd"></path>
-                                    </svg></div>
-                                <p className="ml-3 text-white">Free Chrome extension updates (Firefox coming soon)</p>
-                            </li>
-                        </ul>
-                    </div>
+        <section className="relative h-[500px] md:min-h-[700px] lg:min-h-[800px] bg-center bg-no-repeat bg-cover z-[-1] object-center md:object-cover" style={{ backgroundImage: "url(/bg.jpeg)", backgroundSize: 'cover', backgroundPosition: 'top', padding: '2rem' }}>
+            <div className="absolute inset-0 -z-20 flex flex-col items-center justify-center bg-black bg-opacity-65 text-white p-8">
+                <div className="">
+                    <h1 className="text-xl md:text-3xl lg:text-5xl font-bold mb-4">Hi, I am Peter Mwangi K ! </h1>
+                    <span className="text-md text-nowrap md:text-2xl lg:text-4xl text-teal-500">
+                        <Typewriter
+                        options={{
+                            strings: ['Freelance Academic Writer', 'UX/UI Designer', 'Web Developer', 'Software Engineer'],
+                            autoStart: true,
+                            loop: true,
+                        }}
+                        />
+                    </span>
                 </div>
-                <div
-                    className="py-8 px-6 text-center lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12 bg-gray-700">
-                    <p className="text-lg leading-6 font-medium text-white">Pay once, own it forever</p>
-                    <div className="mt-4 flex items-center justify-center text-5xl font-extrabold text-white">
-                        <span>$19.99</span><span className="ml-3 text-xl font-medium text-gray-50">USD</span>
+
+                    <div className="w-full shadow-2xl my-2 py-2 rounded-l-md flex justify-center items-center">
+                        {CONNECT_DATA.map((item, index) => (
+                            <div key={index} className="flex mb-2 mr-4">
+                                <a href={item.info} target="_blank" className="inline-block rounded-md bg-gray-700 animate-pulse p-2 text-primary">
+                                    {React.createElement(item.icon, { className: "w-4 h-4" })}
+                                </a>
+                            </div>
+                        ))}
                     </div>
-                    <div className="mt-6">
-                        <div className="rounded-md shadow">
-                            <a href="#"
-                                className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600">Buy
-                                now</a>
-                        </div>
-                        <p className="text-gray-300 text-sm mt-3">100% money back guarantee</p>
+
+                    <div className="w-full shadow-2xl my-2 py-2 rounded-l-md flex flex-wrap gap-2 justify-center items-center">
+                        <a href="#"  className="px-3 py-2 text-xs font-medium text-center text-white text-nowrap bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 ">Download CV</a>
+                        <a href="#"  className="px-3 py-2 text-xs font-medium text-center text-white text-nowrap bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 ">Extra small</a>
+                        <a href="#"  className="px-3 py-2 text-xs font-medium text-center text-white text-nowrap bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 ">Extra small</a>
+                        <a href="#"  className="px-3 py-2 text-xs font-medium text-center text-white text-nowrap bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 ">Extra small</a>
                     </div>
-                </div>
+
             </div>
-        </div>
+        </section>
         
-        </div>
     )
 }
 

@@ -1,13 +1,14 @@
-import { FaGithub, FaTwitter, FaUser, FaCode, FaDesktop, FaDatabase, FaLinkedin, FaFacebook, FaInstagram, FaAws, FaDocker, FaJenkins, FaNodeJs, FaPython   } from 'react-icons/fa';
+import { FaGithub, FaTwitter, FaUser, FaDesktop, FaLinkedin, FaFacebook, FaInstagram, FaDocker, FaNodeJs, FaPython   } from 'react-icons/fa';
 import { GiStairsGoal, GiSkills } from "react-icons/gi";
 
-import {HiArchive } from "react-icons/hi";
-import { FcAbout } from "react-icons/fc";
+import { FcAbout, FcServices } from "react-icons/fc";
 import { GoProjectSymlink } from "react-icons/go";
-import { GrContact, GrGraphQl } from "react-icons/gr";
+import { GrContact } from "react-icons/gr";
 import { AiOutlineConsoleSql } from 'react-icons/ai';
-import { DiMongodb, DiRuby } from 'react-icons/di';
-import { SiTensorflow, SiKubernetes, SiWebpack, SiAngular, SiLaravel, SiPostgresql, SiDjango, SiFlask } from 'react-icons/si';
+import { SiPostgresql, SiDjango, SiFlask } from 'react-icons/si';
+import { AiOutlineFileText, AiOutlineRead, AiOutlineEdit } from 'react-icons/ai';
+import { BiPalette, BiMobileAlt, BiCartAlt, BiEdit, BiSearchAlt2, BiCode, BiWrench, BiShapePolygon, BiShieldAlt, BiRocket } from 'react-icons/bi';
+
 
 
 export const CONNECT_DATA = [
@@ -42,10 +43,27 @@ export const CONNECT_DATA = [
 
 export const TABS = [
     { name: "About", icon: FcAbout },
+    { name: "Services", icon: FcServices },
     { name: "Projects", icon: GoProjectSymlink },
-    { name: "Archive", icon: HiArchive },
     { name: "Connect", icon: GrContact },
 ];
+
+export const SERVICES = [
+    { name: "Research Paper Writing", icon: AiOutlineFileText, description: "Crafting well-researched papers with thorough analysis, proper citations, and adherence to academic standards." },
+    { name: "Literature Review", icon: AiOutlineRead, description: "Comprehensive reviews synthesizing diverse literature, critically evaluating sources, and identifying gaps in current research." },
+    { name: "Editing & Proofreading", icon: AiOutlineEdit, description: "Meticulous editing services refining academic writing for clarity, coherence, and adherence to style guidelines." },
+    { name: "Custom Website Design", icon: BiPalette, description: "Tailored website designs reflecting brand identity, user experience, and industry standards for optimal engagement." },
+    { name: "Responsive Development", icon: BiMobileAlt, description: "Developing websites with fluid layouts, ensuring seamless user experience across various devices and screen sizes." },
+    { name: "E-commerce Solutions", icon: BiCartAlt, description: "Building online stores with intuitive interfaces, secure payment gateways, and customizable features for efficient transactions." },
+    { name: "CMS Integration", icon: BiEdit, description: "Integrating content management systems for easy website management, updates, and content publishing." },
+    { name: "SEO Optimization", icon: BiSearchAlt2, description: "Implementing strategies to improve website visibility, attract organic traffic, and enhance search engine ranking." },
+    { name: "Custom Web Applications", icon: BiCode, description: "Developing bespoke web applications tailored to unique business requirements and user needs for optimal functionality." },
+    { name: "Maintenance & Support", icon: BiWrench, description: "Providing ongoing maintenance, timely updates, and dedicated support to ensure website performance and security." },
+    { name: "UI/UX Design", icon: BiShapePolygon, description: "Designing intuitive user interfaces with a focus on user experience, accessibility, and seamless navigation." },
+    { name: "Website Security", icon: BiShieldAlt, description: "Implementing robust security measures to safeguard websites from cyber threats, data breaches, and malicious attacks." },
+    { name: "Performance Optimization", icon: BiRocket, description: "Enhancing website speed, performance, and loading times for improved user experience and search engine ranking." },
+];
+
 
 export const SIDE_TABS = [
     { name: "Overview", icon: FaUser },
@@ -55,37 +73,26 @@ export const SIDE_TABS = [
 ];
 
 export const skillsData = [
-  { label: 'HTML', value: 100 },
-  { label: 'CSS', value: 100 },
-  { label: 'JavaScript', value: 100 },
-  { label: 'PHP', value: 80 },
-  { label: 'WordPress/CMS', value: 90 },
-  { label: 'React', value: 95 },
-  { label: 'TypeScript', value: 90 },
-  { label: 'Sass', value: 85 },
-  { label: 'Vue.js', value: 90 },
-  { label: 'Angular', value: 90 },
-  { label: 'Git', value: 100 },
-  { label: 'Data Analysis', value: 90},
-  { label: 'Machine Learning', value: 93},
-  { label: 'Responsive Design', value: 95 },
+    { label: 'HTML', value: 100 },
+    { label: 'CSS', value: 100 },
+    { label: 'JavaScript', value: 90 },
+    { label: 'Responsive Design', value: 95 },
+    { label: 'Git', value: 100 },
+    { label: 'WordPress/CMS', value: 90 },
+    { label: 'React', value: 95 },
+    { label: 'TypeScript', value: 90 },
+    { label: 'Vue.js', value: 90 },
+    { label: 'Next.js', value: 85 }, 
+    { label: 'Tailwind CSS', value: 95 }, 
+    { label: 'Bootstrap', value: 95 }, 
 ];
+
 
 export const stackData = [
   { label: 'Node.js', value: 98, icon: FaNodeJs },
-  { label: 'MongoDB', value: 100, icon: DiMongodb },
-  { label: 'GraphQL', value: 90, icon: GrGraphQl },
   { label: 'Python', value: 100, icon: FaPython },
   { label: 'SQL', value: 95, icon: AiOutlineConsoleSql },
-  { label: 'TensorFlow', value: 80, icon: SiTensorflow },
   { label: 'Docker', value: 100, icon: FaDocker },
-  { label: 'Kubernetes', value: 90, icon: SiKubernetes },
-  { label: 'AWS', value: 90, icon: FaAws },
-  { label: 'Jenkins', value: 84, icon: FaJenkins },
-  { label: 'Webpack', value: 89, icon: SiWebpack },
-  { label: 'Angular', value: 88, icon: SiAngular  },
-  { label: 'Laravel', value: 90, icon: SiLaravel  },
-  { label: 'Ruby', value: 89, icon: DiRuby  },
   { label: 'PostgreSQL', value: 88, icon: SiPostgresql  },
   { label: 'Django', value: 97, icon: SiDjango  },
   { label: 'Flask', value: 92, icon: SiFlask  },
