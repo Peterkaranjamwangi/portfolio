@@ -15,7 +15,7 @@ const ToolsTechnologies = () => {
         
         <div className="flex flex-wrap">
             {stackData.map((stack, index) => (
-                <div key={index} className=" w-1/3 md:w-1/5 lg:w-1/6 xl:w-1/6 md:p-2 p-1">
+                <div key={index} className=" w-1/3 md:w-1/5 lg:w-32 md:p-2 p-1">
                     <CircularProgressbarWithChildren
                         value={stack.value}
                         strokeWidth={8}
@@ -28,8 +28,8 @@ const ToolsTechnologies = () => {
                         
                     >
                         <div className="flex flex-col items-center justify-center gap-1">
-                            <stack.icon className="text-lg" />
-                            <p className="text-sm text-gray-700 font-semibold">{stack.label}</p>
+                            <stack.icon className="text-sm md:text-md" />
+                            <p className="md:text-sm text-xs text-gray-700 font-semibold">{stack.label}</p>
                             <p className="text-xs">{stack.value}%</p>
                         </div>
                     </CircularProgressbarWithChildren>

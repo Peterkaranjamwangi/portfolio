@@ -1,7 +1,7 @@
 import { projects } from '@/constants/consants.index';
 import React from 'react'
 import { CgWebsite } from 'react-icons/cg';
-import { FaGalacticRepublic, FaGithub } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
@@ -14,8 +14,7 @@ const Projects = () => {
                 {projects.map((project, index) => (
                     <div key={index} className="mx-auto max-w-screen-2xl px-4 py-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:h-1/2screen lg:grid-cols-2 ">
-                            
-                            <div className=" relative z-20 lg:py-8">
+                            <div className="relative z-20 lg:py-8 border-r-2 border-green-500 rounded-tr-2xl md:border-none">
                                 <Carousel 
                                     showThumbs={false}
                                     infiniteLoop={true}
@@ -27,7 +26,7 @@ const Projects = () => {
                                             <img
                                                 alt="project-img"
                                                 src={image}
-                                                className=" w-full object-cover rounded-t-2xl"
+                                                className="w-full object-cover rounded-t-2xl border border-green-500 border-b-2 border-r-2"
                                                 style={{ height: '250px' }}
                                             />
                                         </div>
@@ -35,12 +34,12 @@ const Projects = () => {
                                 </Carousel>
                             </div>
 
-                            <div className="relative flex items-center z-10 bg-gray-900 ">
+                            <div className="relative flex items-center z-10 bg-gray-900 rounded-br-lg">
                                 <span
-                                className="hidden lg:absolute lg:inset-y-0 lg:-start-16 lg:block lg:w-16 lg:bg-gray-900 rounded-s-md"
+                                className="hidden lg:absolute lg:inset-y-0 lg:-start-16 lg:block lg:w-16 lg:bg-gray-900  border-green-500 border-b-2 rounded-s-md"
                                 ></span>
 
-                                <div className="p-8 sm:p-4 lg:p-12">
+                                <div className="p-8 sm:p-2 lg:p-12  border-green-500 border-b-2 border-r-2 rounded-br-lg">
                                     <a 
                                         href={project.link} 
                                         target="_blank" 
@@ -92,6 +91,7 @@ const Projects = () => {
                             </div>
                         </div>
                     </div>
+                    
                 ))}
                 
             </section>

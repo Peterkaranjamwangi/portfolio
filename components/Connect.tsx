@@ -1,29 +1,18 @@
-import { CONNECT_DATA } from '@/constants/consants.index';
 import React from 'react';
-import { FaPhone } from 'react-icons/fa';
+import SocialMedia from './SocialMedia';
 
 const Connect = () => {
     return (
         <div>
-            <section className="mx-auto max-w-screen-md bg-gray-900 px-4 rounded-br-3xl rounded-tl-3xl py-8">
-                <div className="w-full shadow-2xl mb-2 rounded-l-md flex justify-center items-center">
-                    {CONNECT_DATA.map((item, index) => (
-                        <div key={index} className="flex mb-2 mr-4">
-                            <a href={item.info} target="_blank" className="inline-block rounded-md bg-gray-700 animate-pulse p-2 text-primary">
-                                {React.createElement(item.icon, { className: "w-4 h-4" })}
-                            </a>
-                        </div>
-                    ))}
-                </div>
-
-
-                    <div className="grid rounded-2xl bg-gray-800 p-4 lg:col-span-3 lg:p-12">
+            <section className="mx-auto max-w-screen-md bg-gray-900 px-4 rounded-br-full rounded-tl-3xl py-8 border-green-500 border-y-2 border-r-2">
+                <SocialMedia />
+                    <div className="grid rounded-2xl bg-gradient-to-r from-pink-500 via-gray-500 to-indigo-500 border-r-2 border-b-2 border-green-400 p-4 lg:col-span-3 lg:p-12">
                         <span className="relative flex justify-center">
                             <div
                                 className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"
                             ></div>
 
-                            <span className="relative z-10 bg-gray-800 px-6">Send me a message</span>
+                            <span className="relative rounded-md z-10 bg-gray-800 px-3">Send me a message</span>
                         </span>
 
 

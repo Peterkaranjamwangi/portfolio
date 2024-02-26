@@ -1,7 +1,7 @@
 import { FaGithub, FaTwitter, FaUser, FaDesktop, FaLinkedin, FaFacebook, FaInstagram, FaDocker, FaNodeJs, FaPython   } from 'react-icons/fa';
 import { GiStairsGoal, GiSkills } from "react-icons/gi";
 
-import { FcAbout, FcServices } from "react-icons/fc";
+import { FcAbout, FcGallery, FcServices } from "react-icons/fc";
 import { GoProjectSymlink } from "react-icons/go";
 import { GrContact } from "react-icons/gr";
 import { AiOutlineConsoleSql } from 'react-icons/ai';
@@ -68,8 +68,8 @@ export const SERVICES = [
 export const SIDE_TABS = [
     { name: "Overview", icon: FaUser },
     { name: "Skills", icon: GiSkills },
-    { name: "Experience", icon: GiStairsGoal },
     { name: "Tools & Technologies", icon: FaDesktop },
+    { name: "Gallery", icon: FcGallery },
 ];
 
 export const skillsData = [
