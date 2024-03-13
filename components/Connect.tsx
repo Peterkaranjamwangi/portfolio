@@ -44,26 +44,24 @@ const Connect = () => {
         setErrorMessage(errors.join(" "));
         return;
       }
-
+      // try {
+      //   const response = await emailjs.sendForm(
+      //     "service_u1d",
+      //     "template_6cvyhb8",
+      //     form.current,
+      //     {
+      //       publicKey: "HNFmC88dJWLKMw9PP",
+      //     }
+      //   );
       try {
         const response = await emailjs.sendForm(
-          process.env.REACT_APP_EMAILJS_SERVICE_ID?.trim() ?? "",
-          process.env.REACT_APP_EMAILJS_TEMPLATE_ID?.trim() ?? "",
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim() ?? "",
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID?.trim() ?? "",
           form.current,
           {
-            publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY?.trim() ?? "",
+            publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim() ?? "",
           }
         );
-
-        // try {
-        //   const response = await emailjs.sendForm(
-        //     "service_u1d",
-        //     "template_6cvyhb8",
-        //     form.current,
-        //     {
-        //       publicKey: "HNFmC88dJWLKMw9PP",
-        //     }
-        //   );
 
         console.log("SUCCESS!", response);
         setIsSuccess(true);
@@ -180,7 +178,9 @@ const Connect = () => {
           )}
 
           {errorMessage && (
-            <div className="p-4 bg-red-900 text-gray-800">{errorMessage}</div>
+            <div className="p-4 my-4 text-red-900 bg-gray-800">
+              {errorMessage}
+            </div>
           )}
         </div>
       </section>
