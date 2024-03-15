@@ -44,24 +44,24 @@ const Connect = () => {
         setErrorMessage(errors.join(" "));
         return;
       }
-      // try {
-      //   const response = await emailjs.sendForm(
-      //     "service_u1d",
-      //     "template_6cvyhb8",
-      //     form.current,
-      //     {
-      //       publicKey: "HNFmC88dJWLKMw9PP",
-      //     }
-      //   );
       try {
         const response = await emailjs.sendForm(
-          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim() ?? "",
-          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID?.trim() ?? "",
+          "service_u1d",
+          "template_6cvyhb8",
           form.current,
           {
-            publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim() ?? "",
+            publicKey: "HNFmC88dJWLKMw9PP",
           }
         );
+        // try {
+        //   const response = await emailjs.sendForm(
+        //     process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim() ?? "",
+        //     process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID?.trim() ?? "",
+        //     form.current,
+        //     {
+        //       publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim() ?? "",
+        //     }
+        //   );
 
         console.log("SUCCESS!", response);
         setIsSuccess(true);
@@ -178,7 +178,7 @@ const Connect = () => {
           )}
 
           {errorMessage && (
-            <div className="p-4 my-4 text-red-900 bg-gray-800">
+            <div className="p-4 my-5  text-red-900 bg-gray-800">
               {errorMessage}
             </div>
           )}
