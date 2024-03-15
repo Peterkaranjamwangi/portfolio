@@ -47,8 +47,19 @@ import {
   BiRocket,
 } from "react-icons/bi";
 import { MdLibraryBooks } from "react-icons/md";
+import { FaWhatsapp } from "react-icons/fa6";
 
 export const CONNECT_DATA = [
+  {
+    name: "WhatsApp",
+    icon: FaWhatsapp,
+    info: "https://wa.link/1sqigc",
+  },
+  {
+    name: "Twitter",
+    icon: FaTwitter,
+    info: "https://twitter.com/WriterIBlake",
+  },
   {
     name: "GitHub",
     icon: FaGithub,
@@ -59,16 +70,7 @@ export const CONNECT_DATA = [
     icon: FaLinkedin,
     info: "https://www.linkedin.com/in/mwangipeter/",
   },
-  {
-    name: "Twitter",
-    icon: FaTwitter,
-    info: "https://twitter.com/WriterIBlake",
-  },
-  // {
-  //   name: "Instagram",
-  //   icon: FaInstagram,
-  //   info: "https://www.instagram.com/karanja_kinyanjui/",
-  // },
+
   // {
   //   name: "Facebook",
   //   icon: FaFacebook,

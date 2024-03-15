@@ -19,12 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-center bg-no-repeat   bg-cover z-[1] object-center md:object-cover ${inter.className}`}
+        className={`bg-center    bg-cover z-[1] object-center md:object-cover ${inter.className}`}
         style={{
           backgroundImage: "url(/bg.jpeg)",
           backgroundSize: "cover",
           backgroundPosition: "top",
-          padding: "2rem",
         }}
       >
         {children}
