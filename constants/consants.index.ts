@@ -236,6 +236,22 @@ export const projects = [
     stack: ["TypeScript", "React", "Tailwind CSS"],
   },
   {
+    name: "Wachno Engineering",
+    shortDescription:
+      "A comprehensive and modern website highlighting Wachno Engineering's industrial prowess, featuring project portfolios, service offerings, and user-friendly navigation",
+    images: [
+      "/public/projects/wachno-eng/wachno-eng.png",
+      "/public/projects/wachno-eng/wachno-eng1.png",
+      "/public/projects/wachno-eng/wachno-eng2.png",
+      "/public/projects/wachno-eng/wachno-eng3.png",
+      "/public/projects/wachno-eng/wachno-eng4.png",
+    ],
+    github: "https://github.com/Peterkaranjamwangi/wachno-eng",
+    link: "https://wachno-engineering.vercel.app/",
+    status: "completed",
+    stack: ["TypeScript", "React", "Tailwind CSS", "Shadcn/ui"],
+  },
+  {
     name: "skillup: e-learning site",
     shortDescription:
       "Dynamic e-learning platform offering diverse courses, interactive modules, expert-led instruction, and personalized learning paths for skill enhancement.",

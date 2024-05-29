@@ -1,4 +1,5 @@
 import { projects } from "@/constants/consants.index";
+import Image from "next/image";
 import React from "react";
 import { CgWebsite } from "react-icons/cg";
 import { FaGithub } from "react-icons/fa";
@@ -26,7 +27,7 @@ const Projects = () => {
                 >
                   {project.images.map((image, idx) => (
                     <div key={idx}>
-                      <img
+                      <Image
                         alt="project-img"
                         src={image}
                         className="w-full h-full object-cover rounded-t lg:rounded "
