@@ -226,9 +226,9 @@ export const projects = [
     shortDescription:
       "A sleek, dynamic website showcasing various projects and skills, crafted with creativity and powered by modern web technologies.",
     images: [
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/portfolio/Screenshot%202024-03-14%20at%2013-01-55%20Elijah%20Karanja%20-%20Web%20Developer%20and%20Data%20Scientist.png?t=2024-03-14T10%3A03%3A14.141Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/portfolio/Screenshot%202024-03-14%20at%2012-57-22%20Elijah%20Karanja%20-%20Web%20Developer%20and%20Data%20Scientist.png?t=2024-03-14T10%3A02%3A53.049Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/portfolio/Screenshot%202024-03-14%20at%2012-57-41%20Elijah%20Karanja%20-%20Web%20Developer%20and%20Data%20Scientist.png?t=2024-03-14T10%3A03%3A06.973Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/portfolio/Screenshot_2024-05-31_at_10-05-44_Elijah_Karanja_-_Web_Developer_and_Data_Scientist.png",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/portfolio/Screenshot_2024-05-31_at_10-05-57_Elijah_Karanja_-_Web_Developer_and_Data_Scientist.png",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/portfolio/Screenshot_2024-05-31_at_10-06-09_Elijah_Karanja_-_Web_Developer_and_Data_Scientist.png",
     ],
     github: "https://github.com/Peterkaranjamwangi/portfolio-colab",
     link: "https://portfolio-colab.vercel.app/#hire-me",
@@ -240,11 +240,11 @@ export const projects = [
     shortDescription:
       "A comprehensive and modern website highlighting Wachno Engineering's industrial prowess, featuring project portfolios, service offerings, and user-friendly navigation",
     images: [
-      "/public/projects/wachno-eng/wachno-eng.png",
-      "/public/projects/wachno-eng/wachno-eng1.png",
-      "/public/projects/wachno-eng/wachno-eng2.png",
-      "/public/projects/wachno-eng/wachno-eng3.png",
-      "/public/projects/wachno-eng/wachno-eng4.png",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/wachno/wachno-eng.png?t=2024-05-31T07%3A12%3A22.372Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/wachno/wachno-eng1.png?t=2024-05-31T07%3A12%3A39.604Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/wachno/wachno-eng2.png?t=2024-05-31T07%3A12%3A57.324Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/wachno/wachno-eng3.png?t=2024-05-31T07%3A13%3A15.287Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/wachno/wachno-eng4.png?t=2024-05-31T07%3A13%3A31.997Z",
     ],
     github: "https://github.com/Peterkaranjamwangi/wachno-eng",
     link: "https://wachno-engineering.vercel.app/",
@@ -256,10 +256,9 @@ export const projects = [
     shortDescription:
       "Dynamic e-learning platform offering diverse courses, interactive modules, expert-led instruction, and personalized learning paths for skill enhancement.",
     images: [
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/skillup/Screenshot%202024-03-14%20at%2013-21-53%20SkillUp%20Online%20Learning.png?t=2024-03-14T10%3A25%3A00.260Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/skillup/Screenshot%202024-03-14%20at%2013-25-43%20SkillUp%20Online%20Learning.png?t=2024-03-14T10%3A28%3A02.842Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/skillup/Screenshot%202024-03-14%20at%2013-26-33%20SkillUp%20Online%20Learning.png?t=2024-03-14T10%3A28%3A14.849Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/skillup/Screenshot%202024-03-14%20at%2013-27-26%20SkillUp%20Online%20Learning.png?t=2024-03-14T10%3A28%3A24.352Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/wachno/wachno-eng.png?t=2024-05-31T07%3A12%3A22.372Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/skillup/Screenshot_2024-05-31_at_10-16-09_SkillUp_Online_Learning.png?t=2024-05-31T07%3A17%3A58.876Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/skillup/Screenshot_2024-05-31_at_10-16-41_SkillUp_Online_Learning.png?t=2024-05-31T07%3A18%3A37.032Z",
     ],
     github: "https://github.com/Peterkaranjamwangi/skillup",
     link: "https://skillup-dusky.vercel.app/",
@@ -271,10 +270,9 @@ export const projects = [
     shortDescription:
       "Elegant design featuring intuitive navigation, service showcase, appointment scheduling, and stylish aesthetics.",
     images: [
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/lotus%20lounge/Screenshot%202024-03-14%20at%2013-13-00%20Vite%20React.png?t=2024-03-14T10%3A16%3A35.253Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/lotus%20lounge/Screenshot%202024-03-14%20at%2013-13-18%20Vite%20React.png?t=2024-03-14T10%3A17%3A40.040Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/lotus%20lounge/Screenshot%202024-03-14%20at%2013-13-28%20Vite%20React.png?t=2024-03-14T10%3A17%3A54.992Z",
-      "https://yuilsdxredsnwnqdciyx.supabase.co/storage/v1/object/public/portfolio%20projects/lotus%20lounge/Screenshot%202024-03-14%20at%2013-13-55%20Vite%20React.png?t=2024-03-14T10%3A18%3A02.224Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/lotus-lounge/Screenshot_2024-05-31_at_10-20-29_Vite_React.png",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/lotus-lounge/Screenshot_2024-05-31_at_10-20-48_Vite_React.png?t=2024-05-31T07%3A22%3A26.978Z",
+      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/lotus-lounge/Screenshot_2024-05-31_at_10-21-05_Vite_React.png?t=2024-05-31T07%3A22%3A39.128Z",
     ],
     github: "https://github.com/Peterkaranjamwangi/lotus-lounge",
     link: "https://lotus-lounge.vercel.app/",
