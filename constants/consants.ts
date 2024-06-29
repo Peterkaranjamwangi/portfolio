@@ -154,13 +154,6 @@ export const SERVICES = [
   },
 ];
 
-export const SIDE_TABS = [
-  { name: "Overview", icon: FaUser },
-  { name: "Skills", icon: GiSkills },
-  { name: "Tools & Technologies", icon: FaDesktop },
-  { name: "Gallery", icon: FcGallery },
-];
-
 export const skillsData = [
   { label: "Academic Writing", value: 100 },
   { label: "UI/UX Design", value: 96 },
@@ -173,6 +166,15 @@ export const skillsData = [
   { label: "Research Skills", value: 90 },
   { label: "Critical Thinking", value: 90 },
   { label: "Project Management", value: 85 },
+];
+
+export const LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/resume", label: "Resume" },
+  { href: "/services", label: "Services" },
+  { href: "/projects", label: "Projects" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export const stackData = [

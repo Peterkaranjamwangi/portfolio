@@ -1,4 +1,4 @@
-import { stackData } from "@/constants/consants.index";
+import { stackData } from "@/constants/consants";
 import React from "react";
 import {
   CircularProgressbarWithChildren,

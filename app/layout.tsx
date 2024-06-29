@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Sidenav from "@/components/NavigationBar";
+import Footer from "@/components/Footer";
+import SideBar from "@/components/SideBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,14 +21,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-center    bg-cover z-[1] object-center md:object-cover ${inter.className}`}
+        className={`${inter.className} h-screen flex flex-col`}
         style={{
           backgroundImage: "url(/bg.jpeg)",
           backgroundSize: "cover",
-          backgroundPosition: "top",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
         }}
       >
-        {children}
+        <div className="flex-grow flex overflow-hidden">
+          {/* <NavigationBar /> */}
+          <SideBar />
+          <main className="flex-grow overflow-auto">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

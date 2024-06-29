@@ -1,5 +1,5 @@
 import React from "react";
-import { skillsData } from "@/constants/consants.index";
+import { skillsData } from "@/constants/consants";
 
 const Skills = () => {
   return (

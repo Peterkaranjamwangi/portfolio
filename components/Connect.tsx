@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import Popup from "reactjs-popup";
@@ -91,7 +92,6 @@ const Connect = () => {
     <div>
       <section className="mx-auto max-w-screen-md bg-gray-900 px-4 rounded-br-full rounded-tl-3xl py-8 border-green-500 border-y-2 border-r-2">
         <SocialMedia />
-
         <div className="grid rounded-2xl bg-gradient-to-r from-pink-500 via-gray-500 to-indigo-500 border-r-2 border-b-2 border-green-400 p-4 lg:col-span-3 lg:p-12">
           <span className="relative flex justify-center my-2 md:my-4">
             <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"></div>

@@ -1,4 +1,4 @@
-import { projects } from "@/constants/consants.index";
+import { projects } from "@/constants/consants";
 import React from "react";
 
 const Gallery = () => {
