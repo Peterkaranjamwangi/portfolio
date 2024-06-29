@@ -1,39 +1,32 @@
 import {
   FaGithub,
   FaTwitter,
-  FaUser,
-  FaDesktop,
   FaLinkedin,
-  FaFacebook,
-  FaInstagram,
-  FaDocker,
   FaNodeJs,
-  FaPython,
+  FaCode,
+  FaPaintBrush,
+  FaBook,
+  FaChartLine,
+  FaLightbulb,
+  FaGlobe,
+  FaChess,
+  FaMusic,
+  FaRobot,
+  FaBrain,
+  FaMountain,
+  FaNetworkWired,
 } from "react-icons/fa";
-import { GiStairsGoal, GiSkills } from "react-icons/gi";
 
-import { FcAbout, FcGallery, FcServices } from "react-icons/fc";
+import { FcAbout, FcServices } from "react-icons/fc";
 import { GoProjectSymlink } from "react-icons/go";
 import { GrContact } from "react-icons/gr";
-import { AiOutlineConsoleSql } from "react-icons/ai";
 import {
-  SiPostgresql,
   SiNextdotjs,
-  SiDjango,
-  SiFlask,
   SiStyledcomponents,
   SiReact,
   SiRedux,
-  SiBabel,
-  SiGraphql,
   SiTypescript,
-  SiWebpack,
 } from "react-icons/si";
-import {
-  AiOutlineFileText,
-  AiOutlineRead,
-  AiOutlineEdit,
-} from "react-icons/ai";
 import {
   BiPalette,
   BiMobileAlt,
@@ -78,6 +71,56 @@ export const CONNECT_DATA = [
   // },
 ];
 
+export const interestsData = [
+  {
+    label: "Programming",
+    icon: FaCode,
+  },
+  {
+    label: "Design",
+    icon: FaPaintBrush,
+  },
+  {
+    label: "Research",
+    icon: FaBook,
+  },
+  {
+    label: "Data Analysis",
+    icon: FaChartLine,
+  },
+  {
+    label: "Innovation",
+    icon: FaLightbulb,
+  },
+  {
+    label: "Technology Trends",
+    icon: FaGlobe,
+  },
+  {
+    label: "Strategic Games",
+    icon: FaChess,
+  },
+  {
+    label: "Music",
+    icon: FaMusic,
+  },
+  {
+    label: "Artificial Intelligence",
+    icon: FaRobot,
+  },
+  {
+    label: "Cognitive Science",
+    icon: FaBrain,
+  },
+  {
+    label: "Problem Solving",
+    icon: FaMountain,
+  },
+  {
+    label: "Network Architecture",
+    icon: FaNetworkWired,
+  },
+];
 export const TABS = [
   { name: "About", icon: FcAbout },
   { name: "Services", icon: FcServices },

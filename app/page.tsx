@@ -8,7 +8,7 @@ import { CloudDownloadIcon } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col gap-4 items-start justify-center self-start ml-28">
+    <div className="min-h-screen flex flex-col gap-4 items-start justify-center self-start ml-4 md:ml-28">
       <h1 className="text-xl md:text-3xl lg:text-5xl font-bold mb-2 bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
         Peter Mwangi.
       </h1>

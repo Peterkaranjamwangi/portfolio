@@ -32,10 +32,10 @@ export default function NavigationBar() {
               {link.label}
             </Link>
           ))}
+          <Button className="hidden md:inline-flex hover:bg-primary-dark transition-all duration-300 transform hover:scale-105">
+            Hire Me
+          </Button>
         </nav>
-        <Button className="hidden md:inline-flex hover:bg-primary-dark transition-all duration-300 transform hover:scale-105">
-          Hire Me
-        </Button>
       </div>
     </header>
   );
