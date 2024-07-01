@@ -1,8 +1,7 @@
 "use client";
+
 import PageTitle from "@/components/PageTitle";
 import { stackData } from "@/constants/consants";
-import React, { useState } from "react";
-import Image from "next/image";
 
 export default function Stack() {
   return (

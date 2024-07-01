@@ -1,6 +1,5 @@
 import PageTitle from "@/components/PageTitle";
 import { interestsData } from "@/constants/consants";
-import React from "react";
 
 export default function Interests() {
   return (
