@@ -8,40 +8,52 @@ import { CloudDownloadIcon } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col gap-4 items-start justify-center self-start ml-4 md:ml-28">
-      <h1 className="text-xl md:text-3xl lg:text-5xl font-bold mb-2 bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
-        Peter Mwangi.
-      </h1>
-      <h1 className="mb-2 bg-gradient-to-r font-bold from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
-        I'm a passionate
-        <span className="px-2 relative">
-          <Typewriter
-            words={[
-              "Freelance Academic Writer",
-              "UX/UI Designer",
-              "Web Developer",
-              "Frontend Developer",
-              "Software Engineer",
-            ]}
-          />
-          <span className="absolute inset-x-2 mt-1 bottom-0 h-[3px] bg-primary"></span>
-        </span>
-        From Nairobi
-      </h1>
-      <MenuHomeBar />
-      <div className="mt-8">
-        <SocialMedia />
+    <div className="min-h-screen flex flex-col gap-4 items-center md:items-start justify-center self-center md:self-start md:ml-28 bg-black/30 md:bg-transparent">
+      <div className="flex flex-row rounded-md bg-black/70 md:bg-gray-500/10 w-[95%] md:w-auto">
+        <MenuHomeBar />
+        <div className="flex flex-col items-start gap-2 p-4 w-full">
+          <h1 className="text-xl md:text-3xl lg:text-5xl font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
+            Peter Mwangi.
+          </h1>
+          <div className="flex flex-col items-stretch">
+            <div className="self-start">
+              <h1 className="font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
+                I'm passionate
+              </h1>
+            </div>
+            <div className="self-center my-4">
+              <div className="h-[24px] w-[300px] font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in overflow-hidden flex justify-center items-center">
+                <Typewriter
+                  words={[
+                    "Freelance Academic Writer",
+                    "UX/UI Designer",
+                    "Web Developer",
+                    "Frontend Developer",
+                    "Software Engineer",
+                  ]}
+                />
+              </div>
+            </div>
+            <div className="self-end">
+              <h1 className="font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
+                from Nairobi
+              </h1>
+            </div>
+          </div>
+          <div className="mt-8">
+            <SocialMedia />
+          </div>
+          <Button className="transition-all max-w-fit mt-5 duration-300 hover:bg-primary-dark justify-center items-center">
+            <Link
+              href="#"
+              className="text-white flex gap-2 justify-center items-center"
+            >
+              <CloudDownloadIcon />
+              Download CV
+            </Link>
+          </Button>
+        </div>
       </div>
-
-      <Button className="transition-all duration-300 hover:bg-primary-dark justify-center items-center">
-        <Link
-          href="#"
-          className="text-white flex gap-2 justify-center items-center"
-        >
-          <CloudDownloadIcon />
-          Download CV
-        </Link>
-      </Button>
     </div>
   );
 }

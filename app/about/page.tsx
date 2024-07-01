@@ -1,11 +1,10 @@
 import React from "react";
 import InnerLayout from "@/components/InnerLayout";
-import Gallery from "@/components/about/Gallery";
-import Overview from "@/components/about/Overview";
 import PageTitle from "@/components/PageTitle";
 import Main from "./Main";
 import Skills from "./Skills";
 import Interests from "./Interests";
+import Stack from "./Stack";
 
 export default function AboutPage() {
   return (
@@ -16,7 +15,7 @@ export default function AboutPage() {
       <Skills />
       <Interests />
       {/* <Gallery /> */}
-      {/* <ToolsTechnologies /> */}
+      <Stack />
     </InnerLayout>
   );
 }
