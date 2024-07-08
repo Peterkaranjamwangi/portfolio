@@ -332,9 +332,7 @@ export const projects = [
     name: "Wachno Engineering",
     shortDescription:
       "A comprehensive and modern website highlighting Wachno Engineering's industrial prowess, featuring project portfolios, service offerings, and user-friendly navigation",
-    image:
-      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/wachno/wachno-eng.png?t=2024-05-31T07%3A12%3A22.372Z",
-
+    image: "/tailwind.png",
     link: "https://wachno-engineering.vercel.app/",
     status: "completed",
     stack: ["TypeScript", "React", "Tailwind CSS", "Shadcn/ui"],
@@ -353,9 +351,7 @@ export const projects = [
     name: "Lotus lounge hair salon UI",
     shortDescription:
       "Elegant design featuring intuitive navigation, service showcase, appointment scheduling, and stylish aesthetics.",
-    images:
-      "https://mvwigedkkabaddjgvjut.supabase.co/storage/v1/object/public/portfolio%20projects/lotus-lounge/Screenshot_2024-05-31_at_10-20-29_Vite_React.png",
-
+    image: "/tailwind.png",
     link: "https://lotus-lounge.vercel.app/",
     status: "completed",
     stack: ["React", "Tailwind CSS", "vite"],
