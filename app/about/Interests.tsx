@@ -15,7 +15,7 @@ export default function Interests() {
           >
             <div className="flex items-center gap-4">
               <interest.icon className="text-primary text-2xl" />
-              <span className="text-white font-semibold text-nowrap">
+              <span className="text-white font-semibold text-sm text-nowrap">
                 {interest.label}
               </span>
             </div>

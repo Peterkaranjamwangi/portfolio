@@ -2,94 +2,71 @@ import React from "react";
 import InnerLayout from "@/components/InnerLayout";
 import PageTitle from "@/components/PageTitle";
 import { projects } from "@/constants/consants";
-import { FaGithub } from "react-icons/fa";
 import { FaRepeat } from "react-icons/fa6";
-import { CheckCircle2, CircleCheckBig, FolderArchive } from "lucide-react";
-import ProfileCard from "./ProjectCard";
+import { CircleCheckBig } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ProjectsPage() {
   return (
     <InnerLayout>
       <PageTitle title="Projects" subtitle="Check out my Work" />
-      <section>
+      <section className="flex flex-col gap-4">
         {projects.map((project, index) => (
           <div
             key={index}
-            className="mx-auto max-w-screen-2xl px-4 py-4 sm:px-6 lg:px-8"
+            className={`container px-5 py-8 mx-auto flex flex-col border-2 border-double rounded ${
+              project.status === "completed" ? "" : "border-blue-600"
+            }`}
           >
-            <div className="grid grid-cols-1 lg:h-1/2screen lg:grid-cols-2 rounded-br-2xl  border-b-2 border-green-500">
-              <div className="relative z-20 mt-2 bg-gray-900 border-r-2 border-green-500 rounded-tr-2xl lg:border-none"></div>
-
-              <div className="relative flex items-stretch z-10 bg-gray-900 rounded-br-lg">
-                <div className="flex flex-col p-8 sm:p-2 lg:p-12 border-green-500 border-r-2 rounded-br-lg">
+            <div className="rounded-lg h-80 overflow-hidden">
+              <img
+                alt={project.name}
+                className="object-cover object-center h-full w-full"
+                src={project.image}
+              />
+            </div>
+            <div className="lg:w-5/6 mx-auto">
+              <div className="flex flex-col sm:flex-row mt-10">
+                <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">
+                  <div className="flex flex-col items-start text-center justify-start">
+                    <h2 className="font-medium title-font mt-4 text-gray-50 text-lg">
+                      Stack used
+                    </h2>
+                    <div className="w-12 h-1 bg-indigo-500 rounded my-1"></div>
+                    {/* Stack tags */}
+                    <div className="flex flex-col text-start items-start mt-4 gap-2 text-gray-300 text-sm">
+                      {project.stack.map((stack, idx) => (
+                        <span key={idx} className="flex">
+                          <CircleCheckBig className="mr-2" />
+                          {stack}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
                   <a
                     href={project.link}
                     target="_blank"
-                    className="cursor-pointer "
+                    className="cursor-pointer"
                   >
                     <span className="text-2xl font-bold text-blue-700 underline">
                       {project.name}
                     </span>
                   </a>
-                  <p className="mt-4 text-gray-300">
+                  <div className="w-12 h-1 ml-8 bg-indigo-500 rounded my-3"></div>
+
+                  <p className="leading-relaxed text-start text-lg mb-4">
                     {project.shortDescription}
                   </p>
-                  <div className="flex flex-wrap mt-4 gap-1 ">
-                    {project.stack.map((stack, idx) => (
-                      <span
-                        key={idx}
-                        className={`whitespace-nowrap rounded-full px-2.5 py-0.5 text-sm text-purple-700 ${
-                          idx % 2 === 0 ? "bg-blue-100" : "bg-purple-300"
-                        }`}
-                      >
-                        {stack}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-2 mt-4 self-center justify-center items-center">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      className="cursor text-white bg-blue-700 hover:bg-gray-800 text-center inline-flex items-center me-2 font-medium rounded-lg text-xs md:text-sm px-4 md:px-5 py-2 md:py-2.5 "
-                    >
-                      <span className="me-2">
-                        <FaGithub />
-                      </span>
-                      Github
-                    </a>
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      className="text-white bg-blue-700 hover:bg-gray-800 text-center inline-flex items-center me-2 font-medium rounded-lg text-xs md:text-sm px-4 md:px-5 py-2 md:py-2.5 "
-                    >
-                      <span className="me-2">
-                        <FolderArchive />
-                      </span>
-                      View Project
-                    </a>
-                  </div>
-                </div>
-
-                {/*  */}
-                <div className="absolute bottom-0 right-1">
-                  <strong
-                    className={`-mb-0 -me-[2px] inline-flex items-center gap-1 rounded-ee-lg rounded-ss-lg px-3 py-1.5 text-white ${
-                      project.status === "completed"
-                        ? "bg-green-600"
-                        : "bg-blue-600"
-                    }`}
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    className="text-indigo-500 inline-flex items-center"
                   >
-                    {project.status === "completed" ? (
-                      <CircleCheckBig />
-                    ) : (
-                      <FaRepeat />
-                    )}
-                    <span className="text-[10px] font-medium sm:text-xs text-nowrap">
-                      {project.status === "completed" ? "Completed" : "Ongoing"}
-                    </span>
-                  </strong>
+                    <Button variant="outline">View Project</Button>
+                  </a>
                 </div>
-                {/*  */}
               </div>
             </div>
           </div>

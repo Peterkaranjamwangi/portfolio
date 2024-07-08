@@ -32,9 +32,11 @@ export default function NavigationBar() {
               {link.label}
             </Link>
           ))}
-          <Button className="hidden md:inline-flex hover:bg-primary-dark transition-all duration-300 transform hover:scale-105">
-            Hire Me
-          </Button>
+          <a target="_blank" href="https://wa.link/1sqigc">
+            <Button className="transition-all duration-300 hover:bg-primary-dark">
+              Hire Me
+            </Button>
+            </a>
         </nav>
       </div>
     </header>

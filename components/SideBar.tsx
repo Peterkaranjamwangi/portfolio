@@ -35,9 +35,11 @@ export default function SideBar() {
                 {link.label}
               </Link>
             ))}
+            <a target="_blank" href="https://wa.link/1sqigc">
             <Button className="transition-all duration-300 hover:bg-primary-dark">
               Hire Me
             </Button>
+            </a>
           </div>
         </SheetContent>
       </Sheet>
