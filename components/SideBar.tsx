@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "./ui/sheet";
 import Link from "next/link";
-import { LINKS } from "@/constants/consants";
+import { LINKS } from "@/constants/constants";
 import { usePathname } from "next/navigation";
 
 export default function SideBar() {
@@ -36,9 +36,9 @@ export default function SideBar() {
               </Link>
             ))}
             <a target="_blank" href="https://wa.link/1sqigc">
-            <Button className="transition-all duration-300 hover:bg-primary-dark">
-              Hire Me
-            </Button>
+              <Button className="transition-all duration-300 hover:bg-primary-dark">
+                Hire Me
+              </Button>
             </a>
           </div>
         </SheetContent>

@@ -1,9 +1,8 @@
 import React from "react";
 import InnerLayout from "@/components/InnerLayout";
 import PageTitle from "@/components/PageTitle";
-import { resumeData } from "@/constants/consants";
+import { resumeData } from "@/constants/constants";
 import { CircleCheckBig } from "lucide-react";
-
 
 interface Props {
   summary: String;
@@ -12,7 +11,12 @@ interface Props {
   skills: String;
 }
 
-export default function ResumePage({ summary, education, experience, skills }: Props) {
+export default function ResumePage({
+  summary,
+  education,
+  experience,
+  skills,
+}: Props) {
   return (
     <InnerLayout>
       <PageTitle title="Resume" subtitle="Check out my resume" />
@@ -50,7 +54,10 @@ export default function ResumePage({ summary, education, experience, skills }: P
             <h4 className="text-lg font-semibold mb-2">Technical Skills</h4>
             <div className="flex flex-col flex-wrap gap-2">
               {resumeData.skills.technical.map((skill, index) => (
-                <span key={index} className="flex gap-2  px-3 py-1 text-sm font-semibold text-gray-300">
+                <span
+                  key={index}
+                  className="flex gap-2  px-3 py-1 text-sm font-semibold text-gray-300"
+                >
                   <CircleCheckBig />
                   {skill}
                 </span>
@@ -61,7 +68,10 @@ export default function ResumePage({ summary, education, experience, skills }: P
             <h4 className="text-lg font-semibold mb-2">Soft Skills</h4>
             <div className="flex flex-col flex-wrap gap-2">
               {resumeData.skills.soft.map((skill, index) => (
-                <span key={index} className="flex gap-2 px-3 py-1 text-sm font-semibold text-gray-300">
+                <span
+                  key={index}
+                  className="flex gap-2 px-3 py-1 text-sm font-semibold text-gray-300"
+                >
                   <CircleCheckBig />
                   {skill}
                 </span>

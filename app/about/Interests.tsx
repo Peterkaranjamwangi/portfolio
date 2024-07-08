@@ -1,5 +1,5 @@
 import PageTitle from "@/components/PageTitle";
-import { interestsData } from "@/constants/consants";
+import { interestsData } from "@/constants/constants";
 
 export default function Interests() {
   return (

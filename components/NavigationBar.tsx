@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { LINKS } from "@/constants/consants";
+import { LINKS } from "@/constants/constants";
 import { usePathname } from "next/navigation";
 
 export default function NavigationBar() {
@@ -36,7 +36,7 @@ export default function NavigationBar() {
             <Button className="transition-all duration-300 hover:bg-primary-dark">
               Hire Me
             </Button>
-            </a>
+          </a>
         </nav>
       </div>
     </header>

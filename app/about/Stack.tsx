@@ -1,6 +1,6 @@
 import React from "react";
 import PageTitle from "@/components/PageTitle";
-import { stackData } from "@/constants/consants";
+import { stackData } from "@/constants/constants";
 import Image from "next/image";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 

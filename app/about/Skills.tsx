@@ -1,5 +1,5 @@
 import PageTitle from "@/components/PageTitle";
-import { skillsData } from "@/constants/consants";
+import { skillsData } from "@/constants/constants";
 import React from "react";
 
 export default function Skills() {

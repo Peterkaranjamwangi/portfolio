@@ -1,7 +1,7 @@
 import React from "react";
 import InnerLayout from "@/components/InnerLayout";
 import PageTitle from "@/components/PageTitle";
-import { projects } from "@/constants/consants";
+import { projects } from "@/constants/constants";
 import { FaRepeat } from "react-icons/fa6";
 import { CircleCheckBig } from "lucide-react";
 import { Button } from "@/components/ui/button";

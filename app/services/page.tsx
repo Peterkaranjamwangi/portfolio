@@ -1,7 +1,7 @@
 import React from "react";
 import InnerLayout from "@/components/InnerLayout";
 import PageTitle from "@/components/PageTitle";
-import { SERVICES } from "@/constants/consants";
+import { SERVICES } from "@/constants/constants";
 
 export default function ServicesPage() {
   return (

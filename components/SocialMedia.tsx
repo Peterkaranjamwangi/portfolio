@@ -1,4 +1,4 @@
-import { CONNECT_DATA } from "@/constants/consants";
+import { CONNECT_DATA } from "@/constants/constants";
 import React from "react";
 
 const SocialMedia = () => {
