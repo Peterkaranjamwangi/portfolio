@@ -1,8 +1,4 @@
-import path from "path";
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
 
-export default {
-  webpack: (config) => {
-    config.resolve.alias["@"] = path.join(process.cwd(), ".");
-    return config;
-  },
-};
+export default nextConfig;
