@@ -35,6 +35,7 @@ import {
   SiMongodb,
   SiPrisma,
   SiMysql,
+  SiSqlite,
 } from "react-icons/si";
 import {
   BiPalette,
@@ -266,12 +267,7 @@ export const stackData = [
     icon: SiTypescript,
     href: "/typescript.png",
   },
-  {
-    label: "Styled Components",
-    value: 90,
-    icon: SiStyledcomponents,
-    href: "/styled-components.png",
-  },
+
   {
     label: "Node.js",
     value: 75,
@@ -279,10 +275,10 @@ export const stackData = [
     href: "/nodejs.png",
   },
   {
-    label: "Redux",
+    label: "Sqlite",
     value: 90,
-    icon: SiRedux,
-    href: "/redux.png",
+    icon: SiSqlite,
+    href: "/sqlite.png",
   },
   {
     label: "Git",
@@ -321,7 +317,7 @@ export const projects = [
     name: "Portfolio",
     shortDescription:
       "A sleek, dynamic website showcasing various projects and skills, crafted with creativity and powered by modern web technologies.",
-    image: "/tailwind.png",
+    image: "/portfolio.png",
 
     github: "https://github.com/Peterkaranjamwangi/portfolio-colab",
     link: "https://portfolio-colab.vercel.app/#hire-me",
@@ -332,7 +328,7 @@ export const projects = [
     name: "Wachno Engineering",
     shortDescription:
       "A comprehensive and modern website highlighting Wachno Engineering's industrial prowess, featuring project portfolios, service offerings, and user-friendly navigation",
-    image: "/tailwind.png",
+    image: "/wachno.png",
     link: "https://wachno-engineering.vercel.app/",
     status: "completed",
     stack: ["TypeScript", "React", "Tailwind CSS", "Shadcn/ui"],
@@ -351,14 +347,13 @@ export const projects = [
     name: "Lotus lounge hair salon UI",
     shortDescription:
       "Elegant design featuring intuitive navigation, service showcase, appointment scheduling, and stylish aesthetics.",
-    image: "/tailwind.png",
+    image: "/lotus.png",
     link: "https://lotus-lounge.vercel.app/",
     status: "completed",
     stack: ["React", "Tailwind CSS", "vite"],
   },
 ];
 
-// Resume section
 export const resumeData = {
   summary: {
     name: "Peter Mwangi K.",
