@@ -2,10 +2,11 @@ import React from "react";
 import InnerLayout from "@/components/InnerLayout";
 import PageTitle from "@/components/PageTitle";
 import { projects } from "@/constants/constants";
-import { FaRepeat } from "react-icons/fa6";
+import Image from "next/image";
 import { CircleCheckBig } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const defaultImage = "/path/to/default/image.jpg";
 export default function ProjectsPage() {
   return (
     <InnerLayout>
@@ -19,10 +20,12 @@ export default function ProjectsPage() {
             }`}
           >
             <div className="rounded-lg h-80 overflow-hidden">
-              <img
+              <Image
                 alt={project.name}
                 className="object-cover object-center h-full w-full"
-                src={project.image}
+                src={project.image || defaultImage}
+                layout="fill"
+                objectFit="cover"
               />
             </div>
             <div className="lg:w-5/6 mx-auto">

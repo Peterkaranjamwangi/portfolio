@@ -4,19 +4,7 @@ import PageTitle from "@/components/PageTitle";
 import { resumeData } from "@/constants/constants";
 import { CircleCheckBig } from "lucide-react";
 
-interface Props {
-  summary: String;
-  education: String;
-  experience: String;
-  skills: String;
-}
-
-export default function ResumePage({
-  summary,
-  education,
-  experience,
-  skills,
-}: Props) {
+export default function ResumePage() {
   return (
     <InnerLayout>
       <PageTitle title="Resume" subtitle="Check out my resume" />

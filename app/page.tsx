@@ -18,7 +18,7 @@ export default function Home() {
           <div className="flex flex-col items-stretch">
             <div className="self-start">
               <h1 className="font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
-                I'm passionate
+                I am passionate
               </h1>
             </div>
             <div className="self-center my-4">
