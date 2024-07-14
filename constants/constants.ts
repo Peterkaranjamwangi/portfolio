@@ -314,6 +314,16 @@ export const stackData = [
 
 export const projects = [
   {
+    name: "Company Landing Page",
+    shortDescription:
+      "A sleek, dynamic landing page for a startup developers company, showcasing services and expertise, crafted with modern web technologies for optimal performance and user experience.",
+    image: "/company.png",
+    github: "https://github.com/Peterkaranjamwangi/company",
+    link: "https://1company.vercel.app/",
+    status: "completed",
+    stack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+  },
+  {
     name: "Portfolio",
     shortDescription:
       "A sleek, dynamic website showcasing various projects and skills, crafted with creativity and powered by modern web technologies.",
