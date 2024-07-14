@@ -316,7 +316,7 @@ export const projects = [
   {
     name: "Company Landing Page",
     shortDescription:
-      "A sleek, dynamic landing page for a startup developers company, showcasing services and expertise, crafted with modern web technologies for optimal performance and user experience.",
+      "A modern, responsive landing page for a startup development company. Showcases services, team expertise, and project portfolio with smooth animations and intuitive navigation. Built for speed and engagement.",
     image: "/company.png",
     github: "https://github.com/Peterkaranjamwangi/company",
     link: "https://1company.vercel.app/",
