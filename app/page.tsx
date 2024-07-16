@@ -5,6 +5,7 @@ import MenuHomeBar from "@/components/MenuHomeBar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CloudDownloadIcon } from "lucide-react";
+import DownloadButton from "@/components/DownloadButton";
 
 export default function Home() {
   return (
@@ -43,15 +44,7 @@ export default function Home() {
           <div className="mt-8">
             <SocialMedia />
           </div>
-          <Button className="transition-all max-w-fit mt-5 duration-300 hover:bg-primary-dark justify-center items-center">
-            <Link
-              href="#"
-              className="text-white flex gap-2 justify-center items-center"
-            >
-              <CloudDownloadIcon />
-              Download CV
-            </Link>
-          </Button>
+          <DownloadButton />
         </div>
       </div>
     </div>

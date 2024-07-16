@@ -363,27 +363,37 @@ export const projects = [
     stack: ["React", "Tailwind CSS", "vite"],
   },
 ];
-
 export const resumeData = {
   summary: {
     name: "Peter Mwangi K.",
     description:
-      "Versatile UI/UX designer, front-end developer, academic writer, and freelancer with expertise in logo design, poster creation, blog writing, no-code app development, and WordPress. Self-taught professional with a passion for continuous learning and diverse project experience.",
+      "Versatile UI/UX designer, front-end developer, academic writer, and freelancer with expertise in logo design, poster creation, blog writing, no-code app development, and WordPress. Self-taught professional with a passion for continuous learning and diverse project experience. Adept at delivering user-centered solutions and high-quality content across various domains.",
     address: "Nairobi, Kenya",
     phone: "0111968301",
     email: "annahirpeters@gmail.com",
   },
   skills: {
-    technical: ["UI/UX Design", "React", "JavaScript", "CSS", "WordPress"],
-    soft: ["Communication", "Problem Solving", "Time Management"],
+    technical: [
+      "UI/UX Design",
+      "React",
+      "JavaScript",
+      "CSS",
+      "WordPress",
+      "No-code Development",
+    ],
+    soft: [
+      "Communication",
+      "Problem Solving",
+      "Time Management",
+      "Adaptability",
+      "Client Relations",
+    ],
   },
   education: [
     {
-      degree: "High School Education",
-      date: "Completed 2018",
-      institution: "(Your high school name)",
-      description:
-        "Completed high school education, laying the foundation for a self-directed career in technology and design.",
+      institution: "Technical University of Mombasa",
+      degree: "Bachelor of Arts in Sociology",
+      date: "2019 - (Incomplete)",
     },
   ],
   experience: [
@@ -432,5 +442,10 @@ export const resumeData = {
         "Conduct research to ensure accuracy and relevance of content",
       ],
     },
+  ],
+  additionalInfo: [
+    "Self-taught professional with a commitment to continuous learning and skill development",
+    "Proven ability to manage multiple projects and meet deadlines in a fast-paced environment",
+    "Strong portfolio demonstrating diverse range of successful projects across various domains",
   ],
 };
