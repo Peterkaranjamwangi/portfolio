@@ -23,7 +23,7 @@ export default function ResumePage() {
             </ul>
           </div>
 
-          {/* <h3 className="text-2xl font-semibold mb-4">Education</h3>
+          <h3 className="text-2xl font-semibold mb-4">Education</h3>
           {resumeData.education.map((edu, index) => (
             <div key={index} className="mb-6">
               <h4 className="line-height-18 text-18 font-semibold uppercase text-primary mb-10">
@@ -33,9 +33,8 @@ export default function ResumePage() {
                 {edu.date}
               </h5>
               <p className="italic">{edu.institution}</p>
-              <p>{edu.description}</p>
             </div>
-          ))} */}
+          ))}
 
           <h3 className="text-2xl font-semibold mb-4 mt-8">Skills</h3>
           <div className="mb-6">
