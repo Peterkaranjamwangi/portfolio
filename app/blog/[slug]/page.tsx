@@ -32,8 +32,8 @@ export default function BlogDetails() {
             <p className="mb-4">
               React has been at the forefront of frontend development for years,
               and 2024 is shaping up to be another landmark year for the
-              library. In this article, we'll explore the upcoming features and
-              changes that are set to revolutionize how we build user
+              library. In this article, we&apos;ll explore the upcoming features
+              and changes that are set to revolutionize how we build user
               interfaces.
             </p>
             <h2 className="text-2xl font-semibold mt-6 mb-3">
