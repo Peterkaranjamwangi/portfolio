@@ -227,6 +227,7 @@ export const LINKS = [
   { href: "/resume", label: "Resume" },
   { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -313,6 +314,34 @@ export const stackData = [
 ];
 
 export const projects = [
+  {
+    name: "Estien Management System",
+    shortDescription:
+      "A comprehensive management system for a cryptocurrency investment firm in Kenya. Includes user and admin dashboards, allowing seamless management of users, investments, and returns. Built for efficiency and scalability.",
+    image: "/estien.png",
+    github: "https://github.com/karanjaupwork/estien",
+    link: "https://estien.vercel.app/",
+    status: "completed",
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma"],
+  },
+  {
+    name: "Wi-Fi Management and Website",
+    shortDescription:
+      "A comprehensive platform for a Wi-Fi service provider, featuring a user-friendly website with sections for Home, Packages, About, and Help. The system includes both admin and user dashboards. Admins can manage service areas, user accounts, and monitor network performance, while users can manage subscriptions, view usage, and access support.",
+    image: "/net-sub.png",
+    github: "https://github.com/karanjakinyanjui/net-subscription",
+    link: "https://net-subscription.vercel.app/home",
+    status: "completed",
+    stack: [
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "Prisma",
+      "TypeScript",
+      "PostgreSQL",
+    ],
+  },
+
   {
     name: "Company Landing Page",
     shortDescription:
