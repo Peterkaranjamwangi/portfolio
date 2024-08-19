@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import SideBar from "@/components/SideBar";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +32,10 @@ export default function RootLayout({
         <div className="flex-grow flex overflow-hidden">
           {/* <NavigationBar /> */}
           <SideBar />
-          <main className="flex-grow overflow-auto">{children}</main>
+          <main className="flex-grow overflow-auto">
+            {children}
+            <Analytics />
+          </main>
           <Footer />
         </div>
       </body>
