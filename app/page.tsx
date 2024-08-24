@@ -26,11 +26,12 @@ export default function Home() {
               <div className="h-[24px] w-[300px] font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in overflow-hidden flex justify-center items-center">
                 <Typewriter
                   words={[
-                    "Freelance Academic Writer",
-                    "UX/UI Designer",
-                    "Web Developer",
-                    "Frontend Developer",
+                    "Graphic Designer",
+                    "UI/UX Developer",
+                    "Full-Stack Developer",
                     "Software Engineer",
+                    "Innovative Problem-Solver",
+                    "Freelance Professional",
                   ]}
                 />
               </div>
