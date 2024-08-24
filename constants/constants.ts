@@ -445,7 +445,7 @@ export const projects = [
   {
     name: "Wachno Engineering",
     shortDescription:
-      "A comprehensive and modern website highlighting Wachno Engineering's industrial prowess, featuring project portfolios, service offerings, and user-friendly navigation",
+      "A comprehensive and modern website highlighting Wachno Engineering&apos;s industrial prowess, featuring project portfolios, service offerings, and user-friendly navigation",
     image: "/wachno.png",
     link: "https://wachno-engineering.vercel.app/",
     status: "completed",
