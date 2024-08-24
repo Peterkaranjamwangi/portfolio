@@ -51,6 +51,12 @@ import {
   SiPrisma,
   SiMysql,
   SiSqlite,
+  SiFigma,
+  SiPostgresql,
+  SiVercel,
+  SiCss3,
+  SiGraphql,
+  SiHtml5,
 } from "react-icons/si";
 import {
   BiPalette,
@@ -249,6 +255,15 @@ export const LINKS = [
 ];
 
 export const stackData = [
+  // **Design Tools**
+  {
+    label: "Figma",
+    value: 95,
+    icon: SiFigma,
+    href: "/figma.png",
+  },
+
+  // **Core Development Technologies**
   {
     label: "JavaScript",
     value: 90,
@@ -256,16 +271,10 @@ export const stackData = [
     href: "/javascript.png",
   },
   {
-    label: "Bootstrap",
+    label: "TypeScript",
     value: 85,
-    icon: SiBootstrap,
-    href: "/bootstrap.png",
-  },
-  {
-    label: "Tailwind CSS",
-    value: 80,
-    icon: SiTailwindcss,
-    href: "/tailwind.png",
+    icon: SiTypescript,
+    href: "/typescript.png",
   },
   {
     label: "React",
@@ -279,42 +288,55 @@ export const stackData = [
     icon: SiNextdotjs,
     href: "/nextjs.png",
   },
+
+  // **HTML and CSS**
   {
-    label: "TypeScript",
+    label: "HTML",
+    value: 90,
+    icon: SiHtml5,
+    href: "/html.png",
+  },
+  {
+    label: "CSS",
     value: 85,
-    icon: SiTypescript,
-    href: "/typescript.png",
+    icon: SiCss3,
+    href: "/css.png",
   },
 
+  // **Styling and Design Libraries**
+  {
+    label: "Bootstrap",
+    value: 85,
+    icon: SiBootstrap,
+    href: "/bootstrap.png",
+  },
+  {
+    label: "Tailwind CSS",
+    value: 80,
+    icon: SiTailwindcss,
+    href: "/tailwind.png",
+  },
+
+  // **APIs**
+  {
+    label: "GraphQL",
+    value: 80,
+    icon: SiGraphql,
+    href: "/graphql.png",
+  },
+  // {
+  //   label: "REST APIs",
+  //   value: 85,
+  //   icon: ,
+  //   href: "/restapi.png",
+  // },
+
+  // **Backend and Database Technologies**
   {
     label: "Node.js",
     value: 75,
     icon: SiNodedotjs,
     href: "/nodejs.png",
-  },
-  {
-    label: "Sqlite",
-    value: 90,
-    icon: SiSqlite,
-    href: "/sqlite.png",
-  },
-  {
-    label: "Git",
-    value: 85,
-    icon: SiGit,
-    href: "/git.png",
-  },
-  {
-    label: "Docker",
-    value: 75,
-    icon: SiDocker,
-    href: "/docker.png",
-  },
-  {
-    label: "MongoDB",
-    value: 85,
-    icon: SiMongodb,
-    href: "/mongodb.png",
   },
   {
     label: "Prisma",
@@ -323,10 +345,50 @@ export const stackData = [
     href: "/prisma.png",
   },
   {
+    label: "PostgreSQL",
+    value: 80,
+    icon: SiPostgresql,
+    href: "/postgresql.png",
+  },
+  {
+    label: "MongoDB",
+    value: 80,
+    icon: SiMongodb,
+    href: "/mongodb.png",
+  },
+  {
+    label: "Sqlite",
+    value: 90,
+    icon: SiSqlite,
+    href: "/sqlite.png",
+  },
+  {
     label: "MySQL",
     value: 70,
     icon: SiMysql,
     href: "/mysql.png",
+  },
+
+  // **Version Control and Collaboration**
+  {
+    label: "Git",
+    value: 85,
+    icon: SiGit,
+    href: "/git.png",
+  },
+
+  // **Containerization and Deployment**
+  {
+    label: "Docker",
+    value: 75,
+    icon: SiDocker,
+    href: "/docker.png",
+  },
+  {
+    label: "Vercel",
+    value: 85,
+    icon: SiVercel,
+    href: "/vercel.png",
   },
 ];
 
