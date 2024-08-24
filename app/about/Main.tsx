@@ -18,11 +18,12 @@ export default function Main() {
 
         <div className="lg:w-2/3 lg:pl-12" data-aos="fade-left">
           <h3 className="text-2xl font-semibold mb-4 text-primary">
-            UI/UX Designer, Front-End Developer & Academic Writer
+            UI/UX Designer | Full-Stack Developer | Graphic Designer
           </h3>
           <p className="italic mb-6 text-gray-300">
-            Versatile professional with expertise in UI/UX design, front-end
-            development, and academic writing. Passionate about creating
+            Innovative problem-solver delivering user-centered solutions.
+            Versatile professional with expertise in UI/UX design, full-stack
+            development, and graphic design. Passionate about creating
             responsive, user-centric web applications and impactful digital
             experiences.
           </p>
@@ -32,12 +33,18 @@ export default function Main() {
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
                 <strong className="mr-2">Website:</strong>
-                <span>www.example.com</span>
+                <a
+                  href="http://petermwangi.vercel.app"
+                  target="_blank"
+                  className="text-primary underline "
+                >
+                  petermwangi.vercel.app
+                </a>
               </li>
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
                 <strong className="mr-2">Phone:</strong>
-                <span>(Your phone number)</span>
+                <span>0111968301</span>
               </li>
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
@@ -61,13 +68,15 @@ export default function Main() {
           </div>
 
           <p className="text-gray-300">
-            As a self-taught front-end developer since 2019, I specialize in
-            React, Next.js, TypeScript, and Tailwind CSS. My expertise extends
-            to Bootstrap, responsive design, and UI/UX principles. I am
-            proficient in creating user-centered web applications, from concept
-            to deployment. Additionally, I have skills in academic writing, logo
-            design, and no-code solutions, allowing me to offer versatile
-            digital services.
+            With years of freelance experience, I've honed my skills in creating
+            user-centered designs and developing modern responsive web
+            applications. My strength lies in adapting quickly and delivering
+            high-quality work across various domains. As a self-taught
+            professional with a passion for continuous learning, I stay current
+            with industry trends and provide innovative solutions to diverse
+            client needs. My expertise spans UI/UX design, full-stack
+            development, and graphic design, allowing me to offer comprehensive
+            digital services from concept to deployment.
           </p>
         </div>
       </div>

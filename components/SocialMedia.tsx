@@ -10,7 +10,7 @@ const SocialMedia = () => {
             <a
               href={item.info}
               target="_blank"
-              className="inline-block rounded-md bg-gray-700 hover:bg-red-700 animate-pulse p-2 text-primary"
+              className="inline-block rounded-md bg-gray-700 hover:bg-primary hover:text-white p-2 text-primary"
             >
               {React.createElement(item.icon, { className: "w-4 h-4" })}
             </a>

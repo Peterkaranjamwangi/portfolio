@@ -1,7 +1,11 @@
 import React from "react";
 import InnerLayout from "@/components/InnerLayout";
 import PageTitle from "@/components/PageTitle";
-import { resumeData } from "@/constants/constants";
+import {
+  SoftskillsData,
+  TechnicalskillsData,
+  resumeData,
+} from "@/constants/constants";
 import { CircleCheckBig } from "lucide-react";
 
 export default function ResumePage() {
@@ -23,30 +27,17 @@ export default function ResumePage() {
             </ul>
           </div>
 
-          <h3 className="text-2xl font-semibold mb-4">Education</h3>
-          {resumeData.education.map((edu, index) => (
-            <div key={index} className="mb-6">
-              <h4 className="line-height-18 text-18 font-semibold uppercase text-primary mb-10">
-                {edu.degree}
-              </h4>
-              <h5 className="text-16 bg-gray-300/20 px-5 py-15 inline-block font-semibold mb-10">
-                {edu.date}
-              </h5>
-              <p className="italic">{edu.institution}</p>
-            </div>
-          ))}
-
           <h3 className="text-2xl font-semibold mb-4 mt-8">Skills</h3>
           <div className="mb-6">
             <h4 className="text-lg font-semibold mb-2">Technical Skills</h4>
             <div className="flex flex-col flex-wrap gap-2">
-              {resumeData.skills.technical.map((skill, index) => (
+              {TechnicalskillsData.map((skill, index) => (
                 <span
                   key={index}
                   className="flex gap-2  px-3 py-1 text-sm font-semibold text-gray-300"
                 >
                   <CircleCheckBig />
-                  {skill}
+                  {skill.label}
                 </span>
               ))}
             </div>
@@ -54,13 +45,13 @@ export default function ResumePage() {
           <div className="mb-6">
             <h4 className="text-lg font-semibold mb-2">Soft Skills</h4>
             <div className="flex flex-col flex-wrap gap-2">
-              {resumeData.skills.soft.map((skill, index) => (
+              {SoftskillsData.map((skill, index) => (
                 <span
                   key={index}
                   className="flex gap-2 px-3 py-1 text-sm font-semibold text-gray-300"
                 >
                   <CircleCheckBig />
-                  {skill}
+                  {skill.label}
                 </span>
               ))}
             </div>

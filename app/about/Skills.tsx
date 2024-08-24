@@ -1,47 +1,50 @@
 import PageTitle from "@/components/PageTitle";
-import { skillsData } from "@/constants/constants";
+import { TechnicalskillsData, SoftskillsData } from "@/constants/constants";
 import React from "react";
+
+interface Props {
+  label: string;
+  Icon: React.ElementType;
+}
+
+const SkillItem = ({ label, Icon }: Props) => (
+  <div
+    className="flex items-center gap-4 mb-2 bg-gray-800/75 transition-all duration-300 hover:scale-105 p-3 hover:bg-gray-700"
+    data-aos="fade-up"
+    data-aos-delay={label}
+    data-aos-offset="200"
+    data-aos-duration="1000"
+  >
+    <Icon className="text-primary text-2xl" />
+    <span className="font-medium text-white text-sm  text-nowrap">{label}</span>
+  </div>
+);
 
 export default function Skills() {
   return (
-    <div>
+    <div className="container mx-auto px-4 py-16">
       <PageTitle title="Skills" />
-      <div className="flex flex-wrap w-full">
-        {skillsData.map((skill, index) => (
-          <div
-            key={index}
-            className="w-full md:w-1/2 p-2 transition-all duration-300 ease-in-out"
-            data-aos="fade-up"
-            data-aos-delay={index * 100}
-          >
-            <div className="w-full py-2">
-              <div className="flex justify-between items-center mb-2">
-                <span
-                  id={`${skill.label}ProgressLabel`}
-                  className="text-white text-xs font-semibold"
-                >
-                  {skill.label}
-                </span>
-                <span className="text-white text-xs font-semibold">
-                  {skill.value}%
-                </span>
-              </div>
-              <span
-                role="progressbar"
-                aria-labelledby={`${skill.label}ProgressLabel`}
-                aria-valuenow={skill.value}
-                className="relative block bg-gray-400"
-              >
-                <span
-                  className="block h-3 bg-primary transition-all duration-1000 ease-out"
-                  style={{ width: `${skill.value}%` }}
-                >
-                  {" "}
-                </span>
-              </span>
-            </div>
+      <div className="flex flex-wrap -mx-4">
+        <div className="w-full md:w-1/2 px-4 mb-8">
+          <h3 className="text-2xl font-semibold mb-6 text-white">
+            Technical Skills
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {TechnicalskillsData.map((skill, index) => (
+              <SkillItem key={index} label={skill.label} Icon={skill.icon} />
+            ))}
           </div>
-        ))}
+        </div>
+        <div className="w-full md:w-1/2 px-4 mb-8">
+          <h3 className="text-2xl font-semibold mb-6 text-white">
+            Soft Skills
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {SoftskillsData.map((skill, index) => (
+              <SkillItem key={index} label={skill.label} Icon={skill.icon} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
