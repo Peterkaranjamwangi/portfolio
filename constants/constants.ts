@@ -318,12 +318,12 @@ export const stackData = [
   },
 
   // **APIs**
-  {
-    label: "GraphQL",
-    value: 80,
-    icon: SiGraphql,
-    href: "/graphql.png",
-  },
+  // {
+  //   label: "GraphQL",
+  //   value: 80,
+  //   icon: SiGraphql,
+  //   href: "/graphql.png",
+  // },
   // {
   //   label: "REST APIs",
   //   value: 85,
