@@ -27,15 +27,6 @@ export default function ProjectsPage() {
                 objectFit="contain"
               />
             </div>
-            {/* <div className="rounded-lg h-80 overflow-hidden">
-              <Image
-                alt={project.name}
-                className="object-cover object-center"
-                src={project.image || defaultImage}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div> */}
             <div className="lg:w-5/6 mx-auto">
               <div className="flex flex-col sm:flex-row mt-10">
                 <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">

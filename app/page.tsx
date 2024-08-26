@@ -6,11 +6,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CloudDownloadIcon } from "lucide-react";
 import DownloadButton from "@/components/DownloadButton";
+import MobileSkills from "./page_components/skills";
+import MobileServices from "./page_components/services";
+import MobileProjects from "./page_components/projects";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col gap-4 items-center md:items-start justify-center self-center md:self-start md:ml-28 bg-black/30 md:bg-transparent">
-      <div className="flex flex-row rounded-md bg-black/70 md:bg-gray-500/10 w-[95%] md:w-auto">
+    <div className="h-max md:min-h-screen flex flex-col gap-4 items-center md:items-start justify-center self-center md:self-start md:ml-28 bg-black/30 md:bg-transparent">
+      <div className="flex mt-20 flex-row rounded-md bg-black/70 md:bg-gray-500/10 w-[95%] md:w-auto">
         <MenuHomeBar />
         <div className="flex flex-col items-start gap-2 p-4 w-full">
           <h1 className="text-xl md:text-3xl lg:text-5xl font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">
@@ -47,6 +50,11 @@ export default function Home() {
           </div>
           <DownloadButton />
         </div>
+      </div>
+      <div className="my-2 block md:hidden w-full  bg-black/70 md:bg-gray-500/10 p-4">
+        <MobileSkills />
+        <MobileServices />
+        <MobileProjects />
       </div>
     </div>
   );
