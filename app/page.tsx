@@ -15,6 +15,7 @@ export default function Home() {
   return (
     <div className="h-max pb-10 md:min-h-screen flex flex-col gap-4 items-center md:items-start justify-center self-center md:self-start md:ml-28 bg-black/30 md:bg-transparent">
       <div className="flex mt-20 flex-row rounded-md bg-black/70 md:bg-gray-500/10 w-[95%] md:w-auto">
+        <div className="flex justify-between"></div>
         <MenuHomeBar />
         <div className="flex flex-col items-start gap-2 p-4 w-full">
           <h1 className="text-xl md:text-3xl lg:text-5xl font-bold bg-gradient-to-r from-fuchsia-500 via-blue-500 to-pink-600 bg-clip-text text-transparent animate-ease-in">

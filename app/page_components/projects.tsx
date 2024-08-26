@@ -30,7 +30,7 @@ function CustomCollapsible({ children, title }: Props) {
       >
         <div className="flex gap-1 items-center">
           <span>{title}</span>
-          {isOpen ? <Eye size={18} /> : <EyeOff size={18} />}
+          {isOpen ? <EyeOff size={18} /> : <Eye size={18} />}
         </div>
         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>

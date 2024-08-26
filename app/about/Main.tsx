@@ -28,8 +28,8 @@ export default function Main() {
             experiences.
           </p>
 
-          <div className="grid grid-cols-1  md:grid-cols-2 gap-6 mb-6">
-            <ul className="space-y-2">
+          <div className="mb-6">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
                 <strong className="mr-2 text-gray-300">Website:</strong>
@@ -51,9 +51,6 @@ export default function Main() {
                 <strong className="mr-2 text-gray-300">Freelance:</strong>
                 <span className="text-white">Available</span>
               </li>
-            </ul>
-
-            <ul className="">
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
                 <strong className="mr-2 text-gray-300">Email:</strong>
