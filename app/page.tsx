@@ -9,10 +9,11 @@ import DownloadButton from "@/components/DownloadButton";
 import MobileSkills from "./page_components/skills";
 import MobileServices from "./page_components/services";
 import MobileProjects from "./page_components/projects";
+import MobileAbout from "./page_components/about";
 
 export default function Home() {
   return (
-    <div className="h-max md:min-h-screen flex flex-col gap-4 items-center md:items-start justify-center self-center md:self-start md:ml-28 bg-black/30 md:bg-transparent">
+    <div className="h-max pb-10 md:min-h-screen flex flex-col gap-4 items-center md:items-start justify-center self-center md:self-start md:ml-28 bg-black/30 md:bg-transparent">
       <div className="flex mt-20 flex-row rounded-md bg-black/70 md:bg-gray-500/10 w-[95%] md:w-auto">
         <MenuHomeBar />
         <div className="flex flex-col items-start gap-2 p-4 w-full">
@@ -33,7 +34,7 @@ export default function Home() {
                     "UI/UX Developer",
                     "Full-Stack Developer",
                     "Software Engineer",
-                    "Innovative Problem-Solver",
+                    // "Innovative Problem-Solver",
                     "Freelance Professional",
                   ]}
                 />
@@ -52,6 +53,7 @@ export default function Home() {
         </div>
       </div>
       <div className="my-2 block md:hidden w-full  bg-black/70 md:bg-gray-500/10 p-4">
+        <MobileAbout />
         <MobileSkills />
         <MobileServices />
         <MobileProjects />

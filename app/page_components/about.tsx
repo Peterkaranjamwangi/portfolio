@@ -1,7 +1,12 @@
-import React from 'react'
+import PageTitle from "@/components/PageTitle";
+import React from "react";
+import Main from "../about/Main";
 
-export default function about() {
+export default function MobileAbout() {
   return (
-    <div>about</div>
-  )
+    <div>
+      <PageTitle title="About" subtitle="Get to know me" />
+      <Main />
+    </div>
+  );
 }

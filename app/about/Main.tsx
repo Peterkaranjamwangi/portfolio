@@ -28,46 +28,46 @@ export default function Main() {
             experiences.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1  md:grid-cols-2 gap-6 mb-6">
             <ul className="space-y-2">
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
-                <strong className="mr-2">Website:</strong>
+                <strong className="mr-2 text-gray-300">Website:</strong>
                 <a
                   href="http://petermwangi.vercel.app"
                   target="_blank"
                   className="text-primary underline "
                 >
-                  petermwangi.vercel.app
+                  Portfolio
                 </a>
               </li>
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
-                <strong className="mr-2">Phone:</strong>
-                <span>0111968301</span>
+                <strong className="mr-2 text-gray-300">Phone:</strong>
+                <span className="text-white">0111968301</span>
               </li>
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
-                <strong className="mr-2">Freelance:</strong>
-                <span>Available</span>
+                <strong className="mr-2 text-gray-300">Freelance:</strong>
+                <span className="text-white">Available</span>
               </li>
             </ul>
 
-            <ul className="space-y-2">
+            <ul className="">
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
-                <strong className="mr-2">Email:</strong>
-                <span>annahirpeters@gmail.com</span>
+                <strong className="mr-2 text-gray-300">Email:</strong>
+                <span className="text-white">annahirpeters@gmail.com</span>
               </li>
               <li className="flex items-center">
                 <ChevronRight className="mr-2 text-green-500" />
-                <strong className="mr-2">City:</strong>
-                <span>Nairobi</span>
+                <strong className="mr-2 text-gray-300">City:</strong>
+                <span className="text-white">Nairobi</span>
               </li>
             </ul>
           </div>
 
-          <p className="text-gray-300">
+          <p className="text-gray-300 hidden md:block">
             With years of freelance experience, I&apos;ve honed my skills in
             creating user-centered designs and developing modern responsive web
             applications. My strength lies in adapting quickly and delivering
@@ -79,6 +79,27 @@ export default function Main() {
             digital services from concept to deployment.
           </p>
         </div>
+        <a
+          href="/about"
+          target="_blank"
+          className="flex  md:hidden  max-w-fit rounded-md text-xs self-end border-2 border-indigo-500 px-4 py-2 items-center text-white font-semibold hover:text-indigo-700"
+        >
+          More about me
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-4 h-4 ml-1"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13 7l5 5m0 0l-5 5m5-5H6"
+            />
+          </svg>
+        </a>
       </div>
     </div>
   );
