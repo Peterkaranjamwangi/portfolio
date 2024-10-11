@@ -7,10 +7,10 @@ interface Props {
 
 export default function InnerLayout({ children }: Props) {
   return (
-    <section className="min-h-screen flex flex-col bg-white/20 overflow-x-hidden">
+    <section className="min-h-screen flex flex-col bg-white/20 overflow-hidden">
       <NavigationBar />
       <div className="flex-grow flex justify-center items-start my-24">
-        <div className="bg-black bg-opacity-90 text-white rounded-8 p-4 md:p-10 w-full sm:w-full md:mx-10 overflow-x-hidden">
+        <div className="bg-black bg-opacity-90 text-white rounded-8 p-4 h-full md:p-10 overflow-y-auto w-full sm:w-full md:mx-10">
           {children}
         </div>
       </div>
