@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import SideBar from "@/components/SideBar";
 import { Analytics } from "@vercel/analytics/react";
+import AdminSideBar from "./admin/components/AdminOverlay";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,9 +31,7 @@ export default function RootLayout({
         }}
       >
         <div className="flex-grow flex overflow-hidden">
-          {/* <NavigationBar /> */}
-          <SideBar />
-          <main className="flex-grow">
+          <main className="flex-grow overflow-y-auto">
             {children}
             <Analytics />
           </main>

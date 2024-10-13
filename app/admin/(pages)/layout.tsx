@@ -1,19 +1,27 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import AdminSideBar from "../components/AdminOverlay";
+import ProfileSection from "../components/ProfileSection";
+import AdminSidebar from "../components/AdminSidebar";
+import AdminOverlay from "../components/AdminOverlay";
 
 interface Props {
   children: React.ReactNode;
 }
 
-export default function InnerLayout({ children }: Props) {
+export default function AdminLayout({ children }: Props) {
   return (
-    <section className="min-h-screen flex bg-white/20 overflow-hidden">
-      <div className="w-[200px] h-full bg-red-300 overflow-y-auto">
-        <Button variant={"outline"}>Test</Button>
+    <section className="h-screen flex bg-white/20 overflow-hidden">
+      <div className="bg-black hidden md:flex h-screen">
+        <AdminSidebar />
       </div>
-      <div className="flex-grow flex justify-center items-start overflow-y-auto">
-        <div className="bg-black bg-opacity-90 text-white rounded-lg p-4 md:p-10 w-full sm:w-full md:mx-10 overflow-y-auto max-h-screen">
-          {children}
+      <div className="flex-grow flex flex-col overflow-hidden">
+        <AdminOverlay />
+        <ProfileSection />
+        <div className="flex-grow overflow-hidden">
+          <div className="bg-black bg-opacity-50 text-white mx-4 my-2 p-4 md:p-10 w-full h-full overflow-y-auto">
+            {children}
+          </div>
         </div>
       </div>
     </section>

@@ -254,6 +254,14 @@ export const LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
+export const AdminLINKS = [
+  { href: "/admin", label: "Home" },
+  { href: "/admin/blogs", label: "blogs" },
+  { href: "/admin/projects", label: "Projects" },
+  { href: "/admin/guidelines", label: " Guidelines" },
+  { href: "/", label: "Site" },
+];
+
 export const stackData = [
   // **Design Tools**
   {
