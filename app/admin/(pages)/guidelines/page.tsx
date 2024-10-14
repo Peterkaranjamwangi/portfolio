@@ -22,9 +22,33 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle, MinusCircle } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
+interface CostFactor {
+  name: string;
+  cost: string;
+  description: string;
+}
+
+interface WebsiteType {
+  type: string;
+  features: string;
+  cost: string;
+  suitableFor: string;
+}
+
+interface MaintenancePlan {
+  name: string;
+  features: string;
+  cost: string;
+}
+
+interface AdditionalFeature {
+  feature: string;
+  cost: string;
+}
+
 const WebsiteCostGuide = () => {
   const [editMode, setEditMode] = useState(false);
-  const [costFactors, setCostFactors] = useState([
+  const [costFactors, setCostFactors] = useState<CostFactor[]>([
     {
       name: "Domain",
       cost: "Ksh 950 - Ksh 10,000 per year",
@@ -47,7 +71,7 @@ const WebsiteCostGuide = () => {
     },
   ]);
 
-  const [websiteTypes, setWebsiteTypes] = useState([
+  const [websiteTypes, setWebsiteTypes] = useState<WebsiteType[]>([
     {
       type: "Landing Page",
       features: "1-3 responsive pages, contact form, basic SEO",
@@ -78,7 +102,7 @@ const WebsiteCostGuide = () => {
     },
   ]);
 
-  const [maintenancePlans, setMaintenancePlans] = useState([
+  const [maintenancePlans, setMaintenancePlans] = useState<MaintenancePlan[]>([
     {
       name: "Basic",
       features: "Monthly backups, security updates, minor content changes",
@@ -97,7 +121,9 @@ const WebsiteCostGuide = () => {
     },
   ]);
 
-  const [additionalFeatures, setAdditionalFeatures] = useState([
+  const [additionalFeatures, setAdditionalFeatures] = useState<
+    AdditionalFeature[]
+  >([
     { feature: "SSL Certificate", cost: "Ksh 2,000 - Ksh 5,000 per year" },
     { feature: "Custom Email Setup", cost: "Ksh 1,000 - Ksh 3,000 one-time" },
     { feature: "Website Redesign", cost: "Ksh 15,000 - Ksh 50,000" },
@@ -105,21 +131,32 @@ const WebsiteCostGuide = () => {
     { feature: "Multilingual Support", cost: "Ksh 10,000 - Ksh 30,000" },
   ]);
 
-  const handleEdit = (setter) => (index, field, value) => {
-    setter((prev) => {
-      const newArray = [...prev];
-      newArray[index][field] = value;
-      return newArray;
-    });
-  };
+  const handleEdit =
+    <T extends Record<string, any>>(
+      setter: React.Dispatch<React.SetStateAction<T[]>>
+    ) =>
+    (index: number, field: keyof T, value: string) => {
+      setter((prev) => {
+        const newArray = [...prev];
+        newArray[index] = { ...newArray[index], [field]: value };
+        return newArray;
+      });
+    };
 
-  const handleAdd = (setter, defaultItem) => () => {
-    setter((prev) => [...prev, defaultItem]);
-  };
+  const handleAdd =
+    <T extends Record<string, any>>(
+      setter: React.Dispatch<React.SetStateAction<T[]>>,
+      defaultItem: T
+    ) =>
+    () => {
+      setter((prev) => [...prev, defaultItem]);
+    };
 
-  const handleRemove = (setter) => (index) => {
-    setter((prev) => prev.filter((_, i) => i !== index));
-  };
+  const handleRemove =
+    <T,>(setter: React.Dispatch<React.SetStateAction<T[]>>) =>
+    (index: number): void => {
+      setter((prev) => prev.filter((_, i) => i !== index));
+    };
 
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },

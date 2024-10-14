@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import PageTitle from "@/components/PageTitle";
 import { projects } from "@/constants/constants";
 import { ChevronDown, ChevronUp, Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
 
 const defaultImage = "/default.png";
 
@@ -58,11 +59,20 @@ export default function MobileProjects() {
           }`}
         >
           <div className="flex flex-col w-full">
-            <img
+            <Image
+              alt={project.name}
+              src={project.image || defaultImage}
+              className="object-contain w-full sm:h-80 lg:h-[80vh]"
+              layout="responsive"
+              width={1000}
+              height={1000}
+              sizes="(max-width: 1024px) 100vw, (min-width: 1024px) 80vw"
+            />
+            {/* <img
               alt={project.name}
               src={project.image || defaultImage}
               className="h-max w-full object-contain sm:h-80 lg:h-96"
-            />
+            /> */}
             <div className="p-4">
               <a href={project.link} target="_blank" className="cursor-pointer">
                 <h3 className="text-lg font-bold text-blue-500 hover:text-pretty underline underline-offset-4 sm:text-xl">
@@ -74,7 +84,6 @@ export default function MobileProjects() {
                 <p className="mt-2 max-w-sm">{project.shortDescription}</p>
               </CustomCollapsible>
             </div>
-
             <a
               href={project.link}
               target="_blank"
