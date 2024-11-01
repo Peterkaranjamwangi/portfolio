@@ -19,7 +19,7 @@ export default function AdminLayout({ children }: Props) {
         <AdminOverlay />
         <ProfileSection />
         <div className="flex-grow overflow-hidden">
-          <div className="bg-black bg-opacity-50 text-white mx-4 my-2 p-4 md:p-10 w-full h-full overflow-y-auto">
+          <div className="bg-black text-white p-4 md:p-10 w-full h-full overflow-y-auto">
             {children}
           </div>
         </div>

@@ -5,6 +5,7 @@ import { projects } from "@/constants/constants";
 import Image from "next/image";
 import { CircleCheckBig } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CustomCollapsible } from "../page_components/projects";
 
 const defaultImage = "/default.png";
 export default function ProjectsPage() {
@@ -23,8 +24,10 @@ export default function ProjectsPage() {
               <Image
                 alt={project.name}
                 src={project.image || defaultImage}
-                layout="fill"
-                objectFit="contain"
+                className="object-contain w-full sm:h-80 lg:h-[80vh]"
+                width={1000}
+                height={1000}
+                sizes="(max-width: 1024px) 100vw, (min-width: 1024px) 80vw"
               />
             </div>
             <div className="lg:w-5/6 mx-auto">
@@ -58,15 +61,32 @@ export default function ProjectsPage() {
                   </a>
                   <div className="w-12 h-1 ml-8 bg-indigo-500 rounded my-3"></div>
 
-                  <p className="leading-relaxed text-start text-lg mb-4">
-                    {project.shortDescription}
-                  </p>
+                  <CustomCollapsible title="Description">
+                    <p className="mt-2 max-w-full">
+                      {project.shortDescription}
+                    </p>
+                  </CustomCollapsible>
+
                   <a
                     href={project.link}
                     target="_blank"
-                    className="text-indigo-500 inline-flex items-center"
+                    className="flex max-w-fit mt-3 rounded-md text-xs self-end border-2 border-indigo-500 px-4 py-2 items-center text-white font-semibold hover:text-indigo-700"
                   >
-                    <Button variant="outline">View Project</Button>
+                    View Project
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-4 h-4 ml-1"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
                   </a>
                 </div>
               </div>

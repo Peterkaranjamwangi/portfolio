@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-
 export default function ProfileSection() {
   return (
     <div className="z-20 absolute top-0 m-4 right-0 bg-transparent">
@@ -23,7 +22,7 @@ export default function ProfileSection() {
             className="overflow-hidden rounded-full"
           >
             <Image
-              src="/placeholder-user.jpg"
+              src="/bot.png"
               width={36}
               height={36}
               alt="Avatar"
