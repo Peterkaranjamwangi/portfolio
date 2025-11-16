@@ -2,18 +2,43 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import DashboardPage from '@/components/dashboard/DashboardPage';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import { projects } from '@/constants/constants';
+import { useProjects } from '@/hooks/useProjects';
 
 export default function ProjectsPage() {
+  const { projects, loading, error } = useProjects();
+
+  if (loading) {
+    return (
+      <DashboardPage title="Projects" subtitle="Mission Control">
+        <div className="h-full flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+        </div>
+      </DashboardPage>
+    );
+  }
+
+  if (error) {
+    return (
+      <DashboardPage title="Projects" subtitle="Mission Control">
+        <div className="h-full flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-red-400 mb-2">Error loading projects</p>
+            <p className="text-sm text-gray-500">{error}</p>
+          </div>
+        </div>
+      </DashboardPage>
+    );
+  }
+
   return (
     <DashboardPage title="Projects" subtitle="Mission Control">
       {/* Projects grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full overflow-y-auto custom-scrollbar px-4">
         {projects.map((project, index) => (
           <motion.div
-            key={index}
+            key={project.id}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
@@ -32,11 +57,13 @@ export default function ProjectsPage() {
               {/* Status badge */}
               <div className="absolute top-3 right-3">
                 <span className={`px-2 py-1 text-xs font-semibold rounded ${
-                  project.status === 'completed'
+                  project.status === 'COMPLETED'
                     ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                    : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                    : project.status === 'IN_PROGRESS'
+                    ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                    : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
                 }`}>
-                  {project.status === 'completed' ? 'Completed' : 'In Progress'}
+                  {project.status === 'COMPLETED' ? 'Completed' : project.status === 'IN_PROGRESS' ? 'In Progress' : 'Archived'}
                 </span>
               </div>
             </div>
@@ -52,12 +79,12 @@ export default function ProjectsPage() {
 
               {/* Tech stack pills */}
               <div className="flex flex-wrap gap-2">
-                {project.stack.map((tech, i) => (
+                {project.technologies.map((tech) => (
                   <span
-                    key={i}
+                    key={tech.id}
                     className="px-2 py-1 text-xs bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded"
                   >
-                    {tech}
+                    {tech.label}
                   </span>
                 ))}
               </div>
