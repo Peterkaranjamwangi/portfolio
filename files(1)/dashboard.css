@@ -1,0 +1,158 @@
+/* Gaming dashboard custom styles */
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.3);
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.5);
+}
+
+/* Glow utilities */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+.glow-cyan-intense {
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.8),
+              0 0 60px rgba(6, 182, 212, 0.4);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+/* Text glow */
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.8),
+               0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+/* Glassmorphic card */
+.glass-card {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: 0.5rem;
+}
+
+.glass-card:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+}
+
+/* Animated border */
+@keyframes border-pulse {
+  0%, 100% {
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  50% {
+    border-color: rgba(6, 182, 212, 0.6);
+  }
+}
+
+.animate-border-pulse {
+  animation: border-pulse 2s ease-in-out infinite;
+}
+
+/* Scan line effect */
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scan-line {
+  animation: scan 8s linear infinite;
+}
+
+/* Holographic gradient */
+.holographic-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.1) 0%,
+    rgba(168, 85, 247, 0.1) 50%,
+    rgba(236, 72, 153, 0.1) 100%
+  );
+}
+
+/* Neon button */
+.neon-button {
+  position: relative;
+  background: transparent;
+  border: 2px solid rgba(6, 182, 212, 0.5);
+  color: #06b6d4;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+
+.neon-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.2) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.neon-button:hover {
+  border-color: #06b6d4;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5),
+              inset 0 0 20px rgba(6, 182, 212, 0.1);
+  color: white;
+}
+
+.neon-button:hover::before {
+  opacity: 1;
+}
+
+/* Prevent text selection on interactive elements */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Hide scrollbar for fullscreen sections on mobile */
+@media (max-width: 768px) {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
