@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { serviceSchema } from '@/lib/validations/schemas';
 
 // GET /api/services - Fetch all services
 export async function GET() {
@@ -25,23 +26,24 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, description, icon, order } = body;
 
-    // Validation
-    if (!name || !description) {
+    // Validate with Zod
+    const validated = serviceSchema.safeParse(body);
+    if (!validated.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
         { status: 400 }
       );
     }
 
     const service = await prisma.service.create({
-      data: {
-        name,
-        description,
-        icon,
-        order,
-      },
+      data: validated.data,
     });
 
     return NextResponse.json({ service }, { status: 201 });

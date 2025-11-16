@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { technologyUpdateSchema } from '@/lib/validations/schemas';
 
 // PATCH /api/technologies/[id] - Update technology
 export async function PATCH(
@@ -8,17 +9,25 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const { label, value, icon, href, category } = body;
+
+    // Validate with Zod
+    const validated = technologyUpdateSchema.safeParse(body);
+    if (!validated.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
+        { status: 400 }
+      );
+    }
 
     const technology = await prisma.technology.update({
       where: { id: parseInt(params.id) },
-      data: {
-        ...(label && { label }),
-        ...(value !== undefined && { value }),
-        ...(icon !== undefined && { icon }),
-        ...(href !== undefined && { href }),
-        ...(category && { category }),
-      },
+      data: validated.data,
     });
 
     return NextResponse.json({ technology }, { status: 200 });

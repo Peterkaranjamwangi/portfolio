@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { projectSchema } from '@/lib/validations/schemas';
+import { ProjectStatus } from '@prisma/client';
 
 // GET /api/projects - Fetch all projects
 export async function GET(request: NextRequest) {
@@ -9,7 +11,7 @@ export async function GET(request: NextRequest) {
 
     const projects = await prisma.project.findMany({
       where: {
-        ...(status && { status: status as any }),
+        ...(status && { status: status as ProjectStatus }),
       },
       include: {
         technologies: true,
@@ -34,35 +36,28 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const {
-      name,
-      shortDescription,
-      image,
-      github,
-      link,
-      status,
-      order,
-      technologyIds,
-    } = body;
 
-    // Validation
-    if (!name || !shortDescription || !image || !link) {
+    // Validate with Zod
+    const validated = projectSchema.safeParse(body);
+    if (!validated.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
         { status: 400 }
       );
     }
 
+    const { technologyIds, ...projectData } = validated.data;
+
     const project = await prisma.project.create({
       data: {
-        name,
-        shortDescription,
-        image,
-        github,
-        link,
-        status,
-        order,
-        ...(technologyIds && {
+        ...projectData,
+        ...(technologyIds && technologyIds.length > 0 && {
           technologies: {
             connect: technologyIds.map((id: number) => ({ id })),
           },

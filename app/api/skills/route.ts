@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { skillSchema } from '@/lib/validations/schemas';
+import { SkillType } from '@prisma/client';
 
 // GET /api/skills - Fetch all skills
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const type = searchParams.get('type'); // TECHNICAL or SOFT
+    const type = searchParams.get('type');
 
     const skills = await prisma.skill.findMany({
       where: {
-        ...(type && { type: type as any }),
+        ...(type && { type: type as SkillType }),
       },
       orderBy: [
         { order: 'asc' },
@@ -31,23 +33,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { label, type, icon, order } = body;
 
-    // Validation
-    if (!label || !type) {
+    // Validate with Zod
+    const validated = skillSchema.safeParse(body);
+    if (!validated.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
         { status: 400 }
       );
     }
 
     const skill = await prisma.skill.create({
-      data: {
-        label,
-        type,
-        icon,
-        order,
-      },
+      data: validated.data,
     });
 
     return NextResponse.json({ skill }, { status: 201 });

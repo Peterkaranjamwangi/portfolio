@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { skillUpdateSchema } from '@/lib/validations/schemas';
 
 // PATCH /api/skills/[id] - Update skill
 export async function PATCH(
@@ -8,16 +9,25 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const { label, type, icon, order } = body;
+
+    // Validate with Zod
+    const validated = skillUpdateSchema.safeParse(body);
+    if (!validated.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
+        { status: 400 }
+      );
+    }
 
     const skill = await prisma.skill.update({
       where: { id: parseInt(params.id) },
-      data: {
-        ...(label && { label }),
-        ...(type && { type }),
-        ...(icon !== undefined && { icon }),
-        ...(order !== undefined && { order }),
-      },
+      data: validated.data,
     });
 
     return NextResponse.json({ skill }, { status: 200 });

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { projectUpdateSchema } from '@/lib/validations/schemas';
 
 // GET /api/projects/[id] - Get single project
 export async function GET(
@@ -30,27 +31,28 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const {
-      name,
-      shortDescription,
-      image,
-      github,
-      link,
-      status,
-      order,
-      technologyIds,
-    } = body;
+
+    // Validate with Zod
+    const validated = projectUpdateSchema.safeParse(body);
+    if (!validated.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
+        { status: 400 }
+      );
+    }
+
+    const { technologyIds, ...projectData } = validated.data;
 
     const project = await prisma.project.update({
       where: { id: parseInt(params.id) },
       data: {
-        ...(name && { name }),
-        ...(shortDescription && { shortDescription }),
-        ...(image && { image }),
-        ...(github !== undefined && { github }),
-        ...(link && { link }),
-        ...(status && { status }),
-        ...(order !== undefined && { order }),
+        ...projectData,
         ...(technologyIds && {
           technologies: {
             set: [],

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { serviceUpdateSchema } from '@/lib/validations/schemas';
 
 // PATCH /api/services/[id] - Update service
 export async function PATCH(
@@ -8,16 +9,25 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const { name, description, icon, order } = body;
+
+    // Validate with Zod
+    const validated = serviceUpdateSchema.safeParse(body);
+    if (!validated.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
+        { status: 400 }
+      );
+    }
 
     const service = await prisma.service.update({
       where: { id: parseInt(params.id) },
-      data: {
-        ...(name && { name }),
-        ...(description && { description }),
-        ...(icon !== undefined && { icon }),
-        ...(order !== undefined && { order }),
-      },
+      data: validated.data,
     });
 
     return NextResponse.json({ service }, { status: 200 });

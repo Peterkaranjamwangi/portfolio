@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { technologySchema } from '@/lib/validations/schemas';
+import { TechCategory } from '@prisma/client';
 
 // GET /api/technologies - Fetch all technologies
 export async function GET(request: NextRequest) {
@@ -9,7 +11,7 @@ export async function GET(request: NextRequest) {
 
     const technologies = await prisma.technology.findMany({
       where: {
-        ...(category && { category: category as any }),
+        ...(category && { category: category as TechCategory }),
       },
       include: {
         _count: {
@@ -39,24 +41,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { label, value, icon, href, category } = body;
 
-    // Validation
-    if (!label) {
+    // Validate with Zod
+    const validated = technologySchema.safeParse(body);
+    if (!validated.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
         { status: 400 }
       );
     }
 
     const technology = await prisma.technology.create({
-      data: {
-        label,
-        value,
-        icon,
-        href,
-        category,
-      },
+      data: validated.data,
     });
 
     return NextResponse.json({ technology }, { status: 201 });
