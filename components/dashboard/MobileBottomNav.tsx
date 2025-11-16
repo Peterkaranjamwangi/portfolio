@@ -2,13 +2,13 @@
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Home, Briefcase, Code, User, BookOpen } from 'lucide-react';
+import { Home, Briefcase, Code, User, Wrench } from 'lucide-react';
 
 const tabs = [
   { id: 'home', label: 'Home', icon: Home, href: '/dashboard' },
   { id: 'projects', label: 'Projects', icon: Briefcase, href: '/dashboard/projects' },
   { id: 'skills', label: 'Skills', icon: Code, href: '/dashboard/skills' },
-  { id: 'blog', label: 'Blog', icon: BookOpen, href: '/dashboard/blog' },
+  { id: 'services', label: 'Services', icon: Wrench, href: '/dashboard/services' },
   { id: 'about', label: 'About', icon: User, href: '/dashboard/about' },
 ];
 
