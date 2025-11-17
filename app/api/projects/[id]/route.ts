@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { projectUpdateSchema } from '@/lib/validations/schemas';
+import { requireAuth } from '@/lib/auth';
 
-// GET /api/projects/[id] - Get single project
+// GET /api/projects/[id] - Get single project (public access)
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -24,11 +25,17 @@ export async function GET(
   }
 }
 
-// PATCH /api/projects/[id] - Update project
+// PATCH /api/projects/[id] - Update project (requires authentication)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
 
@@ -70,11 +77,17 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/projects/[id] - Delete project
+// DELETE /api/projects/[id] - Delete project (requires authentication)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     await prisma.project.delete({
       where: { id: parseInt(params.id) },

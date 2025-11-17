@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { serviceUpdateSchema } from '@/lib/validations/schemas';
+import { requireAuth } from '@/lib/auth';
 
-// PATCH /api/services/[id] - Update service
+// PATCH /api/services/[id] - Update service (requires authentication)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
 
@@ -37,11 +44,17 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/services/[id] - Delete service
+// DELETE /api/services/[id] - Delete service (requires authentication)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     await prisma.service.delete({
       where: { id: parseInt(params.id) },

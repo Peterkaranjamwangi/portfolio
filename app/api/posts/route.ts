@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { PostStatus } from '@prisma/client';
+import { requireAuth } from '@/lib/auth';
+import { sanitizeHtml, sanitizeText, sanitizeUrl } from '@/lib/sanitize';
 
 // GET /api/posts - Fetch all posts with optional filters
 export async function GET(request: NextRequest) {
@@ -56,8 +58,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/posts - Create a new post
+// POST /api/posts - Create a new post (requires authentication)
 export async function POST(request: NextRequest) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
     const {
@@ -80,13 +88,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Sanitize inputs to prevent XSS attacks
+    const sanitizedTitle = sanitizeText(title);
+    const sanitizedSubtitle = subtitle ? sanitizeText(subtitle) : null;
+    const sanitizedContent = sanitizeHtml(content);
+    const sanitizedImage = image ? sanitizeUrl(image) : null;
+    const sanitizedSlug = sanitizeText(slug);
+
     const post = await prisma.post.create({
       data: {
-        title,
-        subtitle,
-        content,
-        slug,
-        image,
+        title: sanitizedTitle,
+        subtitle: sanitizedSubtitle,
+        content: sanitizedContent,
+        slug: sanitizedSlug,
+        image: sanitizedImage,
         status: status || PostStatus.DRAFT,
         authorId,
         ...(status === PostStatus.PUBLISHED && { publishedAt: new Date() }),

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { technologySchema } from '@/lib/validations/schemas';
 import { TechCategory } from '@prisma/client';
+import { requireAuth } from '@/lib/auth';
 
 // GET /api/technologies - Fetch all technologies
 export async function GET(request: NextRequest) {
@@ -37,8 +38,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/technologies - Create a new technology
+// POST /api/technologies - Create a new technology (requires authentication)
 export async function POST(request: NextRequest) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
 

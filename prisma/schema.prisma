@@ -36,8 +36,14 @@ model Post {
   // Relations
   author      User          @relation(fields: [authorId], references: [id])
   authorId    Int
-  categories  Category[]   
-  tags        Tag[]         
+  categories  Category[]
+  tags        Tag[]
+
+  // Indexes for performance
+  @@index([status])
+  @@index([createdAt])
+  @@index([publishedAt])
+  @@index([authorId])
 }
 
 model Category {
@@ -73,6 +79,10 @@ model Project {
 
   // Relations
   technologies     Technology[]
+
+  // Indexes for performance
+  @@index([status])
+  @@index([order])
 }
 
 model Technology {
@@ -87,6 +97,10 @@ model Technology {
 
   // Relations
   projects  Project[]
+
+  // Indexes for performance
+  @@index([category])
+  @@index([value])
 }
 
 model Skill {
@@ -97,6 +111,10 @@ model Skill {
   order     Int        @default(0)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+
+  // Indexes for performance
+  @@index([type])
+  @@index([order])
 }
 
 model Service {
@@ -107,6 +125,9 @@ model Service {
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  // Indexes for performance
+  @@index([order])
 }
 
 // Enums

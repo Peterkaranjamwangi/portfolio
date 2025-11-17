@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { serviceSchema } from '@/lib/validations/schemas';
+import { requireAuth } from '@/lib/auth';
 
-// GET /api/services - Fetch all services
+// GET /api/services - Fetch all services (public access)
 export async function GET() {
   try {
     const services = await prisma.service.findMany({
@@ -22,8 +23,14 @@ export async function GET() {
   }
 }
 
-// POST /api/services - Create a new service
+// POST /api/services - Create a new service (requires authentication)
 export async function POST(request: NextRequest) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
 

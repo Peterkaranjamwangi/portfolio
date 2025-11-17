@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { PostStatus } from '@prisma/client';
+import { requireAuth } from '@/lib/auth';
+import { sanitizeHtml, sanitizeText, sanitizeUrl } from '@/lib/sanitize';
 
 // GET /api/posts/[id] - Fetch a single post
 export async function GET(
@@ -39,11 +41,17 @@ export async function GET(
   }
 }
 
-// PATCH /api/posts/[id] - Update a post
+// PATCH /api/posts/[id] - Update a post (requires authentication)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
     const {
@@ -57,18 +65,22 @@ export async function PATCH(
       tagIds,
     } = body;
 
+    // Sanitize inputs to prevent XSS attacks
+    const sanitizedData: any = {};
+    if (title) sanitizedData.title = sanitizeText(title);
+    if (subtitle !== undefined) sanitizedData.subtitle = subtitle ? sanitizeText(subtitle) : null;
+    if (content) sanitizedData.content = sanitizeHtml(content);
+    if (slug) sanitizedData.slug = sanitizeText(slug);
+    if (image !== undefined) sanitizedData.image = image ? sanitizeUrl(image) : null;
+    if (status) sanitizedData.status = status;
+    if (status === PostStatus.PUBLISHED) sanitizedData.publishedAt = new Date();
+
     const post = await prisma.post.update({
       where: {
         id: parseInt(params.id),
       },
       data: {
-        ...(title && { title }),
-        ...(subtitle !== undefined && { subtitle }),
-        ...(content && { content }),
-        ...(slug && { slug }),
-        ...(image !== undefined && { image }),
-        ...(status && { status }),
-        ...(status === PostStatus.PUBLISHED && { publishedAt: new Date() }),
+        ...sanitizedData,
         ...(categoryIds && {
           categories: {
             set: [],
@@ -105,11 +117,17 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/posts/[id] - Delete a post
+// DELETE /api/posts/[id] - Delete a post (requires authentication)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     await prisma.post.delete({
       where: {

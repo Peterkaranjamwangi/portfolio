@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { technologyUpdateSchema } from '@/lib/validations/schemas';
+import { requireAuth } from '@/lib/auth';
 
-// PATCH /api/technologies/[id] - Update technology
+// PATCH /api/technologies/[id] - Update technology (requires authentication)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
 
@@ -37,11 +44,17 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/technologies/[id] - Delete technology
+// DELETE /api/technologies/[id] - Delete technology (requires authentication)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     await prisma.technology.delete({
       where: { id: parseInt(params.id) },

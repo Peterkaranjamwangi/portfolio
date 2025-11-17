@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { projectSchema } from '@/lib/validations/schemas';
 import { ProjectStatus } from '@prisma/client';
+import { requireAuth } from '@/lib/auth';
 
-// GET /api/projects - Fetch all projects
+// GET /api/projects - Fetch all projects (public access)
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -32,8 +33,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/projects - Create a new project
+// POST /api/projects - Create a new project (requires authentication)
 export async function POST(request: NextRequest) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
 
