@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { skillSchema } from '@/lib/validations/schemas';
 import { SkillType } from '@prisma/client';
+import { requireAuth } from '@/lib/auth';
 
-// GET /api/skills - Fetch all skills
+// GET /api/skills - Fetch all skills (public access)
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -29,8 +30,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/skills - Create a new skill
+// POST /api/skills - Create a new skill (requires authentication)
 export async function POST(request: NextRequest) {
+  // Check authentication
+  const authResult = await requireAuth();
+  if (!authResult.authorized) {
+    return authResult.response;
+  }
+
   try {
     const body = await request.json();
 

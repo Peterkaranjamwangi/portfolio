@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -11,10 +11,11 @@ import {
   Cpu,
   Menu,
   X,
-  LogOut,
   Settings,
+  User,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { UserButton, useUser, SignOutButton } from '@clerk/nextjs';
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' },
@@ -32,6 +33,16 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const { user } = useUser();
+
+  // Fix SSR error - check window size only on client
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -51,7 +62,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Sidebar */}
       <AnimatePresence>
-        {(isSidebarOpen || window.innerWidth >= 1024) && (
+        {(isSidebarOpen || isDesktop) && (
           <motion.aside
             initial={{ x: -300 }}
             animate={{ x: 0 }}
@@ -93,18 +104,44 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </nav>
 
             {/* Bottom actions */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
+              {/* User Info */}
+              {user && (
+                <div className="flex items-center gap-3 px-4 py-2">
+                  <div className="flex-shrink-0">
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: "w-10 h-10",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                      {user.fullName || user.primaryEmailAddress?.emailAddress}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      Admin
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <Link
                 href="/dashboard"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all mb-2"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
               >
                 <Settings size={20} />
                 <span className="font-medium">View Site</span>
               </Link>
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
-                <LogOut size={20} />
-                <span className="font-medium">Logout</span>
-              </button>
+
+              <SignOutButton>
+                <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
+                  <User size={20} />
+                  <span className="font-medium">Sign Out</span>
+                </button>
+              </SignOutButton>
             </div>
           </motion.aside>
         )}
