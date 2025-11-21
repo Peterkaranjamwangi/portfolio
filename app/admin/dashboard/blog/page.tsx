@@ -309,7 +309,7 @@ export default function BlogAdmin() {
           {posts.length === 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
               <p className="text-gray-500 dark:text-gray-400">
-                No blog posts yet. Click "New Post" to create your first post!
+                No blog posts yet. Click &ldquo;New Post&rdquo; to create your first post!
               </p>
             </div>
           )}

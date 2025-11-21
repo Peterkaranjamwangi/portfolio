@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";  // Temporarily disabled due to network issues
 import "./globals.css";
 import Footer from "@/components/Footer";
 import SideBar from "@/components/SideBar";
@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import AdminSideBar from "./admin/components/AdminOverlay";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Peter Mwangi - Web Design & Development Portfolio",
@@ -24,7 +24,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${inter.className} h-screen flex flex-col`}
+          className="h-screen flex flex-col font-sans"
           style={{
             backgroundImage: "url(/bg.jpeg)",
             backgroundSize: "cover",

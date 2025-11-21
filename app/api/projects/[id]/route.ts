@@ -6,11 +6,12 @@ import { requireAuth } from '@/lib/auth';
 // GET /api/projects/[id] - Get single project (public access)
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const project = await prisma.project.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       include: { technologies: true },
     });
 
@@ -28,7 +29,7 @@ export async function GET(
 // PATCH /api/projects/[id] - Update project (requires authentication)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authResult = await requireAuth();
@@ -37,6 +38,7 @@ export async function PATCH(
   }
 
   try {
+    const { id } = await params;
     const body = await request.json();
 
     // Validate with Zod
@@ -57,13 +59,13 @@ export async function PATCH(
     const { technologyIds, ...projectData } = validated.data;
 
     const project = await prisma.project.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       data: {
         ...projectData,
         ...(technologyIds && {
           technologies: {
             set: [],
-            connect: technologyIds.map((id: number) => ({ id })),
+            connect: technologyIds.map((tid: number) => ({ id: tid })),
           },
         }),
       },
@@ -80,7 +82,7 @@ export async function PATCH(
 // DELETE /api/projects/[id] - Delete project (requires authentication)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authResult = await requireAuth();
@@ -89,8 +91,9 @@ export async function DELETE(
   }
 
   try {
+    const { id } = await params;
     await prisma.project.delete({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
     });
 
     return NextResponse.json({ message: 'Project deleted successfully' }, { status: 200 });

@@ -7,12 +7,13 @@ import { sanitizeHtml, sanitizeText, sanitizeUrl } from '@/lib/sanitize';
 // GET /api/posts/[id] - Fetch a single post
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const post = await prisma.post.findUnique({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       include: {
         author: {
@@ -44,7 +45,7 @@ export async function GET(
 // PATCH /api/posts/[id] - Update a post (requires authentication)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authResult = await requireAuth();
@@ -53,6 +54,7 @@ export async function PATCH(
   }
 
   try {
+    const { id } = await params;
     const body = await request.json();
     const {
       title,
@@ -77,7 +79,7 @@ export async function PATCH(
 
     const post = await prisma.post.update({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       data: {
         ...sanitizedData,
@@ -120,7 +122,7 @@ export async function PATCH(
 // DELETE /api/posts/[id] - Delete a post (requires authentication)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authResult = await requireAuth();
@@ -129,9 +131,10 @@ export async function DELETE(
   }
 
   try {
+    const { id } = await params;
     await prisma.post.delete({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
     });
 

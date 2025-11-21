@@ -6,7 +6,7 @@ import { requireAuth } from '@/lib/auth';
 // PATCH /api/technologies/[id] - Update technology (requires authentication)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authResult = await requireAuth();
@@ -15,6 +15,7 @@ export async function PATCH(
   }
 
   try {
+    const { id } = await params;
     const body = await request.json();
 
     // Validate with Zod
@@ -33,7 +34,7 @@ export async function PATCH(
     }
 
     const technology = await prisma.technology.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       data: validated.data,
     });
 
@@ -47,7 +48,7 @@ export async function PATCH(
 // DELETE /api/technologies/[id] - Delete technology (requires authentication)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authResult = await requireAuth();
@@ -56,8 +57,9 @@ export async function DELETE(
   }
 
   try {
+    const { id } = await params;
     await prisma.technology.delete({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
     });
 
     return NextResponse.json({ message: 'Technology deleted successfully' }, { status: 200 });

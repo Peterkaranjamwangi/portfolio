@@ -1,7 +1,7 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 /**
- * Clerk Authentication Middleware
+ * Clerk Authentication Middleware (v6 API)
  *
  * Protects routes based on authentication status:
  * - /admin/* routes require authentication (redirects to /sign-in)
@@ -9,21 +9,15 @@ import { authMiddleware } from "@clerk/nextjs";
  * - All other routes are public (portfolio display)
  * - API routes need authentication checks in their handlers for mutations
  */
-export default authMiddleware({
-  // Public routes accessible without authentication
-  publicRoutes: [
-    "/",
-    "/dashboard(.*)",
-    "/sign-in(.*)",
-    "/sign-up(.*)",
-    // API routes are public for GET requests (portfolio display)
-    // Mutations (POST/PATCH/DELETE) should check auth in route handlers
-    "/api/(.*)",
-  ],
-  // Ignored routes (webhooks, etc.)
-  ignoredRoutes: [
-    "/api/webhook(.*)",
-  ],
+
+const isProtectedRoute = createRouteMatcher([
+  '/admin(.*)',
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
 });
 
 export const config = {

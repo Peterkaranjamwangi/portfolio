@@ -6,7 +6,13 @@ import { Loader2 } from 'lucide-react';
 import { useSkills } from '@/hooks/useSkills';
 import { useTechnologies } from '@/hooks/useTechnologies';
 import * as LucideIcons from 'lucide-react';
-import * as ReactIcons from 'react-icons/all';
+// React Icons v5: Import from specific packages instead of /all
+import * as FaIcons from 'react-icons/fa';
+import * as IoIcons from 'react-icons/io5';
+import * as SiIcons from 'react-icons/si';
+import * as BiIcons from 'react-icons/bi';
+import * as AiIcons from 'react-icons/ai';
+import * as GiIcons from 'react-icons/gi';
 
 const categories = [
   { id: 'technical', label: 'Technical Skills' },
@@ -14,15 +20,21 @@ const categories = [
   { id: 'soft', label: 'Soft Skills' },
 ];
 
-// Helper to get icon component
+// Helper to get icon component (React Icons v5 compatible)
 const getIconComponent = (iconName?: string) => {
   if (!iconName) return null;
+
   // Try Lucide first
   const LucideIcon = (LucideIcons as any)[iconName];
   if (LucideIcon) return LucideIcon;
-  // Try React Icons
-  const ReactIcon = (ReactIcons as any)[iconName];
-  if (ReactIcon) return ReactIcon;
+
+  // Try React Icons packages
+  const iconPackages = [FaIcons, IoIcons, SiIcons, BiIcons, AiIcons, GiIcons];
+  for (const iconPkg of iconPackages) {
+    const Icon = (iconPkg as any)[iconName];
+    if (Icon) return Icon;
+  }
+
   return null;
 };
 
