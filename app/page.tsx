@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import SocialMedia from "@/components/SocialMedia";
 import Typewriter from "@/components/Typewriter";
 import MenuHomeBar from "@/components/MenuHomeBar";
