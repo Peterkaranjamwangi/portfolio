@@ -36,8 +36,14 @@ model Post {
   // Relations
   author      User          @relation(fields: [authorId], references: [id])
   authorId    Int
-  categories  Category[]   
-  tags        Tag[]         
+  categories  Category[]
+  tags        Tag[]
+
+  // Indexes for performance
+  @@index([status])
+  @@index([createdAt])
+  @@index([publishedAt])
+  @@index([authorId])
 }
 
 model Category {
@@ -58,6 +64,73 @@ model Tag {
   updatedAt  DateTime @updatedAt
 }
 
+// Portfolio Models
+model Project {
+  id               Int           @id @default(autoincrement())
+  name             String
+  shortDescription String
+  image            String
+  github           String?
+  link             String
+  status           ProjectStatus @default(COMPLETED)
+  order            Int           @default(0)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // Relations
+  technologies     Technology[]
+
+  // Indexes for performance
+  @@index([status])
+  @@index([order])
+}
+
+model Technology {
+  id        Int      @id @default(autoincrement())
+  label     String   @unique
+  value     Int      @default(0) // Proficiency level (0-100)
+  icon      String?  // Icon name or path
+  href      String?  // Image URL
+  category  TechCategory @default(GENERAL)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  projects  Project[]
+
+  // Indexes for performance
+  @@index([category])
+  @@index([value])
+}
+
+model Skill {
+  id        Int        @id @default(autoincrement())
+  label     String
+  type      SkillType
+  icon      String?    // Icon name
+  order     Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Indexes for performance
+  @@index([type])
+  @@index([order])
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  icon        String?  // Icon name
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Indexes for performance
+  @@index([order])
+}
+
+// Enums
 enum UserRole {
   USER
   ADMIN
@@ -68,4 +141,24 @@ enum PostStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum ProjectStatus {
+  COMPLETED
+  IN_PROGRESS
+  ARCHIVED
+}
+
+enum SkillType {
+  TECHNICAL
+  SOFT
+}
+
+enum TechCategory {
+  DESIGN
+  FRONTEND
+  BACKEND
+  DATABASE
+  DEVOPS
+  GENERAL
 }

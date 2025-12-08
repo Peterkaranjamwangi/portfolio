@@ -1,6 +1,13 @@
 // prisma/seed.ts
 
-import { PrismaClient, UserRole, PostStatus } from "@prisma/client";
+import {
+  PrismaClient,
+  UserRole,
+  PostStatus,
+  ProjectStatus,
+  SkillType,
+  TechCategory,
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -304,7 +311,505 @@ async function main() {
     ],
   });
 
-  console.log("Seeding completed successfully");
+  console.log("✓ Blog posts seeded");
+
+  // ============================================
+  // PORTFOLIO DATA SEEDING
+  // ============================================
+
+  // Create Technologies (Tech Stack)
+  const technologies = await prisma.technology.createMany({
+    data: [
+      // Design Tools
+      {
+        label: "Figma",
+        value: 95,
+        icon: "SiFigma",
+        href: "/figma.png",
+        category: TechCategory.DESIGN,
+      },
+      // Frontend
+      {
+        label: "JavaScript",
+        value: 90,
+        icon: "SiJavascript",
+        href: "/javascript.png",
+        category: TechCategory.FRONTEND,
+      },
+      {
+        label: "TypeScript",
+        value: 85,
+        icon: "SiTypescript",
+        href: "/typescript.png",
+        category: TechCategory.FRONTEND,
+      },
+      {
+        label: "React",
+        value: 100,
+        icon: "SiReact",
+        href: "/react.png",
+        category: TechCategory.FRONTEND,
+      },
+      {
+        label: "Next.js",
+        value: 95,
+        icon: "SiNextdotjs",
+        href: "/nextjs.png",
+        category: TechCategory.FRONTEND,
+      },
+      {
+        label: "HTML",
+        value: 90,
+        icon: "SiHtml5",
+        href: "/html.png",
+        category: TechCategory.FRONTEND,
+      },
+      {
+        label: "CSS",
+        value: 85,
+        icon: "SiCss3",
+        href: "/css.png",
+        category: TechCategory.FRONTEND,
+      },
+      {
+        label: "Bootstrap",
+        value: 85,
+        icon: "SiBootstrap",
+        href: "/bootstrap.png",
+        category: TechCategory.FRONTEND,
+      },
+      {
+        label: "Tailwind CSS",
+        value: 80,
+        icon: "SiTailwindcss",
+        href: "/tailwind.png",
+        category: TechCategory.FRONTEND,
+      },
+      // Backend
+      {
+        label: "Node.js",
+        value: 75,
+        icon: "SiNodedotjs",
+        href: "/nodejs.png",
+        category: TechCategory.BACKEND,
+      },
+      // Database
+      {
+        label: "Prisma",
+        value: 80,
+        icon: "SiPrisma",
+        href: "/prisma.png",
+        category: TechCategory.DATABASE,
+      },
+      {
+        label: "PostgreSQL",
+        value: 80,
+        icon: "SiPostgresql",
+        href: "/postgresql.png",
+        category: TechCategory.DATABASE,
+      },
+      {
+        label: "MongoDB",
+        value: 80,
+        icon: "SiMongodb",
+        href: "/mongodb.png",
+        category: TechCategory.DATABASE,
+      },
+      {
+        label: "Sqlite",
+        value: 90,
+        icon: "SiSqlite",
+        href: "/sqlite.png",
+        category: TechCategory.DATABASE,
+      },
+      {
+        label: "MySQL",
+        value: 70,
+        icon: "SiMysql",
+        href: "/mysql.png",
+        category: TechCategory.DATABASE,
+      },
+      // DevOps
+      {
+        label: "Git",
+        value: 85,
+        icon: "SiGit",
+        href: "/git.png",
+        category: TechCategory.DEVOPS,
+      },
+      {
+        label: "Docker",
+        value: 75,
+        icon: "SiDocker",
+        href: "/docker.png",
+        category: TechCategory.DEVOPS,
+      },
+      {
+        label: "Vercel",
+        value: 85,
+        icon: "SiVercel",
+        href: "/vercel.png",
+        category: TechCategory.DEVOPS,
+      },
+    ],
+  });
+
+  console.log("✓ Technologies seeded");
+
+  // Get technologies for project connections
+  const nextjsTech = await prisma.technology.findUnique({
+    where: { label: "Next.js" },
+  });
+  const reactTech = await prisma.technology.findUnique({
+    where: { label: "React" },
+  });
+  const typescriptTech = await prisma.technology.findUnique({
+    where: { label: "TypeScript" },
+  });
+  const tailwindTech = await prisma.technology.findUnique({
+    where: { label: "Tailwind CSS" },
+  });
+  const prismaTech = await prisma.technology.findUnique({
+    where: { label: "Prisma" },
+  });
+  const postgresqlTech = await prisma.technology.findUnique({
+    where: { label: "PostgreSQL" },
+  });
+  const framerMotion = await prisma.technology.findUnique({
+    where: { label: "Framer Motion" },
+  });
+
+  // Create additional tech for projects
+  await prisma.technology.create({
+    data: {
+      label: "Framer Motion",
+      value: 85,
+      icon: "Motion",
+      category: TechCategory.FRONTEND,
+    },
+  });
+
+  const framerMotionTech = await prisma.technology.findUnique({
+    where: { label: "Framer Motion" },
+  });
+
+  // Create Projects
+  await prisma.project.create({
+    data: {
+      name: "Estien Management System",
+      shortDescription:
+        "A comprehensive management system for a cryptocurrency investment firm in Kenya. Includes user and admin dashboards, allowing seamless management of users, investments, and returns.",
+      image: "/estien.png",
+      github: "https://github.com/karanjaupwork/estien",
+      link: "https://estien.vercel.app/",
+      status: ProjectStatus.COMPLETED,
+      order: 1,
+      technologies: {
+        connect: [
+          { id: nextjsTech!.id },
+          { id: typescriptTech!.id },
+          { id: tailwindTech!.id },
+          { id: prismaTech!.id },
+        ],
+      },
+    },
+  });
+
+  await prisma.project.create({
+    data: {
+      name: "Wi-Fi Management and Website",
+      shortDescription:
+        "A comprehensive platform for a Wi-Fi service provider, featuring a user-friendly website with sections for Home, Packages, About, and Help. The system includes both admin and user dashboards.",
+      image: "/net-sub.png",
+      github: "https://github.com/karanjakinyanjui/net-subscription",
+      link: "https://net-subscription.vercel.app/home",
+      status: ProjectStatus.COMPLETED,
+      order: 2,
+      technologies: {
+        connect: [
+          { id: reactTech!.id },
+          { id: nextjsTech!.id },
+          { id: tailwindTech!.id },
+          { id: prismaTech!.id },
+          { id: typescriptTech!.id },
+          { id: postgresqlTech!.id },
+        ],
+      },
+    },
+  });
+
+  await prisma.project.create({
+    data: {
+      name: "Company Landing Page",
+      shortDescription:
+        "A modern, responsive landing page for a startup development company. Showcases services, team expertise, and project portfolio with smooth animations and intuitive navigation.",
+      image: "/company.png",
+      github: "https://github.com/Peterkaranjamwangi/company",
+      link: "https://1company.vercel.app/",
+      status: ProjectStatus.COMPLETED,
+      order: 3,
+      technologies: {
+        connect: [
+          { id: nextjsTech!.id },
+          { id: tailwindTech!.id },
+          { id: framerMotionTech!.id },
+        ],
+      },
+    },
+  });
+
+  await prisma.project.create({
+    data: {
+      name: "Portfolio",
+      shortDescription:
+        "A sleek, dynamic website showcasing various projects and skills, crafted with creativity and powered by modern web technologies.",
+      image: "/portfolio.png",
+      github: "https://github.com/Peterkaranjamwangi/portfolio-colab",
+      link: "https://portfolio-colab.vercel.app/#hire-me",
+      status: ProjectStatus.COMPLETED,
+      order: 4,
+      technologies: {
+        connect: [
+          { id: typescriptTech!.id },
+          { id: reactTech!.id },
+          { id: tailwindTech!.id },
+        ],
+      },
+    },
+  });
+
+  await prisma.project.create({
+    data: {
+      name: "Wachno Engineering",
+      shortDescription:
+        "A comprehensive and modern website highlighting Wachno Engineering's industrial prowess, featuring project portfolios, service offerings, and user-friendly navigation",
+      image: "/wachno.png",
+      link: "https://wachno-engineering.vercel.app/",
+      status: ProjectStatus.COMPLETED,
+      order: 5,
+      technologies: {
+        connect: [
+          { id: typescriptTech!.id },
+          { id: reactTech!.id },
+          { id: tailwindTech!.id },
+        ],
+      },
+    },
+  });
+
+  await prisma.project.create({
+    data: {
+      name: "skillup: e-learning site",
+      shortDescription:
+        "Dynamic e-learning platform offering diverse courses, interactive modules, expert-led instruction, and personalized learning paths for skill enhancement.",
+      image: "/skillup.png",
+      link: "https://skillup-dusky.vercel.app/",
+      status: ProjectStatus.IN_PROGRESS,
+      order: 6,
+      technologies: {
+        connect: [{ id: reactTech!.id }, { id: tailwindTech!.id }],
+      },
+    },
+  });
+
+  await prisma.project.create({
+    data: {
+      name: "Lotus lounge hair salon UI",
+      shortDescription:
+        "Elegant design featuring intuitive navigation, service showcase, appointment scheduling, and stylish aesthetics.",
+      image: "/lotus.png",
+      link: "https://lotus-lounge.vercel.app/",
+      status: ProjectStatus.COMPLETED,
+      order: 7,
+      technologies: {
+        connect: [{ id: reactTech!.id }, { id: tailwindTech!.id }],
+      },
+    },
+  });
+
+  console.log("✓ Projects seeded");
+
+  // Create Technical Skills
+  await prisma.skill.createMany({
+    data: [
+      { label: "UI/UX Design", type: SkillType.TECHNICAL, icon: "Palette", order: 1 },
+      {
+        label: "Full-Stack Development",
+        type: SkillType.TECHNICAL,
+        icon: "Code",
+        order: 2,
+      },
+      {
+        label: "Graphic Design",
+        type: SkillType.TECHNICAL,
+        icon: "Smartphone",
+        order: 3,
+      },
+      {
+        label: "Responsive Web Design",
+        type: SkillType.TECHNICAL,
+        icon: "LayoutIcon",
+        order: 4,
+      },
+      {
+        label: "Version Control (Git)",
+        type: SkillType.TECHNICAL,
+        icon: "FaGit",
+        order: 5,
+      },
+      {
+        label: "E-commerce Development",
+        type: SkillType.TECHNICAL,
+        icon: "ShoppingCart",
+        order: 6,
+      },
+      {
+        label: "CMS Integration",
+        type: SkillType.TECHNICAL,
+        icon: "FileCode",
+        order: 7,
+      },
+      {
+        label: "SEO Optimization",
+        type: SkillType.TECHNICAL,
+        icon: "TbSeo",
+        order: 8,
+      },
+      {
+        label: "Performance Optimization",
+        type: SkillType.TECHNICAL,
+        icon: "Zap",
+        order: 9,
+      },
+    ],
+  });
+
+  // Create Soft Skills
+  await prisma.skill.createMany({
+    data: [
+      { label: "Problem-solving", type: SkillType.SOFT, icon: "BrainCircuit", order: 1 },
+      {
+        label: "Effective Communication",
+        type: SkillType.SOFT,
+        icon: "Handshake",
+        order: 2,
+      },
+      { label: "Collaboration", type: SkillType.SOFT, icon: "Users", order: 3 },
+      { label: "Time Management", type: SkillType.SOFT, icon: "FcOvertime", order: 4 },
+      {
+        label: "Critical Thinking",
+        type: SkillType.SOFT,
+        icon: "VscLightbulbSparkle",
+        order: 5,
+      },
+      {
+        label: "User-Centered Approach",
+        type: SkillType.SOFT,
+        icon: "PiUserFocusBold",
+        order: 6,
+      },
+      {
+        label: "Project Management",
+        type: SkillType.SOFT,
+        icon: "RiFolderSettingsLine",
+        order: 7,
+      },
+      {
+        label: "Attention to Detail",
+        type: SkillType.SOFT,
+        icon: "TbEyeSearch",
+        order: 8,
+      },
+    ],
+  });
+
+  console.log("✓ Skills seeded");
+
+  // Create Services
+  await prisma.service.createMany({
+    data: [
+      {
+        name: "UI/UX Design",
+        description:
+          "Creating intuitive and visually appealing user interfaces with a focus on user experience, accessibility, and seamless navigation. Delivering user-centered solutions that enhance engagement and satisfaction.",
+        icon: "BiShapePolygon",
+        order: 1,
+      },
+      {
+        name: "Full-Stack Development",
+        description:
+          "Comprehensive development of web applications, covering both front-end and back-end aspects. Utilizing modern technologies to create robust, scalable, and efficient solutions tailored to unique business requirements.",
+        icon: "BiCode",
+        order: 2,
+      },
+      {
+        name: "Graphic Design",
+        description:
+          "Crafting visually striking designs that effectively communicate brand identity across various mediums. From logos to marketing materials, creating cohesive visual experiences that resonate with target audiences.",
+        icon: "BiPalette",
+        order: 3,
+      },
+      {
+        name: "Custom Website Design",
+        description:
+          "Tailored website designs reflecting brand identity, user experience, and industry standards for optimal engagement. Adapting quickly to diverse client needs and delivering high-quality work.",
+        icon: "BiPalette",
+        order: 4,
+      },
+      {
+        name: "Responsive Development",
+        description:
+          "Developing modern responsive web applications with fluid layouts, ensuring seamless user experience across various devices and screen sizes.",
+        icon: "BiMobileAlt",
+        order: 5,
+      },
+      {
+        name: "E-commerce Solutions",
+        description:
+          "Building online stores with intuitive interfaces, secure payment gateways, and customizable features for efficient transactions. Optimizing user flow to enhance conversion rates.",
+        icon: "BiCartAlt",
+        order: 6,
+      },
+      {
+        name: "CMS Integration",
+        description:
+          "Integrating content management systems for easy website management, updates, and content publishing. Empowering clients to maintain their digital presence efficiently.",
+        icon: "BiEdit",
+        order: 7,
+      },
+      {
+        name: "SEO Optimization",
+        description:
+          "Implementing strategies to improve website visibility, attract organic traffic, and enhance search engine ranking. Staying current with industry trends to provide innovative solutions.",
+        icon: "BiSearchAlt2",
+        order: 8,
+      },
+      {
+        name: "Maintenance & Support",
+        description:
+          "Providing ongoing maintenance, timely updates, and dedicated support to ensure website performance and security. Offering flexible solutions to meet diverse client needs.",
+        icon: "BiWrench",
+        order: 9,
+      },
+      {
+        name: "Website Security",
+        description:
+          "Implementing robust security measures to safeguard websites from cyber threats, data breaches, and malicious attacks. Ensuring client and user data protection.",
+        icon: "BiShieldAlt",
+        order: 10,
+      },
+      {
+        name: "Performance Optimization",
+        description:
+          "Enhancing website speed, performance, and loading times for improved user experience and search engine ranking. Utilizing industry best practices for optimal results.",
+        icon: "BiRocket",
+        order: 11,
+      },
+    ],
+  });
+
+  console.log("✓ Services seeded");
+  console.log("\n✅ All seeding completed successfully!");
 }
 
 main()

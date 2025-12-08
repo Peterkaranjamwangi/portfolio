@@ -1,0 +1,74 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Next.js
+.next
+out
+build
+dist
+
+# Production
+.vercel
+.netlify
+
+# Testing
+coverage
+.nyc_output
+*.test.js
+*.spec.js
+__tests__
+**/*.test.ts
+**/*.spec.ts
+
+# Misc
+.DS_Store
+*.pem
+*.log
+.env*.local
+.env.development
+.env.test
+
+# Git
+.git
+.gitignore
+.gitattributes
+.github
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Documentation (not needed in container)
+*.md
+docs
+SECURITY_STATUS.md
+DEPLOYMENT_READY.md
+BEST_PRACTICES_REVIEW.md
+CODE_REVIEW.md
+AUTHENTICATION.md
+VALIDATION_GUIDE.md
+SESSION_SUMMARY.md
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# CI/CD
+.travis.yml
+.gitlab-ci.yml
+.circleci
+azure-pipelines.yml
+
+# Misc development files
+TODO.md
+CHANGELOG.md
+LICENSE
