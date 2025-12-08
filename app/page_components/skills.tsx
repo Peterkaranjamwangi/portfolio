@@ -1,7 +1,6 @@
 import PageTitle from "@/components/PageTitle";
 import { TechnicalskillsData, SoftskillsData } from "@/constants/constants";
 import React from "react";
-import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 
 interface Props {
