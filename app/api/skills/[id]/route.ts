@@ -3,6 +3,33 @@ import { prisma } from '@/lib/prisma';
 import { skillUpdateSchema } from '@/lib/validations/schemas';
 import { requireAuth } from '@/lib/auth';
 
+// GET /api/skills/[id] - Fetch a single skill
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const skillId = parseInt(id, 10);
+    if (isNaN(skillId)) {
+      return NextResponse.json({ error: 'Invalid skill ID' }, { status: 400 });
+    }
+
+    const skill = await prisma.skill.findUnique({
+      where: { id: skillId },
+    });
+
+    if (!skill) {
+      return NextResponse.json({ error: 'Skill not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ skill }, { status: 200 });
+  } catch (error) {
+    console.error('Error fetching skill:', error);
+    return NextResponse.json({ error: 'Failed to fetch skill' }, { status: 500 });
+  }
+}
+
 // PATCH /api/skills/[id] - Update skill (requires authentication)
 export async function PATCH(
   request: NextRequest,
@@ -16,6 +43,11 @@ export async function PATCH(
 
   try {
     const { id } = await params;
+    const skillId = parseInt(id, 10);
+    if (isNaN(skillId)) {
+      return NextResponse.json({ error: 'Invalid skill ID' }, { status: 400 });
+    }
+
     const body = await request.json();
 
     // Validate with Zod
@@ -34,7 +66,7 @@ export async function PATCH(
     }
 
     const skill = await prisma.skill.update({
-      where: { id: parseInt(id) },
+      where: { id: skillId },
       data: validated.data,
     });
 
@@ -58,8 +90,13 @@ export async function DELETE(
 
   try {
     const { id } = await params;
+    const skillId = parseInt(id, 10);
+    if (isNaN(skillId)) {
+      return NextResponse.json({ error: 'Invalid skill ID' }, { status: 400 });
+    }
+
     await prisma.skill.delete({
-      where: { id: parseInt(id) },
+      where: { id: skillId },
     });
 
     return NextResponse.json({ message: 'Skill deleted successfully' }, { status: 200 });

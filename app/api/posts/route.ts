@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { PostStatus } from '@prisma/client';
 import { requireAuth } from '@/lib/auth';
 import { sanitizeHtml, sanitizeText, sanitizeUrl } from '@/lib/sanitize';
+import { postSchema } from '@/lib/validations/schemas';
 
 // GET /api/posts - Fetch all posts with optional filters
 export async function GET(request: NextRequest) {
@@ -68,25 +69,23 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const {
-      title,
-      subtitle,
-      content,
-      slug,
-      image,
-      status,
-      authorId,
-      categoryIds,
-      tagIds,
-    } = body;
 
-    // Validation
-    if (!title || !content || !slug || !authorId) {
+    // Validate with Zod
+    const validated = postSchema.safeParse(body);
+    if (!validated.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
         { status: 400 }
       );
     }
+
+    const { title, subtitle, content, slug, image, status, authorId, categoryIds, tagIds } = validated.data;
 
     // Sanitize inputs to prevent XSS attacks
     const sanitizedTitle = sanitizeText(title);

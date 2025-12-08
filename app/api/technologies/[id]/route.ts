@@ -3,6 +3,34 @@ import { prisma } from '@/lib/prisma';
 import { technologyUpdateSchema } from '@/lib/validations/schemas';
 import { requireAuth } from '@/lib/auth';
 
+// GET /api/technologies/[id] - Fetch a single technology
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const technologyId = parseInt(id, 10);
+    if (isNaN(technologyId)) {
+      return NextResponse.json({ error: 'Invalid technology ID' }, { status: 400 });
+    }
+
+    const technology = await prisma.technology.findUnique({
+      where: { id: technologyId },
+      include: { projects: true },
+    });
+
+    if (!technology) {
+      return NextResponse.json({ error: 'Technology not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ technology }, { status: 200 });
+  } catch (error) {
+    console.error('Error fetching technology:', error);
+    return NextResponse.json({ error: 'Failed to fetch technology' }, { status: 500 });
+  }
+}
+
 // PATCH /api/technologies/[id] - Update technology (requires authentication)
 export async function PATCH(
   request: NextRequest,
@@ -16,6 +44,11 @@ export async function PATCH(
 
   try {
     const { id } = await params;
+    const technologyId = parseInt(id, 10);
+    if (isNaN(technologyId)) {
+      return NextResponse.json({ error: 'Invalid technology ID' }, { status: 400 });
+    }
+
     const body = await request.json();
 
     // Validate with Zod
@@ -34,7 +67,7 @@ export async function PATCH(
     }
 
     const technology = await prisma.technology.update({
-      where: { id: parseInt(id) },
+      where: { id: technologyId },
       data: validated.data,
     });
 
@@ -58,8 +91,13 @@ export async function DELETE(
 
   try {
     const { id } = await params;
+    const technologyId = parseInt(id, 10);
+    if (isNaN(technologyId)) {
+      return NextResponse.json({ error: 'Invalid technology ID' }, { status: 400 });
+    }
+
     await prisma.technology.delete({
-      where: { id: parseInt(id) },
+      where: { id: technologyId },
     });
 
     return NextResponse.json({ message: 'Technology deleted successfully' }, { status: 200 });

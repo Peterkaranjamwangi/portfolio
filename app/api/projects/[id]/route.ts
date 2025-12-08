@@ -10,8 +10,13 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+    const projectId = parseInt(id, 10);
+    if (isNaN(projectId)) {
+      return NextResponse.json({ error: 'Invalid project ID' }, { status: 400 });
+    }
+
     const project = await prisma.project.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: projectId },
       include: { technologies: true },
     });
 
@@ -39,6 +44,11 @@ export async function PATCH(
 
   try {
     const { id } = await params;
+    const projectId = parseInt(id, 10);
+    if (isNaN(projectId)) {
+      return NextResponse.json({ error: 'Invalid project ID' }, { status: 400 });
+    }
+
     const body = await request.json();
 
     // Validate with Zod
@@ -59,7 +69,7 @@ export async function PATCH(
     const { technologyIds, ...projectData } = validated.data;
 
     const project = await prisma.project.update({
-      where: { id: parseInt(id) },
+      where: { id: projectId },
       data: {
         ...projectData,
         ...(technologyIds && {
@@ -92,8 +102,13 @@ export async function DELETE(
 
   try {
     const { id } = await params;
+    const projectId = parseInt(id, 10);
+    if (isNaN(projectId)) {
+      return NextResponse.json({ error: 'Invalid project ID' }, { status: 400 });
+    }
+
     await prisma.project.delete({
-      where: { id: parseInt(id) },
+      where: { id: projectId },
     });
 
     return NextResponse.json({ message: 'Project deleted successfully' }, { status: 200 });

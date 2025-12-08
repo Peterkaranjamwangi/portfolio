@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { PostStatus } from '@prisma/client';
 import { requireAuth } from '@/lib/auth';
 import { sanitizeHtml, sanitizeText, sanitizeUrl } from '@/lib/sanitize';
+import { postUpdateSchema } from '@/lib/validations/schemas';
 
 // GET /api/posts/[id] - Fetch a single post
 export async function GET(
@@ -11,10 +12,13 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+    const postId = parseInt(id, 10);
+    if (isNaN(postId)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 400 });
+    }
+
     const post = await prisma.post.findUnique({
-      where: {
-        id: parseInt(id),
-      },
+      where: { id: postId },
       include: {
         author: {
           select: {
@@ -55,20 +59,32 @@ export async function PATCH(
 
   try {
     const { id } = await params;
+    const postId = parseInt(id, 10);
+    if (isNaN(postId)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 400 });
+    }
+
     const body = await request.json();
-    const {
-      title,
-      subtitle,
-      content,
-      slug,
-      image,
-      status,
-      categoryIds,
-      tagIds,
-    } = body;
+
+    // Validate with Zod
+    const validated = postUpdateSchema.safeParse(body);
+    if (!validated.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validated.error.errors.map(e => ({
+            field: e.path.join('.'),
+            message: e.message,
+          }))
+        },
+        { status: 400 }
+      );
+    }
+
+    const { title, subtitle, content, slug, image, status, categoryIds, tagIds } = validated.data;
 
     // Sanitize inputs to prevent XSS attacks
-    const sanitizedData: any = {};
+    const sanitizedData: Record<string, unknown> = {};
     if (title) sanitizedData.title = sanitizeText(title);
     if (subtitle !== undefined) sanitizedData.subtitle = subtitle ? sanitizeText(subtitle) : null;
     if (content) sanitizedData.content = sanitizeHtml(content);
@@ -78,21 +94,19 @@ export async function PATCH(
     if (status === PostStatus.PUBLISHED) sanitizedData.publishedAt = new Date();
 
     const post = await prisma.post.update({
-      where: {
-        id: parseInt(id),
-      },
+      where: { id: postId },
       data: {
         ...sanitizedData,
         ...(categoryIds && {
           categories: {
             set: [],
-            connect: categoryIds.map((id: number) => ({ id })),
+            connect: categoryIds.map((catId: number) => ({ id: catId })),
           },
         }),
         ...(tagIds && {
           tags: {
             set: [],
-            connect: tagIds.map((id: number) => ({ id })),
+            connect: tagIds.map((tagId: number) => ({ id: tagId })),
           },
         }),
       },
@@ -132,10 +146,13 @@ export async function DELETE(
 
   try {
     const { id } = await params;
+    const postId = parseInt(id, 10);
+    if (isNaN(postId)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 400 });
+    }
+
     await prisma.post.delete({
-      where: {
-        id: parseInt(id),
-      },
+      where: { id: postId },
     });
 
     return NextResponse.json(
