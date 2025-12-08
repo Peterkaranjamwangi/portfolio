@@ -10,7 +10,10 @@ const nextConfig = {
   // React 19 compatibility
   reactStrictMode: true,
 
-  // Experimental features for Next.js 15
+  // Turbopack configuration (empty = use defaults, silences webpack warning)
+  turbopack: {},
+
+  // Experimental features for Next.js 16
   experimental: {
     // Enable server actions (stable in Next.js 15)
     serverActions: {
@@ -36,21 +39,6 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-  },
-
-  // Webpack optimization
-  webpack: (config, { isServer }) => {
-    // Optimize bundles
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-
-    return config;
   },
 
   // Security headers
