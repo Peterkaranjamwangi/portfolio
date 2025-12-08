@@ -24,7 +24,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className="h-screen flex flex-col font-sans"
+          className="min-h-screen flex flex-col font-sans"
           style={{
             backgroundImage: "url(/bg.jpeg)",
             backgroundSize: "cover",
@@ -32,13 +32,11 @@ export default function RootLayout({
             backgroundAttachment: "fixed",
           }}
         >
-          <div className="flex-grow flex overflow-hidden">
-            <main className="flex-grow overflow-y-auto">
-              {children}
-              <Analytics />
-            </main>
-            <Footer />
-          </div>
+          <main className="flex-grow flex flex-col">
+            {children}
+            <Analytics />
+          </main>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>

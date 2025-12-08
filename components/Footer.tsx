@@ -5,13 +5,13 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="fixed right-0 left-0 bottom-0 p-4 md:text-right text-sm text-white z-[999999] text-center md:p-2 bg-black/80">
+    <footer className="hidden md:block w-full p-4 md:text-right text-sm text-white text-center md:p-2 bg-black/80 shrink-0">
       © {currentYear}
       <Link href="#" passHref>
-        <span className="px-2 slashed-zero underline-offset-2  text-primary transition-colors duration-300 hover:text-white">
+        <span className="px-2 slashed-zero underline-offset-2 text-primary transition-colors duration-300 hover:text-white">
           Peter Mwangi
         </span>
       </Link>
-    </div>
+    </footer>
   );
 }
