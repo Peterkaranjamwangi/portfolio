@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";  // Temporarily disabled due to network issues
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
-
-// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Peter Mwangi - Web Design & Development Portfolio",
@@ -21,26 +18,24 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/*
-          Sora + Fira Code are the redesign's type pair. They are linked
-          rather than pulled through next/font because the build already runs
-          in environments where next/font's fetch is unavailable — the same
-          reason the Inter import above is commented out.
+          Sora and Fira Code are declared as @font-face in globals.css and
+          served from /public/fonts. Preloading the two latin files here means
+          the browser starts fetching them alongside the stylesheet instead of
+          waiting to discover them inside it.
         */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
+          rel="preload"
+          href="/fonts/sora-latin.woff2"
+          as="font"
+          type="font/woff2"
           crossOrigin="anonymous"
         />
-        {/*
-          eslint-disable-next-line @next/next/no-page-custom-font --
-          the rule wants next/font, which is deliberately avoided here for the
-          reason given above; this link sits in the root layout, so it loads
-          once for every page rather than per-page as the rule warns.
-        */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
-          rel="stylesheet"
+          rel="preload"
+          href="/fonts/fira-code-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
         />
       </head>
       <body

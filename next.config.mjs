@@ -66,6 +66,18 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // The self-hosted fonts never change without also changing filename,
+        // so they can be cached for a year. Rename the file when swapping a
+        // font, or visitors keep the old one until the cache expires.
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
         source: '/:path*',
         headers: [
           {
