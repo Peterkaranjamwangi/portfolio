@@ -94,7 +94,6 @@ export function useMutation<
     } finally {
       if (mountedRef.current) setIsPending(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const reset = React.useCallback(() => setError(null), []);

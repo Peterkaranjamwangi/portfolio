@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Loader2 } from 'lucide-react';
 import { useServices } from '@/hooks/useServices';
+import type { Service } from '@/services/types';
 
 export default function ServicesAdmin() {
   const { services, loading, refetch } = useServices();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingService, setEditingService] = useState<any>(null);
+  const [editingService, setEditingService] = useState<Service | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -64,7 +65,7 @@ export default function ServicesAdmin() {
     setEditingService(null);
   };
 
-  const openEditModal = (service: any) => {
+  const openEditModal = (service: Service) => {
     setEditingService(service);
     setFormData({
       name: service.name,

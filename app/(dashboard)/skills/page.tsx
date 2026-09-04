@@ -25,13 +25,13 @@ const getIconComponent = (iconName?: string) => {
   if (!iconName) return null;
 
   // Try Lucide first
-  const LucideIcon = (LucideIcons as any)[iconName];
+  const LucideIcon = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string; size?: number }>>)[iconName];
   if (LucideIcon) return LucideIcon;
 
   // Try React Icons packages
   const iconPackages = [FaIcons, IoIcons, SiIcons, BiIcons, AiIcons, GiIcons];
   for (const iconPkg of iconPackages) {
-    const Icon = (iconPkg as any)[iconName];
+    const Icon = (iconPkg as unknown as Record<string, React.ComponentType<{ className?: string; size?: number }>>)[iconName];
     if (Icon) return Icon;
   }
 

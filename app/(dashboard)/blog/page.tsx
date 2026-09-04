@@ -1,8 +1,15 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import DashboardPage from '@/components/dashboard/DashboardPage';
 import { BookOpen, Eye, Calendar, User, Filter } from 'lucide-react';
+
+/**
+ * The filter buttons and the state share one list, so a new status cannot be
+ * added to the row without the state type following it.
+ */
+const POST_FILTERS = ['ALL', 'PUBLISHED', 'DRAFT', 'ARCHIVED'] as const;
+type PostFilter = (typeof POST_FILTERS)[number];
 
 interface Post {
   id: number;
@@ -24,13 +31,12 @@ interface Post {
 export default function BlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'ALL' | 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'>('ALL');
+  const [filter, setFilter] = useState<PostFilter>('ALL');
 
-  useEffect(() => {
-    fetchPosts();
-  }, [filter]);
-
-  const fetchPosts = async () => {
+  // Wrapped so the effect can depend on it honestly: the function closes over
+  // `filter`, so a stale copy would keep fetching the previously selected
+  // status.
+  const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
       const url = filter === 'ALL'
@@ -45,7 +51,11 @@ export default function BlogPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filter]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -65,10 +75,10 @@ export default function BlogPage() {
       <div className="h-full flex flex-col px-4">
         {/* Filter buttons */}
         <div className="flex gap-2 mb-6 flex-wrap">
-          {['ALL', 'PUBLISHED', 'DRAFT', 'ARCHIVED'].map((status) => (
+          {POST_FILTERS.map((status) => (
             <motion.button
               key={status}
-              onClick={() => setFilter(status as any)}
+              onClick={() => setFilter(status)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`

@@ -200,6 +200,73 @@ npx prisma migrate dev --name migration_name
 npx prisma migrate deploy
 ```
 
+## Appendix: local PostgreSQL on Ubuntu
+
+The project points at Supabase's Postgres by default (see
+[SUPABASE_SETUP.md](./SUPABASE_SETUP.md)). These steps are for running a local
+Postgres instead, on Ubuntu.
+
+### Install
+
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+psql --version
+
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
+
+### Create the database and user
+
+```bash
+sudo -u postgres psql
+```
+
+```sql
+CREATE DATABASE your_database_name;
+CREATE USER your_username WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE your_database_name TO your_username;
+
+\c your_database_name
+ALTER DATABASE your_database_name OWNER TO your_username;
+\q
+```
+
+### Enable password authentication
+
+A stock install authenticates local connections by Unix user (`peer`), which
+rejects the username/password pair in `DATABASE_URL`. Switch it to `md5`:
+
+```bash
+sudo nano /etc/postgresql/<version>/main/pg_hba.conf
+```
+
+```
+# change
+local   all             all                                     peer
+# to
+local   all             all                                     md5
+```
+
+```bash
+sudo systemctl restart postgresql
+```
+
+### If it will not connect
+
+```bash
+sudo systemctl status postgresql       # is the service up?
+sudo journalctl -xeu postgresql        # why did it fail to start?
+sudo netstat -plunt | grep postgres    # is it listening?
+```
+
+### Going to production on your own Postgres
+
+Use a strong password, restrict access with firewall rules, require SSL on the
+connection, set up backups, and configure connection pooling — a serverless
+deployment opens far more connections than a long-lived server does.
+
 ## Need Help?
 
 - [Prisma Documentation](https://www.prisma.io/docs)

@@ -6,12 +6,14 @@ import { useTechnologies } from '@/hooks/useTechnologies';
 import { ImageUpload } from '@/components/admin/image-upload';
 import { projectsService } from '@/services';
 import { PROJECT_PLATFORMS } from '@/lib/validations/schemas';
+import type { Project, Technology } from '@/services/types';
+import Image from 'next/image';
 
 export default function ProjectsAdmin() {
   const { projects, loading, refetch } = useProjects();
   const { technologies } = useTechnologies();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState<any>(null);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     shortDescription: '',
@@ -79,7 +81,7 @@ export default function ProjectsAdmin() {
     setSaveError(null);
   };
 
-  const openEditModal = (project: any) => {
+  const openEditModal = (project: Project) => {
     setEditingProject(project);
     setFormData({
       name: project.name,
@@ -91,7 +93,7 @@ export default function ProjectsAdmin() {
       link: project.link,
       status: project.status,
       order: project.order,
-      technologyIds: project.technologies.map((t: any) => t.id),
+      technologyIds: project.technologies.map((t: Technology) => t.id),
     });
     setSaveError(null);
     setIsModalOpen(true);
@@ -140,9 +142,11 @@ export default function ProjectsAdmin() {
                 <tr key={project.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <img
+                      <Image
                         src={project.image}
                         alt={project.name}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 rounded object-cover"
                       />
                       <div>
@@ -168,7 +172,7 @@ export default function ProjectsAdmin() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex flex-wrap gap-1">
-                      {project.technologies.slice(0, 3).map((tech: any) => (
+                      {project.technologies.slice(0, 3).map((tech: Technology) => (
                         <span
                           key={tech.id}
                           className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
@@ -269,9 +273,11 @@ export default function ProjectsAdmin() {
                   <div className="flex flex-wrap gap-3 mb-2">
                     {formData.images.map((url) => (
                       <div key={url} className="relative">
-                        <img
+                        <Image
                           src={url}
                           alt=""
+                          width={80}
+                          height={80}
                           className="w-20 h-20 rounded object-cover border dark:border-gray-600"
                         />
                         <button

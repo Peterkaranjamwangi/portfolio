@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { projects } from "@/constants/constants";
 import { ChevronDown, ChevronUp, Eye, EyeOff } from "lucide-react";
@@ -14,14 +14,6 @@ interface Props {
 
 export function CustomCollapsible({ children, title }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [height, setHeight] = useState("0px");
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setHeight(isOpen ? `${contentRef.current.scrollHeight}px` : "0px");
-    }
-  }, [isOpen]);
 
   return (
     <div className="mt-2 border-2rounded">
@@ -35,12 +27,20 @@ export function CustomCollapsible({ children, title }: Props) {
         </div>
         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>
+      {/*
+        Animating grid-template-rows between 0fr and 1fr lets the panel
+        transition to its natural height in CSS alone. It replaces measuring
+        scrollHeight in an effect, which needed a render pass to read the DOM
+        and set state before the panel could open.
+      */}
       <div
-        ref={contentRef}
-        style={{ height }}
-        className="overflow-hidden transition-all duration-300 ease-in-out"
+        className={`grid transition-all duration-300 ease-in-out ${
+          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
       >
-        <div className="m-2 text-gray-100">{children}</div>
+        <div className="overflow-hidden">
+          <div className="m-2 text-gray-100">{children}</div>
+        </div>
       </div>
     </div>
   );

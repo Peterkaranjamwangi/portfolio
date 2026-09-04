@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { PostStatus } from '@prisma/client';
+import { PostStatus, Prisma } from '@prisma/client';
 import { requireAuth } from '@/lib/auth';
 import { sanitizeHtml, sanitizeText, sanitizeUrl } from '@/lib/sanitize';
 
@@ -68,7 +68,7 @@ export async function PATCH(
     } = body;
 
     // Sanitize inputs to prevent XSS attacks
-    const sanitizedData: any = {};
+    const sanitizedData: Prisma.PostUpdateInput = {};
     if (title) sanitizedData.title = sanitizeText(title);
     if (subtitle !== undefined) sanitizedData.subtitle = subtitle ? sanitizeText(subtitle) : null;
     if (content) sanitizedData.content = sanitizeHtml(content);

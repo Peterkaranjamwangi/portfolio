@@ -32,6 +32,12 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        {/*
+          eslint-disable-next-line @next/next/no-page-custom-font --
+          the rule wants next/font, which is deliberately avoided here for the
+          reason given above; this link sits in the root layout, so it loads
+          once for every page rather than per-page as the rule warns.
+        */}
         <link
           href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
           rel="stylesheet"

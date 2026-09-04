@@ -55,7 +55,6 @@ import {
   SiPostgresql,
   SiVercel,
   SiCss3,
-  SiGraphql,
   SiHtml5,
 } from "react-icons/si";
 import {

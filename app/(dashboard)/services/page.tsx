@@ -9,7 +9,7 @@ import * as ReactIcons from 'react-icons/bi';
 // Helper to get icon component
 const getIconComponent = (iconName?: string) => {
   if (!iconName) return null;
-  const Icon = (ReactIcons as any)[iconName];
+  const Icon = (ReactIcons as unknown as Record<string, React.ComponentType<{ className?: string; size?: number }>>)[iconName];
   return Icon || null;
 };
 

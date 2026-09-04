@@ -3,7 +3,6 @@ import React from "react";
 import Link from "next/link";
 import { AdminLINKS } from "@/constants/constants";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 
 export default function AdminSidebar() {
   const pathname = usePathname();

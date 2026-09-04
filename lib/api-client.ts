@@ -115,7 +115,7 @@ function withQuery(
   return search ? `${path}?${search}` : path;
 }
 
-async function readJson(response: Response): Promise<any> {
+async function readJson(response: Response): Promise<Record<string, unknown> | null> {
   try {
     return await response.json();
   } catch {

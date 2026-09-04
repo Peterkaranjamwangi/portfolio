@@ -7,11 +7,12 @@ import { useSkills } from '@/hooks/useSkills';
 import { skillSchema, type SkillFormData } from '@/lib/validations/schemas';
 import { skillsService } from '@/services';
 import { ApiError } from '@/lib/api-client';
+import type { Skill } from '@/services/types';
 
 export default function SkillsAdmin() {
   const { skills, loading, refetch } = useSkills();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingSkill, setEditingSkill] = useState<any>(null);
+  const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
@@ -85,7 +86,7 @@ export default function SkillsAdmin() {
     setEditingSkill(null);
   };
 
-  const openEditModal = (skill: any) => {
+  const openEditModal = (skill: Skill) => {
     setEditingSkill(skill);
     setValue('label', skill.label);
     setValue('type', skill.type);

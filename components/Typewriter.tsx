@@ -26,9 +26,13 @@ const Typewriter: React.FC<TypewriterProps> = ({
 
     if (isDeleting) {
       if (currentText === "") {
-        setIsDeleting(false);
-        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-        timer = setTimeout(() => {}, pauseDelay);
+        // Moving to the next word happens inside the timer, not beside it.
+        // Setting the state here and scheduling an empty timeout meant the
+        // pause between words was scheduled but never actually waited out.
+        timer = setTimeout(() => {
+          setIsDeleting(false);
+          setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+        }, pauseDelay);
       } else {
         timer = setTimeout(() => {
           setCurrentText(currentText.slice(0, -1));

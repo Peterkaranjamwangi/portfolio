@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Loader2, ExternalLink } from 'lucide-react';
 import { useTechnologies } from '@/hooks/useTechnologies';
+import type { Technology } from '@/services/types';
 
 export default function TechnologiesAdmin() {
   const { technologies, loading, refetch } = useTechnologies();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingTech, setEditingTech] = useState<any>(null);
+  const [editingTech, setEditingTech] = useState<Technology | null>(null);
   const [formData, setFormData] = useState({
     label: '',
     value: 0,
@@ -66,7 +67,7 @@ export default function TechnologiesAdmin() {
     setEditingTech(null);
   };
 
-  const openEditModal = (tech: any) => {
+  const openEditModal = (tech: Technology) => {
     setEditingTech(tech);
     setFormData({
       label: tech.label,

@@ -1,11 +1,10 @@
 "use client";
-import { MenuIcon, MenuSquareIcon } from "lucide-react";
+import { MenuSquareIcon } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import { AdminLINKS } from "@/constants/constants";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 
 export default function AdminOverlay() {
   const pathname = usePathname();

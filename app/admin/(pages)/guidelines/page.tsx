@@ -132,7 +132,7 @@ const WebsiteCostGuide = () => {
   ]);
 
   const handleEdit =
-    <T extends Record<string, any>>(
+    <T extends object>(
       setter: React.Dispatch<React.SetStateAction<T[]>>
     ) =>
     (index: number, field: keyof T, value: string) => {
@@ -144,7 +144,7 @@ const WebsiteCostGuide = () => {
     };
 
   const handleAdd =
-    <T extends Record<string, any>>(
+    <T extends object>(
       setter: React.Dispatch<React.SetStateAction<T[]>>,
       defaultItem: T
     ) =>

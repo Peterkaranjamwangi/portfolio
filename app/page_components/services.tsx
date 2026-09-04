@@ -1,5 +1,4 @@
 import React from "react";
-import InnerLayout from "@/components/InnerLayout";
 import PageTitle from "@/components/PageTitle";
 import { SERVICES } from "@/constants/constants";
 

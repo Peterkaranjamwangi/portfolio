@@ -34,6 +34,10 @@ export interface Project {
   name: string;
   shortDescription: string;
   image: string;
+  /** Additional screenshots, in display order. */
+  images: string[];
+  /** Platforms this project ships on; drives the public filter. */
+  platforms: string[];
   github?: string;
   link: string;
   status: ProjectStatus;

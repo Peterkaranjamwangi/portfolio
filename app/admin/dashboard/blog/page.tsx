@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Loader2, ExternalLink } from 'lucide-react';
 import { usePosts } from '@/hooks/usePosts';
+import type { Post } from '@/services/types';
 
 export default function BlogAdmin() {
   const { posts, loading, refetch } = usePosts();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingPost, setEditingPost] = useState<any>(null);
+  const [editingPost, setEditingPost] = useState<Post | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
@@ -74,7 +75,7 @@ export default function BlogAdmin() {
     setEditingPost(null);
   };
 
-  const openEditModal = (post: any) => {
+  const openEditModal = (post: Post) => {
     setEditingPost(post);
     setFormData({
       title: post.title,

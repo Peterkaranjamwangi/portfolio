@@ -86,7 +86,7 @@ async function main() {
     );
 
   // Seed Posts with realistic content
-  const posts = await prisma.post.createMany({
+  await prisma.post.createMany({
     data: [
       {
         title: "Getting Started with Next.js",
@@ -318,7 +318,7 @@ async function main() {
   // ============================================
 
   // Create Technologies (Tech Stack)
-  const technologies = await prisma.technology.createMany({
+  await prisma.technology.createMany({
     data: [
       // Design Tools
       {
@@ -475,10 +475,6 @@ async function main() {
   const postgresqlTech = await prisma.technology.findUnique({
     where: { label: "PostgreSQL" },
   });
-  const framerMotion = await prisma.technology.findUnique({
-    where: { label: "Framer Motion" },
-  });
-
   // Create additional tech for projects
   await prisma.technology.create({
     data: {
