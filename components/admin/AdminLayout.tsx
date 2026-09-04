@@ -12,10 +12,10 @@ import {
   Menu,
   X,
   Settings,
-  User,
+  LogOut,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserButton, useUser, SignOutButton } from '@clerk/nextjs';
+import { useUser } from '@/hooks/use-user';
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' },
@@ -34,7 +34,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
-  const { user } = useUser();
+  const { user, displayName } = useUser();
 
   // Fix SSR error - check window size only on client
   useEffect(() => {
@@ -108,18 +108,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               {/* User Info */}
               {user && (
                 <div className="flex items-center gap-3 px-4 py-2">
-                  <div className="flex-shrink-0">
-                    <UserButton
-                      appearance={{
-                        elements: {
-                          avatarBox: "w-10 h-10",
-                        },
-                      }}
-                    />
+                  <div
+                    aria-hidden="true"
+                    className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 flex items-center justify-center text-sm font-semibold"
+                  >
+                    {initialsFor(displayName)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                      {user.fullName || user.primaryEmailAddress?.emailAddress}
+                      {displayName}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                       Admin
@@ -136,12 +133,20 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <span className="font-medium">View Site</span>
               </Link>
 
-              <SignOutButton>
-                <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
-                  <User size={20} />
+              {/*
+                A form POST rather than a click handler: signing out is a state
+                change on the server, and it still works if JavaScript has not
+                loaded yet.
+              */}
+              <form action="/auth/sign-out" method="post">
+                <button
+                  type="submit"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
+                >
+                  <LogOut size={20} />
                   <span className="font-medium">Sign Out</span>
                 </button>
-              </SignOutButton>
+              </form>
             </div>
           </motion.aside>
         )}
@@ -163,4 +168,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       </main>
     </div>
   );
+}
+
+/** Up to two initials for the avatar; an email falls back to its first letter. */
+function initialsFor(name: string | null): string {
+  if (!name) return '?';
+
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 1).toUpperCase();
+
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }

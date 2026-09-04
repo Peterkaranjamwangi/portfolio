@@ -1,8 +1,11 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Loader2, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Edit, Trash2, Loader2, ExternalLink, X } from 'lucide-react';
 import { useProjects } from '@/hooks/useProjects';
 import { useTechnologies } from '@/hooks/useTechnologies';
+import { ImageUpload } from '@/components/admin/image-upload';
+import { projectsService } from '@/services';
+import { PROJECT_PLATFORMS } from '@/lib/validations/schemas';
 
 export default function ProjectsAdmin() {
   const { projects, loading, refetch } = useProjects();
@@ -13,6 +16,8 @@ export default function ProjectsAdmin() {
     name: '',
     shortDescription: '',
     image: '',
+    images: [] as string[],
+    platforms: [] as string[],
     github: '',
     link: '',
     status: 'COMPLETED',
@@ -20,30 +25,27 @@ export default function ProjectsAdmin() {
     technologyIds: [] as number[],
   });
   const [submitting, setSubmitting] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    setSaveError(null);
 
     try {
-      const url = editingProject
-        ? `/api/projects/${editingProject.id}`
-        : '/api/projects';
-      const method = editingProject ? 'PATCH' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        refetch();
-        setIsModalOpen(false);
-        resetForm();
+      if (editingProject) {
+        await projectsService.update(editingProject.id, formData);
+      } else {
+        await projectsService.create(formData);
       }
+
+      refetch();
+      setIsModalOpen(false);
+      resetForm();
     } catch (error) {
-      console.error('Error saving project:', error);
+      // The save used to fail silently on a non-2xx: the modal simply stayed
+      // open with no explanation. The service throws, so the reason is here.
+      setSaveError(error instanceof Error ? error.message : 'Failed to save project');
     } finally {
       setSubmitting(false);
     }
@@ -53,7 +55,7 @@ export default function ProjectsAdmin() {
     if (!confirm('Are you sure you want to delete this project?')) return;
 
     try {
-      await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+      await projectsService.remove(id);
       refetch();
     } catch (error) {
       console.error('Error deleting project:', error);
@@ -65,6 +67,8 @@ export default function ProjectsAdmin() {
       name: '',
       shortDescription: '',
       image: '',
+      images: [],
+      platforms: [],
       github: '',
       link: '',
       status: 'COMPLETED',
@@ -72,6 +76,7 @@ export default function ProjectsAdmin() {
       technologyIds: [],
     });
     setEditingProject(null);
+    setSaveError(null);
   };
 
   const openEditModal = (project: any) => {
@@ -80,12 +85,15 @@ export default function ProjectsAdmin() {
       name: project.name,
       shortDescription: project.shortDescription,
       image: project.image,
+      images: project.images ?? [],
+      platforms: project.platforms ?? [],
       github: project.github || '',
       link: project.link,
       status: project.status,
       order: project.order,
       technologyIds: project.technologies.map((t: any) => t.id),
     });
+    setSaveError(null);
     setIsModalOpen(true);
   };
 
@@ -245,36 +253,96 @@ export default function ProjectsAdmin() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                      Image URL *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.image}
-                      onChange={(e) =>
-                        setFormData({ ...formData, image: e.target.value })
-                      }
-                      className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                    />
-                  </div>
+                <ImageUpload
+                  label="Cover image *"
+                  value={formData.image || null}
+                  folder="projects"
+                  onChange={(next) =>
+                    setFormData({ ...formData, image: next?.url ?? '' })
+                  }
+                />
 
-                  <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                      Live URL *
-                    </label>
-                    <input
-                      type="url"
-                      required
-                      value={formData.link}
-                      onChange={(e) =>
-                        setFormData({ ...formData, link: e.target.value })
-                      }
-                      className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                    />
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                    Screenshots
+                  </label>
+                  <div className="flex flex-wrap gap-3 mb-2">
+                    {formData.images.map((url) => (
+                      <div key={url} className="relative">
+                        <img
+                          src={url}
+                          alt=""
+                          className="w-20 h-20 rounded object-cover border dark:border-gray-600"
+                        />
+                        <button
+                          type="button"
+                          aria-label="Remove screenshot"
+                          onClick={() =>
+                            setFormData({
+                              ...formData,
+                              images: formData.images.filter((u) => u !== url),
+                            })
+                          }
+                          className="absolute -top-2 -right-2 p-1 bg-red-600 text-white rounded-full"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
                   </div>
+                  <ImageUpload
+                    label="Add a screenshot"
+                    value={null}
+                    folder="projects"
+                    onChange={(next) => {
+                      if (!next) return;
+                      setFormData((current) => ({
+                        ...current,
+                        images: [...current.images, next.url],
+                      }));
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                    Platforms
+                  </label>
+                  <div className="flex flex-wrap gap-3 p-2 border rounded-lg dark:border-gray-600">
+                    {PROJECT_PLATFORMS.map((platform) => (
+                      <label key={platform} className="flex items-center gap-2 text-sm capitalize">
+                        <input
+                          type="checkbox"
+                          checked={formData.platforms.includes(platform)}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              platforms: e.target.checked
+                                ? [...formData.platforms, platform]
+                                : formData.platforms.filter((p) => p !== platform),
+                            })
+                          }
+                          className="rounded"
+                        />
+                        <span className="dark:text-gray-300">{platform}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                    Live URL *
+                  </label>
+                  <input
+                    type="url"
+                    required
+                    value={formData.link}
+                    onChange={(e) =>
+                      setFormData({ ...formData, link: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -336,6 +404,12 @@ export default function ProjectsAdmin() {
                     ))}
                   </div>
                 </div>
+
+                {saveError && (
+                  <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+                    {saveError}
+                  </p>
+                )}
 
                 <div className="flex gap-2 pt-4">
                   <button

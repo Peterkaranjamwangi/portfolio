@@ -69,7 +69,15 @@ model Project {
   id               Int           @id @default(autoincrement())
   name             String
   shortDescription String
+  /// Cover image: a Supabase bucket URL, or a path under /public for the
+  /// screenshots that shipped with the repo.
   image            String
+  /// Additional screenshots, in display order.
+  images           String[]      @default([])
+  /// Platforms this project ships on — drives the public "Web / Android /
+  /// Flutter Web / Linux / Windows / macOS" filter. A Flutter build legitimately
+  /// carries several, which is why this is a list and not a single column.
+  platforms        String[]      @default([])
   github           String?
   link             String
   status           ProjectStatus @default(COMPLETED)
@@ -130,7 +138,62 @@ model Service {
   @@index([order])
 }
 
+/// A submitted price estimate plus the lead who asked for it.
+///
+/// The priced figures are stored alongside the selection deliberately: the
+/// catalogue will change, and a quote has to stay readable as what was quoted
+/// on the day rather than being re-derived later at different prices.
+model Estimate {
+  id        String   @id @default(cuid())
+  /// Short human reference quoted back to the visitor, e.g. EST-7Q2KD1X4.
+  reference String   @unique
+
+  // -- Selection
+  industrySlug     String
+  industryLabel    String
+  industryMultiplier Float
+  projectTypeSlug  String
+  projectTypeLabel String
+  featureSlugs     String[]
+  /// [{ title, description }] — free text, so it stays JSON rather than a table.
+  customFeatures   Json
+  /// The full server-computed breakdown as rendered to the visitor.
+  breakdown        Json
+
+  // -- Priced figures, in whole shillings
+  currency       String @default("KES")
+  subtotalKes    Int
+  rangeLowKes    Int
+  rangeHighKes   Int
+  estimatedWeeks Float
+
+  // -- Lead
+  fullName String
+  email    String
+  phone    String?
+  company  String?
+  country  String  @default("KE")
+  message  String?
+
+  status    EstimateStatus @default(NEW)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([email])
+}
+
 // Enums
+enum EstimateStatus {
+  NEW
+  REVIEWED
+  SCHEDULED
+  WON
+  LOST
+  ARCHIVED
+}
+
 enum UserRole {
   USER
   ADMIN

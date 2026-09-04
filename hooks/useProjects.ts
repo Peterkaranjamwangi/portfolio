@@ -1,27 +1,12 @@
-import { useState, useEffect } from 'react';
+"use client";
 
-interface Technology {
-  id: number;
-  label: string;
-  value: number;
-  icon?: string;
-  href?: string;
-  category: string;
-}
+import * as React from "react";
 
-export interface Project {
-  id: number;
-  name: string;
-  shortDescription: string;
-  image: string;
-  github?: string;
-  link: string;
-  status: 'COMPLETED' | 'IN_PROGRESS' | 'ARCHIVED';
-  order: number;
-  technologies: Technology[];
-  createdAt: string;
-  updatedAt: string;
-}
+import { useResource } from "@/hooks/use-resource";
+import { projectsService } from "@/services";
+import type { Project, Technology } from "@/services/types";
+
+export type { Project, Technology };
 
 interface UseProjectsReturn {
   projects: Project[];
@@ -30,39 +15,24 @@ interface UseProjectsReturn {
   refetch: () => void;
 }
 
+/**
+ * Reads projects through the projects service.
+ *
+ * The `{ items, loading, error, refetch }` shape is kept as-is so the admin and
+ * public pages that already consume it need no change; what moved is where the
+ * request is built and how failures are shaped.
+ */
 export function useProjects(status?: string): UseProjectsReturn {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, error, isLoading, refetch } = useResource<Project[]>(
+    (signal) => projectsService.list(status, signal),
+    [status],
+  );
 
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const url = status
-        ? `/api/projects?status=${status}`
-        : '/api/projects';
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch projects');
-      }
-
-      const data = await response.json();
-      setProjects(data.projects || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching projects:', err);
-    } finally {
-      setLoading(false);
-    }
+  return {
+    // A null `data` is "not loaded yet"; callers map over the list either way.
+    projects: React.useMemo(() => data ?? [], [data]),
+    loading: isLoading,
+    error: error?.message ?? null,
+    refetch,
   };
-
-  useEffect(() => {
-    fetchProjects();
-  }, [status]);
-
-  return { projects, loading, error, refetch: fetchProjects };
 }

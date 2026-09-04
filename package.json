@@ -16,7 +16,6 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.12.2",
     "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "^6.2.0",
@@ -28,6 +27,8 @@
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-tabs": "^1.1.2",
+    "@supabase/ssr": "^0.12.5",
+    "@supabase/supabase-js": "^2.115.0",
     "@vercel/analytics": "^1.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

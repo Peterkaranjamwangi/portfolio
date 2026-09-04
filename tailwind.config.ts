@@ -50,6 +50,38 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+
+        // Redesign tokens — see the token block in app/globals.css.
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          container: "hsl(var(--surface-container))",
+          "container-high": "hsl(var(--surface-container-high))",
+        },
+        "on-surface": {
+          DEFAULT: "hsl(var(--on-surface))",
+          variant: "hsl(var(--on-surface-variant))",
+        },
+        outline: "hsl(var(--outline))",
+        ink: "hsl(var(--ink))",
+        "on-ink": "hsl(var(--on-ink))",
+        signal: {
+          DEFAULT: "hsl(var(--signal))",
+          soft: "hsl(var(--signal-soft))",
+        },
+        "on-signal": "hsl(var(--on-signal))",
+        beacon: "hsl(var(--beacon))",
+      },
+      fontFamily: {
+        display: "var(--font-display)",
+        mono: "var(--font-mono)",
+      },
+      fontSize: {
+        "label-xs": ["0.6875rem", { lineHeight: "1.2" }],
+        "label-sm": ["0.75rem", { lineHeight: "1.3" }],
+        "body-sm": ["0.8125rem", { lineHeight: "1.55" }],
+        "body-md": ["0.9375rem", { lineHeight: "1.6" }],
+        "body-lg": ["1.0625rem", { lineHeight: "1.45" }],
+        "headline-md": ["1.375rem", { lineHeight: "1.15", letterSpacing: "-0.01em" }],
       },
       borderRadius: {
         lg: "var(--radius)",

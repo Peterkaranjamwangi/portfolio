@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
+"use client";
 
-export interface Service {
-  id: number;
-  name: string;
-  description: string;
-  icon?: string;
-  order: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import * as React from "react";
+
+import { useResource } from "@/hooks/use-resource";
+import { servicesService } from "@/services";
+import type { Service } from "@/services/types";
+
+export type { Service };
 
 interface UseServicesReturn {
   services: Service[];
@@ -18,34 +16,15 @@ interface UseServicesReturn {
 }
 
 export function useServices(): UseServicesReturn {
-  const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, error, isLoading, refetch } = useResource<Service[]>(
+    (signal) => servicesService.list(signal),
+    [],
+  );
 
-  const fetchServices = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await fetch('/api/services');
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch services');
-      }
-
-      const data = await response.json();
-      setServices(data.services || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching services:', err);
-    } finally {
-      setLoading(false);
-    }
+  return {
+    services: React.useMemo(() => data ?? [], [data]),
+    loading: isLoading,
+    error: error?.message ?? null,
+    refetch,
   };
-
-  useEffect(() => {
-    fetchServices();
-  }, []);
-
-  return { services, loading, error, refetch: fetchServices };
 }

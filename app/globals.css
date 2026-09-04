@@ -1,6 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/*
+ * Tailwind v4 is the installed engine, but the project still keeps its theme in
+ * tailwind.config.ts. `@config` loads that legacy config so every existing
+ * `bg-primary` / `text-muted-foreground` class keeps resolving.
+ */
+@config "../tailwind.config.ts";
 
 @import '../styles/dashboard.css';
 
@@ -26,6 +31,38 @@
     --input: 240 5.9% 90%;
     --ring: 346.8 77.2% 49.8%;
     --radius: 1rem;
+
+    /*
+     * Redesign tokens (Portfolio Prototype canvas).
+     *
+     * `ink` is the structural near-black navy the redesign draws every border
+     * and inverse panel with. It is deliberately NOT `primary`: the rest of the
+     * site already binds `primary` to the rose accent, and repointing it would
+     * recolour every existing page.
+     */
+    --surface: 40 33% 97%;
+    --surface-container: 0 0% 100%;
+    --surface-container-high: 40 20% 94%;
+    --on-surface: 230 59% 10%;
+    --on-surface-variant: 220 9% 46%;
+    --outline: 230 20% 84%;
+
+    --ink: 230 59% 10%;
+    --on-ink: 0 0% 100%;
+
+    /* The rose CTA colour: the one thing on a screen asking to be pressed. */
+    --signal: 347 77% 50%;
+    --on-signal: 0 0% 100%;
+    --signal-soft: 347 77% 90%;
+
+    /* Cyan supporting accent used for eyebrow labels and quiet highlights. */
+    --beacon: 192 91% 36%;
+
+    --container-page: 72rem;
+
+    --font-display: "Sora", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Helvetica, Arial, sans-serif;
+    --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
   }
 
   .dark {
@@ -48,5 +85,58 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 346.8 77.2% 49.8%;
+
+    /*
+     * Dark mode inverts surface and ink rather than re-picking colours, so the
+     * "2px ink border" language survives: on dark navy the border is white.
+     */
+    --surface: 230 59% 10%;
+    --surface-container: 230 40% 14%;
+    --surface-container-high: 230 34% 19%;
+    --on-surface: 0 0% 100%;
+    --on-surface-variant: 220 14% 71%;
+    --outline: 230 20% 30%;
+
+    --ink: 0 0% 100%;
+    --on-ink: 230 59% 10%;
+
+    --signal: 347 82% 60%;
+    --on-signal: 0 0% 100%;
+    --signal-soft: 347 50% 26%;
+
+    --beacon: 187 85% 53%;
+  }
+}
+
+@layer utilities {
+  /*
+   * The redesign's one decorative move: a hard, un-blurred offset shadow. It
+   * uses `ink` so it flips with the theme instead of disappearing on dark.
+   */
+  .brutal-shadow {
+    box-shadow: 4px 4px 0 0 hsl(var(--ink));
+  }
+
+  .brutal-shadow-signal {
+    box-shadow: 4px 4px 0 0 hsl(var(--signal));
+  }
+
+  .surface-inverse {
+    color-scheme: dark;
+  }
+
+  /* Keeps the mobile estimate bar clear of the iOS home indicator. */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+@layer base {
+  /*
+   * Prices and counts are read as figures, not prose: tabular digits stop the
+   * live total from jittering as it counts up.
+   */
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
   }
 }

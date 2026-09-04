@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
+"use client";
 
-export interface Skill {
-  id: number;
-  label: string;
-  type: 'TECHNICAL' | 'SOFT';
-  icon?: string;
-  order: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import * as React from "react";
+
+import { useResource } from "@/hooks/use-resource";
+import { skillsService } from "@/services";
+import type { Skill, SkillType } from "@/services/types";
+
+export type { Skill };
 
 interface UseSkillsReturn {
   skills: Skill[];
@@ -17,39 +15,16 @@ interface UseSkillsReturn {
   refetch: () => void;
 }
 
-export function useSkills(type?: 'TECHNICAL' | 'SOFT'): UseSkillsReturn {
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function useSkills(type?: SkillType): UseSkillsReturn {
+  const { data, error, isLoading, refetch } = useResource<Skill[]>(
+    (signal) => skillsService.list(type, signal),
+    [type],
+  );
 
-  const fetchSkills = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const url = type
-        ? `/api/skills?type=${type}`
-        : '/api/skills';
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch skills');
-      }
-
-      const data = await response.json();
-      setSkills(data.skills || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching skills:', err);
-    } finally {
-      setLoading(false);
-    }
+  return {
+    skills: React.useMemo(() => data ?? [], [data]),
+    loading: isLoading,
+    error: error?.message ?? null,
+    refetch,
   };
-
-  useEffect(() => {
-    fetchSkills();
-  }, [type]);
-
-  return { skills, loading, error, refetch: fetchSkills };
 }

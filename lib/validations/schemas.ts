@@ -1,11 +1,43 @@
 import { z } from 'zod';
 import { ProjectStatus, SkillType, TechCategory, PostStatus } from '@prisma/client';
 
+/** Platforms the public projects filter offers. */
+export const PROJECT_PLATFORMS = [
+  'web',
+  'android',
+  'flutter web',
+  'linux',
+  'windows',
+  'macos',
+] as const;
+
+/**
+ * An image reference: either a Supabase bucket URL or a root-relative path
+ * under /public.
+ *
+ * A plain `.url()` rejected `/estien.png`, which is exactly what the seed data
+ * and the shipped screenshots use — so the admin panel could never save a
+ * project alongside the ones already in the database.
+ */
+const mediaUrl = (message = 'Must be a URL or a path like /image.png') =>
+  z
+    .string()
+    .trim()
+    .max(2048)
+    .refine(
+      (value) =>
+        (value.startsWith('/') && !value.startsWith('//')) ||
+        /^https?:\/\//i.test(value),
+      message,
+    );
+
 // Project schemas
 export const projectSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name is too long'),
   shortDescription: z.string().min(1, 'Description is required').max(500, 'Description is too long'),
-  image: z.string().url('Must be a valid URL'),
+  image: mediaUrl('A cover image is required'),
+  images: z.array(mediaUrl()).max(12, 'Up to 12 screenshots').default([]),
+  platforms: z.array(z.enum(PROJECT_PLATFORMS)).default([]),
   github: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   link: z.string().url('Must be a valid URL'),
   status: z.nativeEnum(ProjectStatus),

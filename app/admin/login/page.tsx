@@ -1,7 +1,10 @@
-import React from 'react'
+import { redirect } from "next/navigation";
 
-export default function page() {
-  return (
-    <div>page</div>
-  )
+/**
+ * `/admin/login` predates Supabase Auth and was never implemented. It stays as
+ * a redirect so any bookmark or old link lands on the real sign-in screen
+ * rather than a blank page.
+ */
+export default function AdminLoginPage() {
+  redirect("/sign-in?redirectTo=/admin/dashboard");
 }

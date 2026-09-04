@@ -1,36 +1,12 @@
-import { useState, useEffect } from 'react';
+"use client";
 
-interface Author {
-  id: number;
-  name: string | null;
-  email: string;
-}
+import * as React from "react";
 
-interface Category {
-  id: number;
-  name: string;
-}
+import { useResource } from "@/hooks/use-resource";
+import { postsService } from "@/services";
+import type { Author, Category, Post, Tag } from "@/services/types";
 
-interface Tag {
-  id: number;
-  name: string;
-}
-
-export interface Post {
-  id: number;
-  title: string;
-  subtitle: string | null;
-  content: string;
-  slug: string;
-  image: string | null;
-  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
-  publishedAt: string | null;
-  author: Author;
-  categories: Category[];
-  tags: Tag[];
-  createdAt: string;
-  updatedAt: string;
-}
+export type { Author, Category, Post, Tag };
 
 interface UsePostsReturn {
   posts: Post[];
@@ -40,38 +16,15 @@ interface UsePostsReturn {
 }
 
 export function usePosts(status?: string): UsePostsReturn {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, error, isLoading, refetch } = useResource<Post[]>(
+    (signal) => postsService.list(status, signal),
+    [status],
+  );
 
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const url = status
-        ? `/api/posts?status=${status}`
-        : '/api/posts';
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch posts');
-      }
-
-      const data = await response.json();
-      setPosts(data.posts || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching posts:', err);
-    } finally {
-      setLoading(false);
-    }
+  return {
+    posts: React.useMemo(() => data ?? [], [data]),
+    loading: isLoading,
+    error: error?.message ?? null,
+    refetch,
   };
-
-  useEffect(() => {
-    fetchPosts();
-  }, [status]);
-
-  return { posts, loading, error, refetch: fetchPosts };
 }

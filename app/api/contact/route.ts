@@ -1,65 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// POST /api/contact - Handle contact form submission
+import { contactSchema } from '@/lib/validations/contact';
+
+/**
+ * POST /api/contact — handles a contact form submission.
+ *
+ * Parsed with the same schema the form uses, so the browser and the server
+ * agree on what a valid message is, and a rejection comes back as per-field
+ * `details` the form can display beside the offending input.
+ */
 export async function POST(request: NextRequest) {
+  let body: unknown;
+
   try {
-    const body = await request.json();
-    const { name, email, subject, message } = body;
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Expected a JSON body' }, { status: 400 });
+  }
 
-    // Validation
-    if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { error: 'All fields are required' },
-        { status: 400 }
-      );
-    }
+  const validated = contactSchema.safeParse(body);
+  if (!validated.success) {
+    return NextResponse.json(
+      {
+        error: 'Validation failed',
+        details: validated.error.errors.map((e) => ({
+          field: e.path.join('.'),
+          message: e.message,
+        })),
+      },
+      { status: 400 }
+    );
+  }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email address' },
-        { status: 400 }
-      );
-    }
+  const { name, email, subject } = validated.data;
 
-    // Here you can integrate with email service (e.g., SendGrid, Resend, Nodemailer)
-    // For now, we'll just log it
+  try {
+    // The message body is deliberately not logged: it is someone's private
+    // enquiry, and logs are the wrong place for it.
     console.log('Contact form submission:', {
       name,
       email,
       subject,
-      message,
       timestamp: new Date().toISOString(),
     });
 
-    // TODO: Send email notification
-    // Example with Nodemailer:
-    /*
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
-
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to: 'your-email@example.com',
-      subject: `Contact Form: ${subject}`,
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-      html: `
-        <h3>New Contact Form Submission</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `,
-    });
-    */
+    // TODO: send the notification email (Resend / Nodemailer). Until then the
+    // submission is acknowledged and recorded in the application log only.
 
     return NextResponse.json(
       {
