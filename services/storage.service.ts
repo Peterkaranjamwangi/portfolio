@@ -1,4 +1,4 @@
-import { ApiError } from "@/lib/api-client";
+import { ApiError, normaliseFieldErrors } from "@/lib/api-client";
 
 export interface UploadedImage {
   /** Object path within the bucket, needed to delete it later. */
@@ -36,7 +36,7 @@ export const storageService = {
       throw new ApiError(
         typeof payload?.error === "string" ? payload.error : "Upload failed",
         response.status,
-        Array.isArray(payload?.details) ? payload.details : [],
+        normaliseFieldErrors(payload?.details),
       );
     }
 

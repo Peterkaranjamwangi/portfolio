@@ -17,11 +17,11 @@ This document tracks the resolution of security issues identified in the initial
 
 ### 1. Authentication & Authorization ✅ RESOLVED
 
-**Status:** Fully implemented with Clerk
+**Status:** Fully implemented with Supabase Auth
 **Implementation Date:** 2025-11-17
 
 **What Was Done:**
-- ✅ Installed and configured Clerk authentication (@clerk/nextjs)
+- ✅ Installed and configured Supabase Auth (@supabase/supabase-js, @supabase/ssr)
 - ✅ Added `middleware.ts` to protect `/admin/*` routes
 - ✅ Created sign-in and sign-up pages
 - ✅ Protected all API mutation routes (POST, PATCH, DELETE)
@@ -30,7 +30,7 @@ This document tracks the resolution of security issues identified in the initial
 - ✅ Fixed SSR error (window.innerWidth issue)
 
 **Files Modified:**
-- `app/layout.tsx` - Wrapped with ClerkProvider
+- `app/layout.tsx` - No auth provider needed; the session lives in cookies
 - `middleware.ts` - Route protection
 - `lib/auth.ts` - Authentication helper
 - `app/sign-in/[[...sign-in]]/page.tsx` - Sign-in page
@@ -55,7 +55,7 @@ This document tracks the resolution of security issues identified in the initial
 **Example Implementation:**
 ```typescript
 // lib/auth.ts
-import { auth } from '@clerk/nextjs';
+import { requireAuth, requireAdmin } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
 export async function requireAuth() {
@@ -311,7 +311,7 @@ npx prisma migrate deploy
 - Use libraries like `csrf` or Next.js built-in CSRF protection
 
 **Why It's Lower Priority:**
-- Clerk authentication provides session protection
+- Supabase Auth provides session protection
 - All mutation endpoints require authentication
 - Same-origin policy provides some protection
 
@@ -333,7 +333,7 @@ npm install @upstash/ratelimit @upstash/redis
 - Protect against DoS attacks
 
 **Why It's Lower Priority:**
-- Clerk handles auth-related rate limiting
+- Supabase handles auth-related rate limiting, including OTP sends
 - Application is portfolio/admin focused (low traffic)
 - Can be added incrementally as traffic grows
 
@@ -359,7 +359,7 @@ return NextResponse.json({
 ## Security Checklist
 
 ### Authentication ✅
-- [x] Clerk authentication implemented
+- [x] Supabase authentication implemented (passwordless email OTP)
 - [x] Middleware protecting admin routes
 - [x] All API mutations require authentication
 - [x] User sessions managed securely
@@ -397,13 +397,11 @@ return NextResponse.json({
 Before deploying to production:
 
 ### Environment Variables
-- [ ] Set Clerk keys in production environment:
-  - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
-  - `CLERK_SECRET_KEY`
-  - `NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in`
-  - `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up`
-  - `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/admin/dashboard`
-  - `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/admin/dashboard`
+- [ ] Set Supabase keys in production environment:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `SUPABASE_SERVICE_ROLE_KEY` (server only — never expose to the browser)
+  - `ADMIN_EMAILS`
 - [ ] Set `DATABASE_URL` for production database
 - [ ] Set `NODE_ENV=production`
 
@@ -412,8 +410,8 @@ Before deploying to production:
 - [ ] Generate Prisma client: `npx prisma generate`
 - [ ] Verify indexes created successfully
 
-### Clerk Setup
-- [ ] Create Clerk application at https://clerk.com
+### Supabase Setup
+- [ ] Create a Supabase project at https://supabase.com
 - [ ] Configure allowed redirect URLs
 - [ ] Set up email/social auth providers
 - [ ] Configure user management settings
@@ -456,7 +454,7 @@ Before deploying to production:
 
 Complete documentation available:
 - `CODE_REVIEW.md` - Initial security audit
-- `AUTHENTICATION.md` - Clerk setup guide (600+ lines)
+- `SUPABASE_SETUP.md` - Supabase auth, storage and bucket policies
 - `VALIDATION_GUIDE.md` - Zod and React Hook Form guide (561 lines)
 - `SESSION_SUMMARY.md` - Complete session overview (1,287 lines)
 - `SECURITY_STATUS.md` - This document
@@ -467,7 +465,7 @@ Complete documentation available:
 
 The application is now **production ready** with all critical security issues resolved:
 
-✅ **Authentication:** Clerk provides enterprise-grade authentication
+✅ **Authentication:** Supabase Auth, passwordless email OTP
 ✅ **Validation:** Zod ensures type-safe, validated data
 ✅ **XSS Protection:** DOMPurify sanitizes all user-generated content
 ✅ **Performance:** Database indexes optimize query performance

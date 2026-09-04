@@ -130,7 +130,7 @@ async function readJson(response: Response): Promise<any> {
  * `details: [{ field, message }]`. Anything else is discarded rather than
  * guessed at, so a malformed body can never be written onto a form field.
  */
-function normaliseFieldErrors(details: unknown): ApiFieldError[] {
+export function normaliseFieldErrors(details: unknown): ApiFieldError[] {
   if (!Array.isArray(details)) return [];
 
   return details.flatMap((detail) => {

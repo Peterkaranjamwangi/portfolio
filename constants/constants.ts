@@ -255,10 +255,8 @@ export const LINKS = [
 ];
 
 export const AdminLINKS = [
-  { href: "/admin", label: "Home" },
-  { href: "/admin/blogs", label: "blogs" },
-  { href: "/admin/projects", label: "Projects" },
-  { href: "/admin/guidelines", label: " Guidelines" },
+  { href: "/admin/dashboard", label: "Dashboard" },
+  { href: "/admin/guidelines", label: "Guidelines" },
   { href: "/", label: "Site" },
 ];
 

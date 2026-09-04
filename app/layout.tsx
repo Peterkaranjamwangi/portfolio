@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 // import { Inter } from "next/font/google";  // Temporarily disabled due to network issues
 import "./globals.css";
 import Footer from "@/components/Footer";
-import SideBar from "@/components/SideBar";
 import { Analytics } from "@vercel/analytics/react";
-import AdminSideBar from "./admin/components/AdminOverlay";
 
 // const inter = Inter({ subsets: ["latin"] });
 

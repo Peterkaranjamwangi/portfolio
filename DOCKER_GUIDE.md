@@ -26,7 +26,7 @@ This application supports Docker deployment with:
 ```bash
 # 1. Set environment variables
 cp .env.example .env
-# Edit .env with your Clerk keys and production database URL
+# Edit .env with your Supabase keys and production database URL
 
 # 2. Build and run with Docker Compose
 docker-compose up --build -d
@@ -64,7 +64,7 @@ docker-compose -f docker-compose.dev.yml up
 | **React** | 18.3.1 | **19.0.0** | New compiler, async rendering, improved Server Components |
 | **Prisma** | 5.22.0 | **6.2.0** | Better TypeScript support, performance improvements |
 | **Zod** | ~~4.1.12~~ | **3.23.8** | Fixed incorrect version (Zod v4 doesn't exist) |
-| **Clerk** | 6.35.1 | **6.12.2** | Latest auth features |
+| **Supabase JS** | 2.x | 2.x | Auth and storage |
 | **TypeScript** | 5.x | **5.7.2** | Latest features |
 | **Node Types** | 20.x | **22.10.2** | Node 22 support |
 
@@ -254,15 +254,14 @@ docker-compose -f docker-compose.dev.yml down -v
 # Database
 DATABASE_URL="postgresql://user:password@db:5432/portfolio_db"
 
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_xxxxx"
-CLERK_SECRET_KEY="sk_test_xxxxx"
+# Supabase (auth + storage)
+NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 
-# Clerk URLs
-NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
-NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL="/admin/dashboard"
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL="/admin/dashboard"
+# Storage bucket and bootstrap admins
+NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET="project-images"
+ADMIN_EMAILS="you@example.com"
 ```
 
 ### Docker Compose Variables
@@ -506,7 +505,7 @@ services:
 ```yaml
 # Bad
 environment:
-  CLERK_SECRET_KEY: "sk_test_hardcoded"
+  SUPABASE_SERVICE_ROLE_KEY: "hardcoded-service-role-key"
 ```
 
 ✅ **Use environment files**
@@ -515,18 +514,18 @@ environment:
 env_file:
   - .env
 environment:
-  CLERK_SECRET_KEY: ${CLERK_SECRET_KEY}
+  SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
 ```
 
 ✅ **Use Docker secrets (Swarm/Kubernetes)**
 ```yaml
 secrets:
-  clerk_secret:
+  supabase_service_role:
     external: true
 services:
   app:
     secrets:
-      - clerk_secret
+      - supabase_service_role
 ```
 
 ---
@@ -651,7 +650,7 @@ lsof -i :3000
 docker-compose ps db
 
 # Verify environment variables
-docker-compose exec app printenv | grep CLERK
+docker-compose exec app printenv | grep SUPABASE
 ```
 
 ### Issue: Database connection failed

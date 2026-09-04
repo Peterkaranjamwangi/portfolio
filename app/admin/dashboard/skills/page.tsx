@@ -1,43 +1,64 @@
 'use client';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, Edit, Trash2, Loader2 } from 'lucide-react';
 import { useSkills } from '@/hooks/useSkills';
+import { skillSchema, type SkillFormData } from '@/lib/validations/schemas';
+import { skillsService } from '@/services';
+import { ApiError } from '@/lib/api-client';
 
 export default function SkillsAdmin() {
   const { skills, loading, refetch } = useSkills();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSkill, setEditingSkill] = useState<any>(null);
-  const [formData, setFormData] = useState({
-    label: '',
-    type: 'TECHNICAL',
-    icon: '',
-    order: 0,
-  });
   const [submitting, setSubmitting] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // React Hook Form with Zod validation
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setValue,
+  } = useForm<SkillFormData>({
+    resolver: zodResolver(skillSchema),
+    defaultValues: {
+      label: '',
+      type: 'TECHNICAL',
+      icon: '',
+      order: 0,
+    },
+  });
+
+  const onSubmit = async (data: SkillFormData) => {
     setSubmitting(true);
+    setSaveError(null);
 
     try {
-      const url = editingSkill
-        ? `/api/skills/${editingSkill.id}`
-        : '/api/skills';
-      const method = editingSkill ? 'PATCH' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        refetch();
-        setIsModalOpen(false);
-        resetForm();
+      if (editingSkill) {
+        await skillsService.update(editingSkill.id, data);
+      } else {
+        await skillsService.create(data);
       }
+
+      refetch();
+      setIsModalOpen(false);
+      resetForm();
     } catch (error) {
-      console.error('Error saving skill:', error);
+      // Field-level problems from the server are reported next to the form
+      // rather than in an alert(), which could not be read alongside the
+      // inputs it was describing.
+      if (error instanceof ApiError && error.fieldErrors.length > 0) {
+        setSaveError(
+          error.fieldErrors.map((d) => `${d.field}: ${d.message}`).join('\n'),
+        );
+      } else {
+        setSaveError(
+          error instanceof Error ? error.message : 'Failed to save skill',
+        );
+      }
     } finally {
       setSubmitting(false);
     }
@@ -47,7 +68,7 @@ export default function SkillsAdmin() {
     if (!confirm('Are you sure you want to delete this skill?')) return;
 
     try {
-      await fetch(`/api/skills/${id}`, { method: 'DELETE' });
+      await skillsService.remove(id);
       refetch();
     } catch (error) {
       console.error('Error deleting skill:', error);
@@ -55,7 +76,7 @@ export default function SkillsAdmin() {
   };
 
   const resetForm = () => {
-    setFormData({
+    reset({
       label: '',
       type: 'TECHNICAL',
       icon: '',
@@ -66,12 +87,15 @@ export default function SkillsAdmin() {
 
   const openEditModal = (skill: any) => {
     setEditingSkill(skill);
-    setFormData({
-      label: skill.label,
-      type: skill.type,
-      icon: skill.icon || '',
-      order: skill.order,
-    });
+    setValue('label', skill.label);
+    setValue('type', skill.type);
+    setValue('icon', skill.icon || '');
+    setValue('order', skill.order);
+    setIsModalOpen(true);
+  };
+
+  const openCreateModal = () => {
+    resetForm();
     setIsModalOpen(true);
   };
 
@@ -82,11 +106,16 @@ export default function SkillsAdmin() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Skills Management
-        </h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Skills Management
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Using React Hook Form with Zod validation
+          </p>
+        </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={openCreateModal}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           <Plus size={20} />
@@ -147,12 +176,14 @@ export default function SkillsAdmin() {
                         <button
                           onClick={() => openEditModal(skill)}
                           className="p-2 text-green-600 hover:bg-green-50 rounded"
+                          aria-label={`Edit ${skill.label}`}
                         >
                           <Edit size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(skill.id)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded"
+                          aria-label={`Delete ${skill.label}`}
                         >
                           <Trash2 size={16} />
                         </button>
@@ -211,12 +242,14 @@ export default function SkillsAdmin() {
                         <button
                           onClick={() => openEditModal(skill)}
                           className="p-2 text-green-600 hover:bg-green-50 rounded"
+                          aria-label={`Edit ${skill.label}`}
                         >
                           <Edit size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(skill.id)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded"
+                          aria-label={`Delete ${skill.label}`}
                         >
                           <Trash2 size={16} />
                         </button>
@@ -230,85 +263,124 @@ export default function SkillsAdmin() {
         </div>
       )}
 
-      {/* Modal */}
+      {/* Modal with React Hook Form */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full">
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          onClick={() => {
+            setIsModalOpen(false);
+            resetForm();
+          }}
+        >
+          <div
+            className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+          >
             <div className="p-6">
-              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+              <h2 id="modal-title" className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
                 {editingSkill ? 'Edit Skill' : 'Add Skill'}
               </h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                {/* Skill Name */}
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label htmlFor="label" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Skill Name *
                   </label>
                   <input
+                    id="label"
                     type="text"
-                    required
-                    value={formData.label}
-                    onChange={(e) =>
-                      setFormData({ ...formData, label: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    {...register('label')}
+                    className={`w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                      errors.label ? 'border-red-500' : ''
+                    }`}
                   />
+                  {errors.label && (
+                    <p className="text-red-500 text-xs mt-1">{errors.label.message}</p>
+                  )}
                 </div>
 
+                {/* Type */}
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label htmlFor="type" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Type *
                   </label>
                   <select
-                    value={formData.type}
-                    onChange={(e) =>
-                      setFormData({ ...formData, type: e.target.value })
-                    }
+                    id="type"
+                    {...register('type')}
                     className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   >
                     <option value="TECHNICAL">Technical</option>
                     <option value="SOFT">Soft Skill</option>
                   </select>
+                  {errors.type && (
+                    <p className="text-red-500 text-xs mt-1">{errors.type.message}</p>
+                  )}
                 </div>
 
+                {/* Icon Name */}
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label htmlFor="icon" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Icon Name
                   </label>
                   <input
+                    id="icon"
                     type="text"
-                    value={formData.icon}
-                    onChange={(e) =>
-                      setFormData({ ...formData, icon: e.target.value })
-                    }
+                    {...register('icon')}
                     placeholder="e.g., FaReact, Code"
-                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className={`w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                      errors.icon ? 'border-red-500' : ''
+                    }`}
                   />
+                  {errors.icon && (
+                    <p className="text-red-500 text-xs mt-1">{errors.icon.message}</p>
+                  )}
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     Lucide React or React Icons name
                   </p>
                 </div>
 
+                {/* Display Order */}
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label htmlFor="order" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Display Order
                   </label>
                   <input
+                    id="order"
                     type="number"
-                    value={formData.order}
-                    onChange={(e) =>
-                      setFormData({ ...formData, order: parseInt(e.target.value) || 0 })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    {...register('order', { valueAsNumber: true })}
+                    className={`w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                      errors.order ? 'border-red-500' : ''
+                    }`}
                   />
+                  {errors.order && (
+                    <p className="text-red-500 text-xs mt-1">{errors.order.message}</p>
+                  )}
                 </div>
+
+                {/* Buttons */}
+                {saveError && (
+                  <p role="alert" className="text-sm whitespace-pre-line text-red-600 dark:text-red-400">
+                    {saveError}
+                  </p>
+                )}
 
                 <div className="flex gap-2 pt-4">
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {submitting ? 'Saving...' : editingSkill ? 'Update' : 'Create'}
+                    {submitting ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Saving...
+                      </span>
+                    ) : (
+                      editingSkill ? 'Update' : 'Create'
+                    )}
                   </button>
                   <button
                     type="button"
