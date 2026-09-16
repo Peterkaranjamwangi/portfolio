@@ -75,10 +75,11 @@ function RequestStep({ onSent }: { onSent: (email: string) => void }) {
     const { error } = await supabase.auth.signInWithOtp({
       email: values.email,
       options: {
-        // The account is created on first sign-in; being a *user* grants
-        // nothing on its own, since /admin is gated separately on the admin
-        // role. Turn this off to close sign-ups entirely.
-        shouldCreateUser: true,
+        // No self-signup. This is an admin panel, not a service with members:
+        // leaving it open let anyone who found this page mint an account and,
+        // more to the point, make Supabase send mail to any address they
+        // typed. Create the first account in the Supabase dashboard.
+        shouldCreateUser: false,
       },
     });
 

@@ -47,19 +47,23 @@ const nextConfig = {
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
-    remotePatterns: [
-      // The Supabase storage bucket, when configured.
-      ...(supabaseHostname
-        ? [{ protocol: 'https', hostname: supabaseHostname, pathname: '/storage/v1/object/public/**' }]
-        : []),
-      // TODO: drop this wildcard. It lets the image optimizer fetch from any
-      // HTTPS host, which is worth keeping only until every stored project
-      // image has been moved into the bucket above.
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    /*
+     * Only the storage bucket. This used to carry a `hostname: '**'` wildcard,
+     * which let the image optimizer fetch from any HTTPS host on earth and
+     * re-serve the result from this domain — an open proxy with this site's
+     * name on it. Images under /public are unaffected; they never go through
+     * remote patterns. To render an image hosted elsewhere, add its host here
+     * deliberately.
+     */
+    remotePatterns: supabaseHostname
+      ? [
+          {
+            protocol: 'https',
+            hostname: supabaseHostname,
+            pathname: '/storage/v1/object/public/**',
+          },
+        ]
+      : [],
   },
 
   /**

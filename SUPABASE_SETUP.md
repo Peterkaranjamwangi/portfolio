@@ -36,6 +36,10 @@ Sign-in is passwordless: the visitor enters an email, Supabase sends a
 six-digit code, and `verifyOtp` exchanges it for a session. No passwords are
 stored or handled anywhere in this app.
 
+There is no self-signup — `shouldCreateUser` is `false`, so an email with no
+account gets no mail. Create the first account yourself under
+**Authentication → Users → Add user**, then grant it admin below.
+
 In **Authentication → Providers → Email**, make sure *Email OTP* is enabled.
 If the email template still sends a magic link, edit it to include `{{ .Token }}`
 so the code itself is delivered.

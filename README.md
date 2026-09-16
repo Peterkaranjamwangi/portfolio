@@ -20,11 +20,14 @@ and file storage on top of the same Postgres database.
 
 ```bash
 npm install
-cp .env.example .env      # then fill in the values
-npx prisma migrate dev    # create the schema
-npx prisma db seed        # optional sample content
+cp .env.example .env        # then fill in the values
+npx prisma migrate deploy   # create the schema
+npx prisma db seed          # optional sample content — safe to re-run
 npm run dev
 ```
+
+Tests are `npm test` (vitest). They cover the logic that decides who is an
+admin, what may enter the storage bucket, and what the API accepts.
 
 The app runs at http://localhost:3000. The admin panel is at `/admin/dashboard`
 and requires a signed-in admin — see [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)

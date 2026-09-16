@@ -1,6 +1,7 @@
 // prisma/seed.ts
 
 import {
+  Prisma,
   PrismaClient,
   UserRole,
   PostStatus,
@@ -12,6 +13,23 @@ import {
 const prisma = new PrismaClient();
 
 async function main() {
+  /**
+   * Start from a clean slate.
+   *
+   * Everything below assumes an empty database — it creates rows outright
+   * rather than upserting — so without this a second run fails on the first
+   * unique email. Order matters: rows that point at other rows go first.
+   * Estimates are left alone; they are real submissions, not seed content.
+   */
+  await prisma.post.deleteMany();
+  await prisma.category.deleteMany();
+  await prisma.tag.deleteMany();
+  await prisma.project.deleteMany();
+  await prisma.technology.deleteMany();
+  await prisma.skill.deleteMany();
+  await prisma.service.deleteMany();
+  await prisma.user.deleteMany();
+
   // Create Users
   const user1 = await prisma.user.create({
     data: {
@@ -86,8 +104,10 @@ async function main() {
     );
 
   // Seed Posts with realistic content
-  await prisma.post.createMany({
-    data: [
+  // `createMany` cannot write nested relations, so it silently rejected the
+  // `categories` / `tags` connects these posts rely on. Creating them one at
+  // a time is what makes those relations actually persist.
+  const postData: Prisma.PostCreateInput[] = [
       {
         title: "Getting Started with Next.js",
         subtitle: "A beginner-friendly guide to Next.js",
@@ -308,8 +328,18 @@ async function main() {
         categories: { connect: [{ id: tailwind.id }] },
         tags: { connect: [{ id: uiUx.id }, { id: frontend.id }] },
       },
-    ],
-  });
+  ];
+
+  // Upsert rather than create, for two reasons: the list above contains five
+  // posts twice over, and re-running the seed on a populated database would
+  // otherwise fail on the unique slug. Both become no-ops this way.
+  for (const post of postData) {
+    await prisma.post.upsert({
+      where: { slug: post.slug },
+      update: {},
+      create: post,
+    });
+  }
 
   console.log("✓ Blog posts seeded");
 
