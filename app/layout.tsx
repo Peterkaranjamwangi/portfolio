@@ -16,28 +16,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/*
-          Sora and Fira Code are declared as @font-face in globals.css and
-          served from /public/fonts. Preloading the two latin files here means
-          the browser starts fetching them alongside the stylesheet instead of
-          waiting to discover them inside it.
-        */}
-        <link
-          rel="preload"
-          href="/fonts/sora-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/fira-code-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body
         className="h-screen flex flex-col font-sans"
         style={{

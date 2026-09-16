@@ -9,8 +9,12 @@ const SIGN_IN_PATH = "/sign-in";
  * The refresh has to happen here rather than in a layout: server components
  * cannot write cookies, so without a middleware pass an expired access token is
  * never renewed and the user is silently signed out mid-session.
+ *
+ * The filename matters: Next 15 only picks this up as `middleware.ts`.
+ * It was previously `proxy.ts` — the Next 16 name — which this version
+ * silently ignores, so nothing here ran and `/admin` was not actually guarded.
  */
-export default async function proxy(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   // Must be the same response object the cookies are written onto — building a
   // fresh one later would drop the refreshed session.
   let response = NextResponse.next({ request });

@@ -30,7 +30,7 @@ export async function createClient() {
             cookieStore.set(name, value, options);
           }
         } catch {
-          // Server components cannot set cookies. That is fine: the proxy
+          // Server components cannot set cookies. That is fine: the middleware
           // refreshes the session on every request, so the only thing lost here
           // is a duplicate write.
         }

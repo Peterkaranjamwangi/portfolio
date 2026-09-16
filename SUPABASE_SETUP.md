@@ -90,7 +90,13 @@ filename cannot become a storage path.
 | Before | Now |
 | --- | --- |
 | `ClerkProvider` in `app/layout.tsx` | Removed; no provider needed |
-| `clerkMiddleware` in `proxy.ts` | Supabase session refresh + `/admin` guard |
+| `clerkMiddleware` in `proxy.ts` | Supabase session refresh + `/admin` guard, in `middleware.ts` |
 | `auth()` from `@clerk/nextjs/server` | `requireAuth()` / `requireAdmin()` in `lib/auth.ts` |
 | `<SignIn />` / `<SignUp />` | `/sign-in`, a passwordless OTP form |
 | `<UserButton />`, `<SignOutButton />` | `useUser()` hook, `POST /auth/sign-out` |
+
+> **Note on the middleware filename.** The guard lives in `middleware.ts`.
+> It used to be `proxy.ts` — the name Next 16 uses — which Next 15 silently
+> ignores, so the middleware was never actually running and `/admin` was not
+> guarded. The API routes were still protected by `requireAdmin()`, but the
+> pages themselves were reachable.
