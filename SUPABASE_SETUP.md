@@ -44,20 +44,34 @@ In **Authentication → Providers → Email**, make sure *Email OTP* is enabled.
 If the email template still sends a magic link, edit it to include `{{ .Token }}`
 so the code itself is delivered.
 
-Being signed in grants nothing on its own. `/admin` additionally requires
-admin rights, which come from either:
+### Users and roles
 
-- `app_metadata.role = "admin"` on the user (preferred — only the service-role
-  key can write `app_metadata`, so a user cannot promote themselves), or
-- their email appearing in `ADMIN_EMAILS` (the bootstrap path for the first
-  account).
+Supabase Auth owns identity. The application keeps its own `User` table and
+joins the two on `supabaseUserId`, which holds `auth.users.id` — the same
+arrangement a Clerk-backed app uses with a `clerkId` column.
 
-To promote an account once it exists:
+The row is created lazily on the first authenticated request, so an account
+made in the Supabase dashboard is picked up without any extra step. If a `User`
+row already exists with that email — a seeded post author, say — it is adopted
+rather than duplicated, so their posts stay attached.
+
+**Roles live in this table, not in Supabase.** `role` is `USER`, `EDITOR` or
+`ADMIN`, and it is the only thing consulted for authorisation:
+
+| Guard | Allows | Used by |
+| --- | --- | --- |
+| `requireAuth()` | any signed-in user | — |
+| `requireEditor()` | `EDITOR`, `ADMIN` | content routes (projects, posts, …) |
+| `requireAdmin()` | `ADMIN` | `/api/uploads` |
+
+`ADMIN_EMAILS` is a bootstrap, not the source of truth: a listed email is
+granted `ADMIN` the first time it signs in, so the first account — or a
+locked-out operator — can get in. Nobody is ever demoted by signing in.
+
+To change a role afterwards:
 
 ```sql
-update auth.users
-set raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}'::jsonb
-where email = 'you@example.com';
+update "User" set role = 'ADMIN' where email = 'you@example.com';
 ```
 
 ## 4. Storage bucket

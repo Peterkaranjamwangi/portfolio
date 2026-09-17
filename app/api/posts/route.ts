@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { PostStatus } from '@prisma/client';
-import { requireAuth } from '@/lib/auth';
+import { requireEditor } from '@/lib/auth';
 import { sanitizeHtml, sanitizeText, sanitizeUrl } from '@/lib/sanitize';
 
 // GET /api/posts - Fetch all posts with optional filters
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
 // POST /api/posts - Create a new post (requires authentication)
 export async function POST(request: NextRequest) {
   // Check authentication
-  const authResult = await requireAuth();
+  const authResult = await requireEditor();
   if (!authResult.authorized) {
     return authResult.response;
   }

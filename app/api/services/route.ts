@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { serviceSchema } from '@/lib/validations/schemas';
-import { requireAuth } from '@/lib/auth';
+import { requireEditor } from '@/lib/auth';
 
 // GET /api/services - Fetch all services (public access)
 export async function GET() {
@@ -26,7 +26,7 @@ export async function GET() {
 // POST /api/services - Create a new service (requires authentication)
 export async function POST(request: NextRequest) {
   // Check authentication
-  const authResult = await requireAuth();
+  const authResult = await requireEditor();
   if (!authResult.authorized) {
     return authResult.response;
   }

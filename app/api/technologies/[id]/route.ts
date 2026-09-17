@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { technologyUpdateSchema } from '@/lib/validations/schemas';
-import { requireAuth } from '@/lib/auth';
+import { requireEditor } from '@/lib/auth';
 
 // PATCH /api/technologies/[id] - Update technology (requires authentication)
 export async function PATCH(
@@ -9,7 +9,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
-  const authResult = await requireAuth();
+  const authResult = await requireEditor();
   if (!authResult.authorized) {
     return authResult.response;
   }
@@ -51,7 +51,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
-  const authResult = await requireAuth();
+  const authResult = await requireEditor();
   if (!authResult.authorized) {
     return authResult.response;
   }

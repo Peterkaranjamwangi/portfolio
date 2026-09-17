@@ -1,22 +1,52 @@
 import { afterEach, describe, expect, it } from "vitest";
-import type { User } from "@supabase/supabase-js";
+import { UserRole, type User as DbUser } from "@prisma/client";
 
-import { isAdmin } from "@/lib/auth";
+import { hasRole, isAdmin } from "@/lib/auth";
+import { shouldBootstrapAdmin } from "@/lib/user";
 
 /**
- * Who counts as an admin. This decides access to every write endpoint, so the
- * cases that matter most are the ones that must NOT pass.
+ * Authorisation reads our own User row, never Supabase metadata. These cover
+ * the shape of that decision; the linking that produces the row is covered
+ * against a real database in user.db.test.ts.
  */
-function user(overrides: Partial<User> = {}): User {
+function dbUser(role: UserRole): DbUser {
   return {
-    id: "00000000-0000-0000-0000-000000000000",
-    app_metadata: {},
-    user_metadata: {},
-    aud: "authenticated",
-    created_at: "2026-01-01T00:00:00Z",
-    ...overrides,
-  } as User;
+    id: 1,
+    supabaseUserId: "00000000-0000-0000-0000-000000000000",
+    name: "Someone",
+    email: "someone@example.com",
+    role,
+    lastSignInAt: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 }
+
+describe("isAdmin", () => {
+  it("is true only for ADMIN", () => {
+    expect(isAdmin(dbUser(UserRole.ADMIN))).toBe(true);
+    expect(isAdmin(dbUser(UserRole.EDITOR))).toBe(false);
+    expect(isAdmin(dbUser(UserRole.USER))).toBe(false);
+  });
+
+  it("is false without a user", () => {
+    expect(isAdmin(null)).toBe(false);
+    expect(isAdmin(undefined)).toBe(false);
+  });
+});
+
+describe("hasRole", () => {
+  it("lets an editor through an editor-or-admin gate", () => {
+    const gate = [UserRole.ADMIN, UserRole.EDITOR];
+    expect(hasRole(dbUser(UserRole.EDITOR), gate)).toBe(true);
+    expect(hasRole(dbUser(UserRole.ADMIN), gate)).toBe(true);
+    expect(hasRole(dbUser(UserRole.USER), gate)).toBe(false);
+  });
+
+  it("lets nobody through an empty gate", () => {
+    expect(hasRole(dbUser(UserRole.ADMIN), [])).toBe(false);
+  });
+});
 
 const originalAdminEmails = process.env.ADMIN_EMAILS;
 
@@ -25,51 +55,26 @@ afterEach(() => {
   else process.env.ADMIN_EMAILS = originalAdminEmails;
 });
 
-describe("isAdmin", () => {
-  it("is false without a user", () => {
-    expect(isAdmin(null)).toBe(false);
-    expect(isAdmin(undefined)).toBe(false);
+describe("shouldBootstrapAdmin", () => {
+  it("matches a listed email, ignoring case and padding", () => {
+    process.env.ADMIN_EMAILS = "  Owner@Example.com , second@example.com";
+    expect(shouldBootstrapAdmin("owner@EXAMPLE.com")).toBe(true);
+    expect(shouldBootstrapAdmin("second@example.com")).toBe(true);
   });
 
-  it("is false for a signed-in user with no role", () => {
-    expect(isAdmin(user({ email: "someone@example.com" }))).toBe(false);
+  it("does not match anyone else", () => {
+    process.env.ADMIN_EMAILS = "owner@example.com";
+    expect(shouldBootstrapAdmin("someone@example.com")).toBe(false);
   });
 
-  it("accepts app_metadata.role, which only the service key can write", () => {
-    expect(isAdmin(user({ app_metadata: { role: "admin" } }))).toBe(true);
-  });
-
-  it("ignores user_metadata.role, which the user can write themselves", () => {
-    // The whole point of reading app_metadata: this must not be a way in.
-    expect(
-      isAdmin(user({ email: "nobody@example.com", user_metadata: { role: "admin" } })),
-    ).toBe(false);
-  });
-
-  it("accepts an email on the bootstrap allowlist", () => {
-    process.env.ADMIN_EMAILS = "owner@example.com, second@example.com";
-    expect(isAdmin(user({ email: "owner@example.com" }))).toBe(true);
-    expect(isAdmin(user({ email: "second@example.com" }))).toBe(true);
-    expect(isAdmin(user({ email: "someone@example.com" }))).toBe(false);
-  });
-
-  it("matches allowlisted emails regardless of case", () => {
-    process.env.ADMIN_EMAILS = "Owner@Example.com";
-    expect(isAdmin(user({ email: "owner@EXAMPLE.com" }))).toBe(true);
-  });
-
-  it("lets nobody in when the allowlist is empty or unset", () => {
+  it("matches nobody when unset or empty", () => {
     delete process.env.ADMIN_EMAILS;
-    expect(isAdmin(user({ email: "owner@example.com" }))).toBe(false);
+    expect(shouldBootstrapAdmin("owner@example.com")).toBe(false);
 
-    // An empty value must not turn into an empty string that matches.
+    // An empty list must not become an empty string that matches.
     process.env.ADMIN_EMAILS = "";
-    expect(isAdmin(user({ email: "" }))).toBe(false);
-    expect(isAdmin(user({ email: undefined }))).toBe(false);
-  });
-
-  it("is not fooled by whitespace padding in the allowlist", () => {
-    process.env.ADMIN_EMAILS = "  owner@example.com  ";
-    expect(isAdmin(user({ email: "owner@example.com" }))).toBe(true);
+    expect(shouldBootstrapAdmin("")).toBe(false);
+    expect(shouldBootstrapAdmin(null)).toBe(false);
+    expect(shouldBootstrapAdmin(undefined)).toBe(false);
   });
 });

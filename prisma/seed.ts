@@ -35,7 +35,6 @@ async function main() {
     data: {
       name: "Alice Johnson",
       email: "alice@example.com",
-      password: "password123",
       role: UserRole.USER,
     },
   });
@@ -44,16 +43,17 @@ async function main() {
     data: {
       name: "Bob Smith",
       email: "bob@example.com",
-      password: "password123",
       role: UserRole.EDITOR,
     },
   });
 
+  // No supabaseUserId on any of these: they are content authors, not
+  // accounts. The row is adopted — and the link filled in — the first time
+  // someone signs in with the matching email.
   const user3 = await prisma.user.create({
     data: {
       name: "Charlie Davis",
       email: "charlie@example.com",
-      password: "password123",
       role: UserRole.ADMIN,
     },
   });

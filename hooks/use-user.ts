@@ -1,59 +1,56 @@
 "use client";
 
 import * as React from "react";
-import type { User } from "@supabase/supabase-js";
+import type { UserRole } from "@prisma/client";
 
-import { createClient } from "@/lib/supabase/client";
+import { apiGet, ApiError } from "@/lib/api-client";
+
+export interface CurrentUser {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+}
 
 export interface UseUserResult {
-  user: User | null;
-  /** True until the first auth check resolves — not "no user". */
+  user: CurrentUser | null;
+  /** True until the first check resolves — not the same as "no user". */
   loading: boolean;
-  /** Display name from `user_metadata`, falling back to the email. */
+  /** Display name, always the application's record of it. */
   displayName: string | null;
 }
 
 /**
- * The signed-in Supabase user, kept current.
+ * The signed-in user as the application knows them, role included.
  *
- * `onAuthStateChange` matters as much as the initial read: without it, signing
- * out in one tab would leave the others rendering a stale user until reload.
+ * Reads /api/me rather than the Supabase client directly: the role lives in
+ * our own table, and only the server can be trusted to report it. A 401 here
+ * is the ordinary "nobody is signed in" answer, not a failure.
  */
 export function useUser(): UseUserResult {
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<CurrentUser | null>(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const supabase = createClient();
-    let active = true;
+    const controller = new AbortController();
 
-    supabase.auth.getUser().then(({ data }) => {
-      if (!active) return;
-      setUser(data.user ?? null);
-      setLoading(false);
-    });
+    apiGet<{ user: CurrentUser | null }>("/api/me", { signal: controller.signal })
+      .then((payload) => {
+        setUser(payload.user);
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        // 401 is the expected answer for a signed-out visitor.
+        if (!(error instanceof ApiError) || error.status !== 401) {
+          console.error("Could not load the current user:", error);
+        }
+        setUser(null);
+        setLoading(false);
+      });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!active) return;
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => {
-      active = false;
-      subscription.unsubscribe();
-    };
+    return () => controller.abort();
   }, []);
 
-  const displayName = React.useMemo(() => {
-    if (!user) return null;
-    const metadataName = user.user_metadata?.full_name;
-    return typeof metadataName === "string" && metadataName.trim()
-      ? metadataName
-      : (user.email ?? null);
-  }, [user]);
-
-  return { user, loading, displayName };
+  return { user, loading, displayName: user?.name ?? user?.email ?? null };
 }

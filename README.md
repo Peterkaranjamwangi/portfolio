@@ -29,6 +29,19 @@ npm run dev
 Tests are `npm test` (vitest). They cover the logic that decides who is an
 admin, what may enter the storage bucket, and what the API accepts.
 
+Tests that need a real database are skipped unless you point them at one:
+
+```bash
+TEST_DATABASE_URL="postgresql://…/portfolio_test" npm run test:db
+```
+
+### Users
+
+Supabase Auth owns identity; this app keeps its own `User` table joined to it
+on `supabaseUserId`. Roles (`USER` / `EDITOR` / `ADMIN`) live in that table and
+are the only thing authorisation consults — see
+[SUPABASE_SETUP.md](./SUPABASE_SETUP.md).
+
 The app runs at http://localhost:3000. The admin panel is at `/admin/dashboard`
 and requires a signed-in admin — see [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
 for keys, bucket policies and how to grant admin rights.

@@ -16,7 +16,8 @@
     "prisma:studio": "prisma studio",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:db": "vitest run lib/__tests__/user.db.test.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
