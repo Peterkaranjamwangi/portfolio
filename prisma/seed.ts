@@ -47,16 +47,31 @@ async function main() {
     },
   });
 
-  // No supabaseUserId on any of these: they are content authors, not
-  // accounts. The row is adopted — and the link filled in — the first time
-  // someone signs in with the matching email.
+  /*
+   * The admin comes from configuration, never from a literal in this file.
+   *
+   * A seeded `charlie@example.com` with role ADMIN is a real admin row: seed a
+   * production database with it and whoever controls that mailbox can sign in
+   * and adopt it. Reading ADMIN_EMAILS keeps the actual address in .env, which
+   * is gitignored, so it is not published with the source either.
+   *
+   * With nothing configured there is simply no admin — which is the safe way
+   * to be wrong.
+   */
   const user3 = await prisma.user.create({
     data: {
-      name: "Charlie Davis",
-      email: "charlie@example.com",
-      role: UserRole.ADMIN,
+      name: adminName(),
+      email: seedAdminEmail() ?? "charlie@example.com",
+      role: seedAdminEmail() ? UserRole.ADMIN : UserRole.USER,
     },
   });
+
+  if (!seedAdminEmail()) {
+    console.warn(
+      "⚠  ADMIN_EMAILS is not set — seeded no admin. " +
+        "Set it in .env and re-run, or grant the role in SQL.",
+    );
+  }
 
   // Create Categories
   const [nextjs, react, javascript, tailwind, express, nodejs] =
@@ -846,3 +861,19 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+/** First entry of ADMIN_EMAILS — the account this seed makes an admin. */
+function seedAdminEmail(): string | null {
+  const [first] = (process.env.ADMIN_EMAILS ?? "")
+    .split(",")
+    .map((entry) => entry.trim().toLowerCase())
+    .filter(Boolean);
+  return first ?? null;
+}
+
+/** A readable name until the real one arrives from the identity provider. */
+function adminName(): string {
+  const email = seedAdminEmail();
+  if (!email) return "Charlie Davis";
+  return email.split("@")[0].replace(/[._-]+/g, " ").trim() || "Admin";
+}

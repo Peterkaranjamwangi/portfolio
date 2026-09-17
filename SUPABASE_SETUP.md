@@ -68,6 +68,18 @@ rather than duplicated, so their posts stay attached.
 granted `ADMIN` the first time it signs in, so the first account — or a
 locked-out operator — can get in. Nobody is ever demoted by signing in.
 
+The seed reads the same variable, so the admin address is never written into
+the repository — set it in `.env`, which is gitignored:
+
+```bash
+ADMIN_EMAILS="you@example.com"
+```
+
+With it unset the seed creates **no** admin at all and says so. That is
+deliberate: a committed `charlie@example.com` with role `ADMIN` would be a
+real admin row, and seeding production with it would hand the panel to
+whoever controls that mailbox.
+
 To change a role afterwards:
 
 ```sql
